@@ -23,6 +23,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -32,33 +33,23 @@
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <EditText
+    <include layout="@layout/rounded_edit_text"
         android:id="@+id/edittext_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="236dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        android:paddingLeft="20dp"
-        android:background="@drawable/rounded_edittext_background"
-        android:hint="User name"
-        android:textCursorDrawable="@drawable/cursor_color"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:elevation="3dp"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <EditText
+    <include
         android:id="@+id/edittext_psw"
-        android:layout_width="match_parent"
+        layout="@layout/rounded_edit_text"
         android:layout_height="wrap_content"
-        android:textCursorDrawable="@drawable/cursor_color"
+        android:layout_width="match_parent"
         android:layout_margin="30dp"
-        android:paddingLeft="20dp"
-        android:hint="Password"
-        android:background="@drawable/rounded_edittext_background"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_username"
-        tools:layout_editor_absoluteX="16dp"
-        android:elevation="3dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/edittext_username"/>
 
     <TextView
         android:id="@+id/textview_loginerror"

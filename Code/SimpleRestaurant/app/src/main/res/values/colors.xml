@@ -7,4 +7,9 @@
     <color name="white">#FFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="primaryRed">#E6704B</color>
+    <color name="primaryRedDark">#C7522D</color>
+    <color name="primaryRedLight">#EB8D70</color>
+    <color name="primaryGreen">#6A983C</color>
+    <color name="primaryGreenLight">#92C064</color>
+    <color name="primaryGreenDark">#46760A</color>
 </resources>

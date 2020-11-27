@@ -1,19 +1,15 @@
 package com.example.simplerestaurant;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,7 +22,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class MainActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
 
     private EditText editUserName, editPsw;
     private View background;
@@ -39,10 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try{
-            this.getSupportActionBar().hide();
-        } catch (NullPointerException e) {}
-
         editUserName = (EditText) findViewById(R.id.edittext_username);
         editPsw = (EditText) findViewById(R.id.edittext_psw);
         buttonSubmit = (Button) findViewById(R.id.button_sumbit);
@@ -50,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textSurfer = (TextView) findViewById(R.id.textview_surfer);
         textSignUp = (TextView) findViewById(R.id.textview_signup);
         textLoginError = (TextView) findViewById(R.id.textview_loginerror);
+
+        editUserName.setHint("Username");
+        editPsw.setHint("Password");
 
         buttonSubmit.setOnClickListener(this);
         textSurfer.setOnClickListener(this);
@@ -59,21 +54,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editUserName.addTextChangedListener(this);
         editPsw.addTextChangedListener(this);
 
-        background.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(null != MainActivity.this.getCurrentFocus()){
-                    InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    return manager.hideSoftInputFromWindow(MainActivity.this.getCurrentFocus().getWindowToken(), 0);
-                }
-                return false;
-            }
-        });
+        hideInputMethod(background);
     }
 
     private void send2Server(String username, String psw){
-        String url = "http://10.0.2.2:5000/user";
-        OkHttpClient client = new OkHttpClient();
+        String url = getString(R.string.base_url) + "/user";
+        // get OkHttp3 client from the base activity
+        OkHttpClient client = getClient();
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         bodyBuilder.add("username", username);
         bodyBuilder.add("password", psw);
@@ -109,13 +96,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (res.equals("1")) {
             textLoginError.setVisibility(View.VISIBLE);
         } else {
-            toastMessage("Logined");
+            // route the user to the main page
+            Intent intent = new Intent(this, UserMainPage.class);
+            intent.putExtra("UserType", res);
+            finish();
+            startActivity(intent);
         }
     }
 
-    private void toastMessage(String message){
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    }
+
 
     @Override
     public void onClick(View v) {
@@ -133,9 +122,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             send2Server(name, pss);
         } else if (id == R.id.textview_surfer){
-
+            loginResponseHandler("Surfer");
         } else if(id == R.id.textview_signup){
-
+            Intent intent = new Intent(this, UserRegisterRequestActivity.class);
+            startActivity(intent);
         }
     }
 
