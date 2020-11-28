@@ -25,11 +25,13 @@ def login():
     password = request.form['userPassword']
     user = conn.find_one({'userID': userId})
     if user is None:
-        return "userID doesn't exist"
-    if user['userPassword'] == password:
-        return user['role']
+        return jsonify({'result': {'code': 1, 'content': "user doesn't exist"}})
+    elif user['userPassword'] == password and user['userStatus'] != -1:
+        return jsonify({'result': {'code': 0, 'content': user['role']}})
+    elif user['userStatus'] != -1:
+        return jsonify({'result': {'code': 1, 'content': 'password is incorrect'}})
     else:
-        return 'password is incorrect'
+        return jsonify({'result': {'code': 1, 'content': 'account has been de-registed'}})
 
 
 @app.route('/new_user', methods=['POST'])
