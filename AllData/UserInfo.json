@@ -1,0 +1,126 @@
+[{
+  "_id": {
+    "$oid": "5fc17f9f797c117dc05d0933"
+  },
+  "userID": "0001",
+  "displayName": "John Smile",
+  "userRole": "Customer",
+  "basicInfo": {
+    "fistName": "John",
+    "lastName": "Smile",
+    "gender": "Male"
+  },
+  "contact": {
+    "email": "1234@gmail.com",
+    "phone": "1234567890",
+    "address": {
+      "street": "1111",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "11111"
+    }
+  },
+  "balance": 10,
+  "spent": 6.25,
+  "warnings": 0
+},{
+  "_id": {
+    "$oid": "5fc19d83797c117dc05d0934"
+  },
+  "userID": "0002",
+  "displayName": "Kiven Smile",
+  "userRole": "Customer",
+  "basicInfo": {
+    "fistName": "Kiven",
+    "lastName": "Smile",
+    "gender": "Male"
+  },
+  "contact": {
+    "email": "KS1234@gmail.com",
+    "phone": "6464567890",
+    "address": {
+      "street": "212 Ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "11111"
+    }
+  },
+  "balance": 20,
+  "spent": 6.5,
+  "warnings": 0
+},{
+  "_id": {
+    "$oid": "5fc19e59797c117dc05d0935"
+  },
+  "userID": "0003",
+  "displayName": "Happy kate",
+  "userRole": "Customer",
+  "basicInfo": {
+    "fistName": "Happy",
+    "lastName": "Kate",
+    "gender": "Female"
+  },
+  "contact": {
+    "email": "Happy4@gmail.com",
+    "phone": "2122567890",
+    "address": {
+      "street": "11st 1st Ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001"
+    }
+  },
+  "balance": 10.75,
+  "spent": 7.25,
+  "warnings": 0
+},{
+  "_id": {
+    "$oid": "5fc19f00797c117dc05d0936"
+  },
+  "userID": "0004",
+  "displayName": "Jane Smile",
+  "userRole": "Customer",
+  "basicInfo": {
+    "fistName": "Jane",
+    "lastName": "Smile",
+    "gender": "Female"
+  },
+  "contact": {
+    "email": "Jane1@gmail.com",
+    "phone": "3134567890",
+    "address": {
+      "street": "33 ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "11011"
+    }
+  },
+  "balance": 10,
+  "spent": 6.25,
+  "warnings": 0
+},{
+  "_id": {
+    "$oid": "5fc19f6f797c117dc05d0937"
+  },
+  "userID": "0005",
+  "displayName": "John S",
+  "userRole": "Customer",
+  "basicInfo": {
+    "fistName": "John",
+    "lastName": "S",
+    "gender": "Male"
+  },
+  "contact": {
+    "email": "JS14@gmail.com",
+    "phone": "9190567890",
+    "address": {
+      "street": "61st 3 Ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "12011"
+    }
+  },
+  "balance": 70,
+  "spent": 12.25,
+  "warnings": 0
+}]
