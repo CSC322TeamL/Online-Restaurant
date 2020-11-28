@@ -28,7 +28,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private View background;
     private Button buttonSubmit;
     private TextView textSurfer, textSignUp, textLoginError;
-    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void send2Server(String username, String psw){
         String url = getString(R.string.base_url) + "/user";
         // get OkHttp3 client from the base activity
-        OkHttpClient client = getClient();
+        OkHttpClient client = UnitTools.getOkHttpClient();
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         bodyBuilder.add("username", username);
         bodyBuilder.add("password", psw);

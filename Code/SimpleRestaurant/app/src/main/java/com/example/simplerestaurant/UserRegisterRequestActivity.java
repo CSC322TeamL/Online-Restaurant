@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
-import kotlin.Unit;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -55,7 +54,7 @@ public class UserRegisterRequestActivity extends BaseActivity implements ViewStu
 
     private void sen2Server(String email){
         String url = getString(R.string.base_url) + "/register_request";
-        OkHttpClient client= new OkHttpClient();
+        OkHttpClient client= UnitTools.getOkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("useremail", email);
         // build the request

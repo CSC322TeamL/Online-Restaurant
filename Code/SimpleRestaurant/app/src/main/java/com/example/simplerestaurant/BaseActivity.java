@@ -38,13 +38,6 @@ public class BaseActivity extends AppCompatActivity {
         });
     }
 
-    protected OkHttpClient getClient(){
-        if(null == client){
-            client = new OkHttpClient();
-        }
-        return client;
-    }
-
     protected void toastMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
