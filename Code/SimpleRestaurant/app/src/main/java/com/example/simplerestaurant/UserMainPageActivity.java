@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.simplerestaurant.Fragments.UserAccountFragment;
 import com.example.simplerestaurant.Fragments.UserDiscussionFragment;
 import com.example.simplerestaurant.Fragments.UserMenuFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -67,11 +68,13 @@ public class UserMainPageActivity extends BaseActivity {
                 break;
 
             case R.id.nav_user_main_discussion:
-            case R.id.nav_user_main_account:
                 fragment = findFragmentByTag(DISC_TAG);
                 tag = DISC_TAG;
                 break;
-
+            case R.id.nav_user_main_account:
+                fragment = findFragmentByTag(ACC_TAG);
+                tag = ACC_TAG;
+                break;
         }
 
         setCurrentFragment(fragment, tag);
@@ -93,6 +96,9 @@ public class UserMainPageActivity extends BaseActivity {
                     break;
                 case DISC_TAG:
                     result = new UserDiscussionFragment();
+                    break;
+                case ACC_TAG:
+                    result = new UserAccountFragment();
                     break;
             }
         }

@@ -10,8 +10,9 @@ api = Api(app)
 
 class MongoDB:
     def __init__(self, collection):
-        my_client = pymongo.MongoClient("mongodb://localhost:27017/")
-        my_db = my_client["my_database"]
+        connectionURL = "mongodb+srv://Luke:123@cluster0.hi0jb.mongodb.net/Restaurants?retryWrites=true&w=majority"
+        my_client = pymongo.MongoClient(connectionURL)
+        my_db = my_client.get_database('Restaurants')
         self.conn = my_db[collection]
 
     def get_conn(self):

@@ -12,4 +12,6 @@
     <color name="primaryGreen">#6A983C</color>
     <color name="primaryGreenLight">#92C064</color>
     <color name="primaryGreenDark">#46760A</color>
+
+    <color name="grey">#fafafa</color>
 </resources>
