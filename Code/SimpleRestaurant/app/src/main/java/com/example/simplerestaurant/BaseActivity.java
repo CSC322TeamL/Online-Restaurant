@@ -41,4 +41,11 @@ public class BaseActivity extends AppCompatActivity {
     protected void toastMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
+
+    protected Runnable connectFail = new Runnable() {
+        @Override
+        public void run() {
+            toastMessage("Cannot connect to server");
+        }
+    };
 }

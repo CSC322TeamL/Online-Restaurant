@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.simplerestaurant.beans.UserLoginBean;
+import com.google.gson.Gson;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -57,12 +60,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void send2Server(String username, String psw){
-        String url = getString(R.string.base_url) + "/user";
+        String url = getString(R.string.base_url) + "/user_login";
         // get OkHttp3 client from the base activity
         OkHttpClient client = UnitTools.getOkHttpClient();
         FormBody.Builder bodyBuilder = new FormBody.Builder();
-        bodyBuilder.add("username", username);
-        bodyBuilder.add("password", psw);
+        bodyBuilder.add("userID", username);
+        bodyBuilder.add("userPassword", psw);
         Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
@@ -92,7 +95,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private void loginResponseHandler(String res){
         Log.i("222", "In the UI: " + res);
-        if (res.equals("1")) {
+        Gson gson = UnitTools.getGson();
+        UserLoginBean result = gson.fromJson(res, UserLoginBean.class);
+        if(result.getCode() == 1){
+            textLoginError.setText(result.getContent());
+            textLoginError.setVisibility(View.VISIBLE);
+        } else if (result.getCode() == 0){
+            if("Customer".equals(result.getContent()) || "VIP".equals(result.getContent())){
+                Intent intent = new Intent(this, UserMainPage.class);
+                intent.putExtra("userID", editUserName.getText().toString().trim());
+                intent.putExtra("userType", result.getContent());
+                finish();
+                startActivity(intent);
+            } else
+                toastMessage("Hello " + result.getContent());
+        } else {
+            textLoginError.setText("Unexpected Error");
+            textLoginError.setVisibility(View.VISIBLE);
+        }
+        /*if (res.equals("1")) {
             textLoginError.setVisibility(View.VISIBLE);
         } else {
             // route the user to the main page
@@ -100,7 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             intent.putExtra("UserType", res);
             finish();
             startActivity(intent);
-        }
+        }*/
     }
 
 
@@ -118,10 +139,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if(pss.length() == 0){
                 toastMessage("Password can't be empty");
             }
-
             send2Server(name, pss);
         } else if (id == R.id.textview_surfer){
-            loginResponseHandler("Surfer");
+            // just browser the menu
+            Intent intent = new Intent(this, UserMainPage.class);
+            intent.putExtra("userID", "-1");
+            intent.putExtra("userType", "Surfer");
+            finish();
+            startActivity(intent);
         } else if(id == R.id.textview_signup){
             Intent intent = new Intent(this, UserRegisterRequestActivity.class);
             startActivity(intent);

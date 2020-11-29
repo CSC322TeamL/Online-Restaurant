@@ -2,6 +2,7 @@ package com.example.simplerestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -11,6 +12,17 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class UserMainPage extends BaseActivity {
 
     final private static String MENU_TAG = "fragment_user_menu";
@@ -19,8 +31,9 @@ public class UserMainPage extends BaseActivity {
     final private static String ACC_TAG = "fragment_user_account";
 
     private String userType;
-    private View beingReplaced;
+    private String userID;
     private BottomNavigationView navigationView;
+    private OkHttpClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +48,16 @@ public class UserMainPage extends BaseActivity {
                 return true;
             }
         });
+        client = UnitTools.getOkHttpClient();
 
         Intent intent = getIntent();
-        userType = intent.getStringExtra("UserType");
+        userID = intent.getStringExtra("userID");
+        userType = intent.getStringExtra("userType");
+
+        if(userType.equals("Surfer")){
+            navigationView.getMenu().findItem(R.id.nav_user_main_account).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_user_main_order).setVisible(false);
+        }
 
         setCurrentFragment(R.id.nav_user_main_menu);
     }
@@ -50,7 +70,8 @@ public class UserMainPage extends BaseActivity {
             case R.id.nav_user_main_order:
                 fragment = findFragmentByTag(MENU_TAG);
                 Bundle bundle = new Bundle();
-                bundle.putString("username", userType);
+                bundle.putString("userType", userType);
+                bundle.putString("userID", userID);
                 fragment.setArguments(bundle);
                 tag = MENU_TAG;
                 break;
