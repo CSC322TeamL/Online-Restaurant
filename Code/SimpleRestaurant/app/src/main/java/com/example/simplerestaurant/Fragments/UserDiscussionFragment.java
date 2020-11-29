@@ -1,4 +1,4 @@
-package com.example.simplerestaurant;
+package com.example.simplerestaurant.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.simplerestaurant.R;
 
 public class UserDiscussionFragment extends Fragment {
 

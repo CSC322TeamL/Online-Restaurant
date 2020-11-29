@@ -1,6 +1,5 @@
 package com.example.simplerestaurant;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -102,7 +101,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             textLoginError.setVisibility(View.VISIBLE);
         } else if (result.getCode() == 0){
             if("Customer".equals(result.getContent()) || "VIP".equals(result.getContent())){
-                Intent intent = new Intent(this, UserMainPage.class);
+                Intent intent = new Intent(this, UserMainPageActivity.class);
                 intent.putExtra("userID", editUserName.getText().toString().trim());
                 intent.putExtra("userType", result.getContent());
                 finish();
@@ -142,7 +141,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             send2Server(name, pss);
         } else if (id == R.id.textview_surfer){
             // just browser the menu
-            Intent intent = new Intent(this, UserMainPage.class);
+            Intent intent = new Intent(this, UserMainPageActivity.class);
             intent.putExtra("userID", "-1");
             intent.putExtra("userType", "Surfer");
             finish();
