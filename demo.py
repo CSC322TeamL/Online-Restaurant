@@ -56,11 +56,11 @@ def edit_status():
     userId = request.form['userID']
     user = conn.find_one({'userID': userId})
     if user is None:
-        return jsonify({'code': 1,
-                        'content': 'userID already exists'})
+        return jsonify({'result': {'code': 1,
+                                   'content': 'userID already exists'}})
     conn.update_one(user, {'$set': {'userStatus': request.form['userStatus']}})
-    return jsonify({'code': 0,
-                    'content': 'success'})
+    return jsonify({'result': {'code': 0,
+                               'content': 'success'}})
 
 
 @app.route('/get_menu', methods=['POST'])
@@ -70,14 +70,17 @@ def get_menu():
     user = conn3.find_one({'userID': userid})
     conn1 = MongoDB('Menu').get_conn()
     conn2 = MongoDB('Dish').get_conn()
-    output = {}
-    if user is None: #userID is id of a chef
+    result = []
+    if userid == -1:  # for surfer
+        menus = conn1.find({'isSpecial': 'false'})
+    elif user is None:  # userID is id of a chef
         menus = conn1.find({'chefID': userid})
     elif user['userRole'] == 'VIP':
         menus = conn1.find()
     else:
         menus = conn1.find({'isSpecial': 'false'})
     for menu in menus:
+        output = {}
         name = menu['name']
         dishes = []
         for dishid in menu['dish']:
@@ -85,7 +88,20 @@ def get_menu():
             dish['_id'] = str(dish['_id'])
             dishes.append(dish)
         output[name] = dishes
-    return jsonify({'result': output})
+        result.append(output)
+    return jsonify(result)
+
+
+@app.route('/get_dish', methods=['POST'])
+def get_dish():
+    dishID_list = request.form['dishID_list']
+    conn = MongoDB('Dish').get_conn()
+    dishes = []
+    for dishID in dishID_list:
+        dish = conn.find_one({'_id': ObjectId(dishID)})
+        dish['_id'] = str(dish['_id'])
+        dishes.append(dish)
+    return jsonify(dishes)
 
 
 @app.route('/get_order', methods=['POST'])
@@ -105,8 +121,8 @@ def get_orders():
                 cooking.append(order)
             else:
                 finished.append(order)
-        return jsonify({'result':{'cooking': cooking,
-                                  'finished': finished}})
+        return jsonify({'result': {'cooking': cooking,
+                                   'finished': finished}})
 
     elif role == 'delivery person':
         conn3 = MongoDB('DeliveryPersonInfo').get_conn()
@@ -214,7 +230,7 @@ def cancel_order():
     else:
         discount = 1
     conn2 = MongoDB('Dish').get_conn()
-    dish = conn2.find_one({'_id':dishID})
+    dish = conn2.find_one({'_id': dishID})
     conn = MongoDB('Orders').get_conn()
     order = conn.find_one({'customerID': userID, 'status': 'appending'})
     dishDetail = {'dishID': dishID,
@@ -351,7 +367,7 @@ def create_new_discussion():
     pass
 
 
-@app.route('/get_replies', methods=['GET'])
+@app.route('/get_replies', methods=['POST'])
 def get_all_replies():
     discussion_head_id = request.form['_id']
     conn = MongoDB('DiscussionReplied').get_conn()
@@ -367,7 +383,7 @@ def reply_discussion():
     pass
 
 
-@app.route('/get_filedComplaint', methods=['GET'])
+@app.route('/get_filedComplaint', methods=['POST'])
 def complaint_filed():
     userID = request.form['userID']
     conn = MongoDB('ComplaintsAndCompliments').get_conn()
@@ -383,7 +399,7 @@ def new_complaint():
     pass
 
 
-@app.route('/get_filedCompliment', methods=['GET'])
+@app.route('/get_filedCompliment', methods=['POST'])
 def compliment_filed():
     userID = request.form['userID']
     conn = MongoDB('ComplaintsAndCompliments').get_conn()
@@ -399,15 +415,70 @@ def new_compliment():
     pass
 
 
-@app.route('/compliant', methods=['GET'])
+@app.route('/compliant', methods=['POST'])
 def complaint_received():
     userID = request.form['userID']
+    role = request.form['role']
     conn = MongoDB('ComplaintsAndCompliments').get_conn()
     complaints = []
-    for complaint in conn.find({'toID': userID, 'isComplaint': 'true'}):
+    if role == 'chef' or role == 'delivery person':
+        conn1 = MongoDB('StaffPerformance').get_conn()
+    else:
+        conn1 = MongoDB('UserInfoDetail').get_conn()
+    user = conn1.find_one({'userID': userID})
+    for id in user['complaintReceived']:
+        complaint = conn.find_one({'_id': id})
         complaint['_id'] = str(complaint['_id'])
         complaints.append(complaint)
     return jsonify({'result': complaints})
+
+
+@app.route('/compliment', methods=['POST'])
+def compliment_received():
+    userID = request.form['userID']
+    role = request.form['role']
+    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    compliments = []
+    if role == 'chef' or role == 'delivery person':
+        conn1 = MongoDB('StaffPerformance').get_conn()
+    else:
+        conn1 = MongoDB('UserInfoDetail').get_conn()
+    user = conn1.find_one({'userID': userID})
+    for id in user['complimentReceived']:
+        compliment = conn.find_one({'_id': id})
+        compliment['_id'] = str(compliment['_id'])
+        compliments.append(compliment)
+    return jsonify({'result': compliments})
+
+
+@app.route('/dispute_complaint', methods=['POST'])
+def dispute_complaint():
+    role = request.form['role']
+    userID = request.form['userID']
+    complaintID = request.form['complaintID']
+    context = request.form['context']
+    new_dispute_complaint = {'complaintID': ObjectId(complaintID),
+                             'userID': userID,
+                             'context': context}
+    conn = MongoDB('ComplaintDispute').get_conn()
+    id = conn.insert_one(new_dispute_complaint)
+    if role == 'chef' or role == 'delivery person':
+        conn1 = MongoDB('StaffPerformance').get_conn()
+    else:
+        conn1 = MongoDB('UserInfoDetail').get_conn()
+    user = conn1.find_one({'userID': userID})
+    conn1.update_one(user, {'$push': {'complaintDisputed': id}})
+
+
+@app.route('/get_dispute_complaint', methods=['POST'])
+def get_dispute_complaint():
+    userID = request.form['userID']
+    dispute = []
+    conn = MongoDB('ComplaintDispute').get_conn()
+    for complaintDisputed in conn.find({'userID': userID}):
+        complaintDisputed['_id'] = str(complaintDisputed['_id'])
+        dispute.append(complaintDisputed)
+    return jsonify({'result': {'complaintDisputed': dispute}})
 
 
 @app.route('/search', methods=['POST'])
@@ -490,3 +561,4 @@ def handle_new_customer_request():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
