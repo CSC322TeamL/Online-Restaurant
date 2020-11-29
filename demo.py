@@ -25,13 +25,13 @@ def login():
     password = request.form['userPassword']
     user = conn.find_one({'userID': userId})
     if user is None:
-        return jsonify({'result': {'code': 1, 'content': "user doesn't exist"}})
+        return jsonify({'code': 1, 'content': "user doesn't exist"})
     elif user['userPassword'] == password and user['userStatus'] != -1:
-        return jsonify({'result': {'code': 0, 'content': user['role']}})
+        return jsonify({'code': 0, 'content': user['role']})
     elif user['userStatus'] != -1:
-        return jsonify({'result': {'code': 1, 'content': 'password is incorrect'}})
+        return jsonify({'code': 1, 'content': 'password is incorrect'})
     else:
-        return jsonify({'result': {'code': 1, 'content': 'account has been de-registed'}})
+        return jsonify({'code': 1, 'content': 'account has been de-registed'})
 
 
 @app.route('/new_user', methods=['POST'])
@@ -39,15 +39,15 @@ def new_user():
     conn = MongoDB('UserLogin').get_conn()
     userId = request.form['userID']
     if conn.find_one({'userID': userId}):
-        return jsonify({'result': {'code': 1,
-                                   'content': 'userID already exists'}})
+        return jsonify({'code': 1,
+                        'content': 'userID already exists'})
     new = {'userID': request.form['userID'],
            'userPassword': request.form['userPassword'],
            'userStatus': request.form['userStatus'],
            'role': request.form['role']}
     conn.insert_one(new)
-    return jsonify({'result': {'code': 0,
-                               'content': 'success'}})
+    return jsonify({'code': 0,
+                    'content': 'success'})
 
 
 @app.route('/edit_status', methods=['POST'])
@@ -56,11 +56,11 @@ def edit_status():
     userId = request.form['userID']
     user = conn.find_one({'userID': userId})
     if user is None:
-        return jsonify({'result': {'code': 1,
-                                   'content': 'userID already exists'}})
+        return jsonify({'code': 1,
+                        'content': 'userID already exists'})
     conn.update_one(user, {'$set': {'userStatus': request.form['userStatus']}})
-    return jsonify({'result': {'code': 0,
-                               'content': 'success'}})
+    return jsonify({'code': 0,
+                    'content': 'success'})
 
 
 @app.route('/get_menu', methods=['POST'])
@@ -246,9 +246,9 @@ def place_order():
         user_detail = conn3.find_one({'userID': userID})
         if len(user_detail['orders']) >= 50 and user['userRole'] == 'Customer':
             conn2.update_one(user, {'$set', {'userRole': 'VIP'}})
-        return 'success'
+        return {'code': 0, 'content': 'success'}
     else:
-        return 'money is not enough'
+        return {'code': 1, 'content': 'money is not enough'}
 
 
 @app.route('/pick_order', methods=['POST'])
