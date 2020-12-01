@@ -2,19 +2,31 @@ package com.example.simplerestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.simplerestaurant.Fragments.UserAccountFragment;
 import com.example.simplerestaurant.Fragments.UserDiscussionFragment;
 import com.example.simplerestaurant.Fragments.UserMenuFragment;
+import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import okhttp3.OkHttpClient;
+import org.jetbrains.annotations.NotNull;
 
-public class UserMainPageActivity extends BaseActivity {
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+public class UserMainPageActivity extends BaseActivity implements UserMenuFragmentInterface {
 
     final private static String MENU_TAG = "fragment_user_menu";
     final private static String ORDER_TAG = "fragment_user_order";
@@ -25,6 +37,13 @@ public class UserMainPageActivity extends BaseActivity {
     private String userID;
     private BottomNavigationView navigationView;
     private OkHttpClient client;
+
+    private UserMenuFragment userMenuFragment;
+    private UserAccountFragment userAccountFragment;
+    private UserDiscussionFragment userDiscussionFragment;
+
+    private Fragment activeFragment;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,34 +69,55 @@ public class UserMainPageActivity extends BaseActivity {
             navigationView.getMenu().findItem(R.id.nav_user_main_order).setVisible(false);
         }
 
+        fragmentManager = getSupportFragmentManager();
+        userMenuFragment = (UserMenuFragment)findFragmentByTag(MENU_TAG);
+        activeFragment = userMenuFragment;
         setCurrentFragment(R.id.nav_user_main_menu);
     }
 
     private void setCurrentFragment(int navID){
-        Fragment fragment = null;
-        String tag = null;
         switch (navID){
             case R.id.nav_user_main_menu:
             case R.id.nav_user_main_order:
-                fragment = findFragmentByTag(MENU_TAG);
-                Bundle bundle = new Bundle();
-                bundle.putString("userType", userType);
-                bundle.putString("userID", userID);
-                fragment.setArguments(bundle);
-                tag = MENU_TAG;
+                if(null == userMenuFragment){
+                    userMenuFragment = (UserMenuFragment)findFragmentByTag(MENU_TAG);
+                }
+                fragmentManager.beginTransaction()
+                        .hide(activeFragment)
+                        .show(userMenuFragment)
+                        .commit();
+                activeFragment = userMenuFragment;
                 break;
 
             case R.id.nav_user_main_discussion:
-                fragment = findFragmentByTag(DISC_TAG);
-                tag = DISC_TAG;
+                if(null == userDiscussionFragment){
+                    userDiscussionFragment = (UserDiscussionFragment) findFragmentByTag(DISC_TAG);
+                }
+                fragmentManager.beginTransaction()
+                        .hide(activeFragment)
+                        .show(userDiscussionFragment)
+                        .commit();
+                activeFragment = userDiscussionFragment;
                 break;
             case R.id.nav_user_main_account:
-                fragment = findFragmentByTag(ACC_TAG);
-                tag = ACC_TAG;
+                if(null == userAccountFragment){
+                    userAccountFragment = (UserAccountFragment) findFragmentByTag(ACC_TAG);
+                }
+                fragmentManager.beginTransaction()
+                        .hide(activeFragment)
+                        .show(userAccountFragment)
+                        .commit();
+                activeFragment = userAccountFragment;
                 break;
         }
 
-        setCurrentFragment(fragment, tag);
+    }
+
+    private void menuResponse(String res){
+        if(null == userMenuFragment){
+            userMenuFragment = (UserMenuFragment) findFragmentByTag(MENU_TAG);
+        }
+        userMenuFragment.menuResponse(res);
     }
 
     private void setCurrentFragment(Fragment fragment, String tag){
@@ -92,16 +132,74 @@ public class UserMainPageActivity extends BaseActivity {
         if(null == result){
             switch (tag){
                 case MENU_TAG:
-                    result = new UserMenuFragment();
+                    if(null == userMenuFragment){
+                        userMenuFragment = new UserMenuFragment(this);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userType", userType);
+                        bundle.putString("userID", userID);
+                        userMenuFragment.setArguments(bundle);
+                        userMenuFragment.setGetMenuListener(this);
+                        if(!userMenuFragment.isAdded()){
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.view_user_main_for_replace, userMenuFragment, MENU_TAG)
+                                    .hide(userMenuFragment)
+                                    .commit();
+                        }
+                        return userMenuFragment;
+                    }
                     break;
                 case DISC_TAG:
-                    result = new UserDiscussionFragment();
+                    if(null == userDiscussionFragment){
+                        userDiscussionFragment = new UserDiscussionFragment();
+                        if(!userDiscussionFragment.isAdded()){
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.view_user_main_for_replace, userDiscussionFragment, DISC_TAG)
+                                    .hide(userDiscussionFragment)
+                                    .commit();
+                        }
+                        return userDiscussionFragment;
+                    }
                     break;
                 case ACC_TAG:
-                    result = new UserAccountFragment();
+                    if(null == userAccountFragment){
+                        userAccountFragment = new UserAccountFragment();
+                        if(!userAccountFragment.isAdded()){
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.view_user_main_for_replace, userAccountFragment, ACC_TAG)
+                                    .hide(userAccountFragment)
+                                    .commit();
+                        }
+                        return userAccountFragment;
+                    }
                     break;
             }
         }
         return result;
+    }
+
+    @Override
+    public void getMenuFromServer(String uerID){
+        String url = getString(R.string.base_url) + "/get_menu";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.i("menu", e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    final String res = response.body().string();
+                    @Override
+                    public void run() {
+                        menuResponse(res);
+                    }
+                });
+            }
+        });
     }
 }

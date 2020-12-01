@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
 
@@ -27,9 +28,12 @@ public class UserMenuFragment extends Fragment {
     private TextView greeting;
     private OkHttpClient client;
     private String userID, userType;
+    private UserMenuFragmentInterface menuListener;
 
-    public UserMenuFragment(){
+    public UserMenuFragment(UserMenuFragmentInterface menuListener){
         super(R.layout.fragment_user_main_menu);
+        this.menuListener = menuListener;
+        Log.i("menu", "Fragment created");
     }
 
     @Override
@@ -39,10 +43,15 @@ public class UserMenuFragment extends Fragment {
         userID = requireArguments().getString("userID");
         greeting = (TextView) view.findViewById(R.id.greeting_name);
         greeting.setText(userType);
-
+        Log.i("menu", "Fragment called");
         client = UnitTools.getOkHttpClient();
+        if(null != menuListener){
+            menuListener.getMenuFromServer(userID);
+        }
+    }
 
-        getMenuFromServer();
+    public void setGetMenuListener(UserMenuFragmentInterface listener){
+        menuListener = listener;
     }
 
     private void getMenuFromServer(){
@@ -70,7 +79,7 @@ public class UserMenuFragment extends Fragment {
         });
     }
 
-    private void menuResponse(String res){
+    public void menuResponse(String res){
         Log.i("menu", res);
     }
 }
