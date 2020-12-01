@@ -214,9 +214,9 @@ def add_order():
                     'quantity': quantity,
                     'specialNote': note}
         conn2.update_one(order, {'$push': {'dishDetail': new_dish}})
-        conn2.update_one(order, {'$set', {'orderTotal': order['orderTotal'] + dish['price']}})
-        conn2.update_one(order, {'$set', {'orderCharged': order['orderCharged'] + dish['price']*discount}})
-        conn2.update_one(order, {'$set', {'discount': order['discount'] + dish['price']*(1-discount)}})
+        conn2.update_one(order, {'$set', {'orderTotal': order['orderTotal'] + dish['price'] * quantity}})
+        conn2.update_one(order, {'$set', {'orderCharged': order['orderCharged'] + dish['price']* quantity * discount}})
+        conn2.update_one(order, {'$set', {'discount': order['discount'] + dish['price']* quantity * (1-discount)}})
 
 
 @app.route('/cancel_order', methods=['POST'])
@@ -237,9 +237,9 @@ def cancel_order():
             'quantity': request.form['quantity'],
             'specialNote': request.form['specialNote']}
     conn.update_one(order, {'$pull': {'dishDetail': dishDetail}})
-    conn2.update_one(order, {'$set', {'orderTotal': order['orderTotal'] - dish['price']}})
-    conn2.update_one(order, {'$set', {'orderCharged': order['orderCharged'] - dish['price'] * discount}})
-    conn2.update_one(order, {'$set', {'discount': order['discount'] - dish['price'] * (1 - discount)}})
+    conn2.update_one(order, {'$set', {'orderTotal': order['orderTotal'] - dish['price'] * quantity}})
+    conn2.update_one(order, {'$set', {'orderCharged': order['orderCharged'] - dish['price'] * quantity * discount}})
+    conn2.update_one(order, {'$set', {'discount': order['discount'] - dish['price'] * quantity * (1 - discount)}})
 
 
 @app.route('/place_order', methods=['POST'])
