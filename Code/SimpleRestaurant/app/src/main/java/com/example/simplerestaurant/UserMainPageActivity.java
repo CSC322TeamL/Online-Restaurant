@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.simplerestaurant.Fragments.UserAccountFragment;
 import com.example.simplerestaurant.Fragments.UserDiscussionFragment;
 import com.example.simplerestaurant.Fragments.UserMenuFragment;
+import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,7 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class UserMainPageActivity extends BaseActivity implements UserMenuFragmentInterface {
+public class UserMainPageActivity extends BaseActivity implements UserMenuFragmentInterface, UserAccountFragmentInterface {
 
     final private static String MENU_TAG = "fragment_user_menu";
     final private static String ORDER_TAG = "fragment_user_order";
@@ -120,11 +121,11 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         userMenuFragment.menuResponse(res);
     }
 
-    private void setCurrentFragment(Fragment fragment, String tag){
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.view_user_main_for_replace, fragment, tag)
-                .commit();
+    private void accInfoResponse(String res){
+        if(null == userAccountFragment){
+            userAccountFragment = (UserAccountFragment) findFragmentByTag(ACC_TAG);
+        }
+        userAccountFragment.userInfoResponse(res);
     }
 
     private Fragment findFragmentByTag(String tag){
@@ -162,7 +163,11 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                     break;
                 case ACC_TAG:
                     if(null == userAccountFragment){
-                        userAccountFragment = new UserAccountFragment();
+                        userAccountFragment = new UserAccountFragment(this);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userID", userID);
+                        bundle.putString("userType", userType);
+                        userAccountFragment.setArguments(bundle);
                         if(!userAccountFragment.isAdded()){
                             fragmentManager.beginTransaction()
                                     .add(R.id.view_user_main_for_replace, userAccountFragment, ACC_TAG)
@@ -187,7 +192,7 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.i("menu", e.getMessage());
+                toastMessage("Cannot connect to server");
             }
 
             @Override
@@ -197,6 +202,33 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                     @Override
                     public void run() {
                         menuResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void getUserInfoFromServer(String userID, String userType) {
+        String url = getString(R.string.base_url) + "/get_menu";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        bodyBuilder.add("role", userType);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                toastMessage("Cannot connect to server");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    final String res = response.body().string();
+                    @Override
+                    public void run() {
+                        accInfoResponse(res);
                     }
                 });
             }

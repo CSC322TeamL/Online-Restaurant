@@ -54,31 +54,6 @@ public class UserMenuFragment extends Fragment {
         menuListener = listener;
     }
 
-    private void getMenuFromServer(){
-        String url = getString(R.string.base_url) + "/get_menu";
-        FormBody.Builder bodyBuilder = new FormBody.Builder();
-        bodyBuilder.add("userID", userID);
-        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.i("menu", e.getMessage());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
-                getActivity().runOnUiThread(new Runnable() {
-                    final String res = response.body().string();
-                    @Override
-                    public void run() {
-                        menuResponse(res);
-                    }
-                });
-            }
-        });
-    }
-
     public void menuResponse(String res){
         Log.i("menu", res);
     }
