@@ -223,6 +223,7 @@ def add_order():
 def cancel_order():
     userID = request.form['useID']
     dishID = request.form['dishID']
+    quantity = request.form['quantity']
     conn3 = MongoDB('UserInfo').get_conn()
     user = conn3.find_one({'userID': userID})
     if user['userRole'] == 'VIP':
@@ -234,7 +235,7 @@ def cancel_order():
     conn = MongoDB('Orders').get_conn()
     order = conn.find_one({'customerID': userID, 'status': 'appending'})
     dishDetail = {'dishID': dishID,
-            'quantity': request.form['quantity'],
+            'quantity': quantity,
             'specialNote': request.form['specialNote']}
     conn.update_one(order, {'$pull': {'dishDetail': dishDetail}})
     conn2.update_one(order, {'$set', {'orderTotal': order['orderTotal'] - dish['price'] * quantity}})
