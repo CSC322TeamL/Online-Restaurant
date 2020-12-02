@@ -88,7 +88,8 @@ def get_menu():
             dish = conn2.find_one({'_id': dishid})
             dish['_id'] = str(dish['_id'])
             dishes.append(dish)
-        output[name] = dishes
+        output['title'] = name
+        output['dishes'] = dishes
         result.append(output)
     print(result)
     return jsonify(result)
