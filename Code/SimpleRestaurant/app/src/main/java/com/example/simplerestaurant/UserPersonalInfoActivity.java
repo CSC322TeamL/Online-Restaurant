@@ -13,6 +13,8 @@ import com.example.simplerestaurant.beans.UserBasicInfoBean;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -136,7 +138,16 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
     }
 
     private String userInfo2Json(UserBasicInfoBean userinfo){
-        return UnitTools.getGson().toJson(userinfo);
+        String tempStr =  UnitTools.getGson().toJson(userinfo);
+        try {
+            JSONObject jsonObject = new JSONObject(tempStr);
+            jsonObject.put("role", userType);
+            tempStr = jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return tempStr;
     }
 
     private void handleServerResponse(String res){
