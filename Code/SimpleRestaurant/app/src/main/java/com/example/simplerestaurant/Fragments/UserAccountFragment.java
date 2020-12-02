@@ -1,5 +1,6 @@
 package com.example.simplerestaurant.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
+import com.example.simplerestaurant.UserPersonalInfoActivity;
 import com.example.simplerestaurant.beans.UserBasicInfoBean;
 
 public class UserAccountFragment extends Fragment implements View.OnClickListener{
@@ -24,6 +26,8 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
     private TextView tvDisplayName, tvUserBalance, tvUserSpent;
     private TextView tvFiledComplaint, tvReceivedComplaint, tvDisputedComplaint, tvFiledComplement;
     private ImageButton imgbtnDetail;
+
+    private String res;
 
     public UserAccountFragment(UserAccountFragmentInterface accListener){
         super(R.layout.fragment_user_account);
@@ -51,7 +55,7 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
         tvFiledComplement = (TextView) view.findViewById(R.id.textview_user_complement_filed);
         imgbtnDetail = (ImageButton) view.findViewById(R.id.imgbtn_user_account_me);
 
-        tvFiledComplement.setOnClickListener(this);
+        tvFiledComplaint.setOnClickListener(this);
         tvReceivedComplaint.setOnClickListener(this);
         tvDisputedComplaint.setOnClickListener(this);
         tvFiledComplement.setOnClickListener(this);
@@ -67,6 +71,7 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
     }
 
     public void userInfoResponse(String res){
+        this.res = res;
         userBasicInfo = UnitTools.getGson().fromJson(res, UserBasicInfoBean.class);
         setUpViewText(userBasicInfo);
     }
@@ -75,6 +80,9 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imgbtn_user_account_me:
+                Intent intent = new Intent(getActivity(), UserPersonalInfoActivity.class);
+                intent.putExtra("userInfo", res);
+                startActivity(intent);
                 break;
             case R.id.textview_user_complaint_filed:
                 break;

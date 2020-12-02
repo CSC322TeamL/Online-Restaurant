@@ -1,16 +1,16 @@
 package com.example.simplerestaurant.beans;
 
 public class UserPersonalInfoBean {
-    private String firstName;
+    private String fistName;
     private String lastName;
     private String gender;
 
-    public String getFirstName() {
-        return firstName;
+    public String getFistName() {
+        return fistName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFistName(String fistName) {
+        this.fistName = fistName;
     }
 
     public String getLastName() {
@@ -32,7 +32,7 @@ public class UserPersonalInfoBean {
     @Override
     public String toString() {
         return "UserPersonalInfoBean{" +
-                "firstName='" + firstName + '\'' +
+                "fistName='" + fistName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", gender='" + gender + '\'' +
                 '}';
