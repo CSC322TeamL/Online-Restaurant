@@ -285,13 +285,15 @@ def get_order_detail():
 @app.route('/get_info', methods=['POST'])
 def get_info():
     role = request.form['role']
-    if role == 'customer':
+    if role == 'Customer' or role == 'VIP':
         conn = MongoDB('UserInfo').get_conn()
     else:
         conn = MongoDB('StaffBasicInfo').get_conn()
+    print(role)
+    print(request.form['userID'])
     user = conn.find_one({'userID': request.form['userID']})
-    user['_id'] = str(user['_id'])
-    return jsonify({'result': user})
+    #user['_id'] = str(user['_id'])
+    return jsonify(user)
 
 
 @app.route('/update_info', methods=['POST'])
