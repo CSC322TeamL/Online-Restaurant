@@ -301,7 +301,6 @@ def update_info():
     role = update['role']
     userID = update['userID']
     del update['role']
-    del update['userID']
     if role == 'customer':
         conn = MongoDB(db, 'UserInfo').get_conn()
     else:
