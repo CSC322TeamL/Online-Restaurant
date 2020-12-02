@@ -307,6 +307,7 @@ def update_info():
         conn = MongoDB(db, 'StaffBasicInfo').get_conn()
     user = conn.find_one({'userID': userID})
     conn.replace_one(user, update)
+    return '0'
 
 
 @app.route('/get_discussionHeads', methods=['POST'])

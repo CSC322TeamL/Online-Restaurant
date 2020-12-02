@@ -12,6 +12,17 @@ import androidx.annotation.Nullable;
 import com.example.simplerestaurant.beans.UserBasicInfoBean;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class UserPersonalInfoActivity extends BaseActivity implements View.OnClickListener{
 
     private UserBasicInfoBean userInfo;
@@ -22,6 +33,8 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
 
     private ImageButton backward;
     private Button submit;
+
+    private String userID, userType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,9 +55,15 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         backward = (ImageButton) findViewById(R.id.imagebtn_backward);
         submit = (Button) findViewById(R.id.button_user_info_submit);
 
+        backward.setOnClickListener(this);
+        submit.setOnClickListener(this);
+
         Intent intent = getIntent();
         userInfo = UnitTools.getGson().fromJson(intent.getStringExtra("userInfo"), UserBasicInfoBean.class);
         Log.i("acc", userInfo.toString());
+
+        userID = userInfo.getUserID();
+        userType = userInfo.getUserRole();
         setUpFields(userInfo);
     }
 
@@ -116,11 +135,62 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         return userInfo;
     }
 
+    private String userInfo2Json(UserBasicInfoBean userinfo){
+        return UnitTools.getGson().toJson(userinfo);
+    }
+
+    private void handleServerResponse(String res){
+        if(res.equals("0")){
+            toastMessage("Updated");
+        } else {
+            toastMessage("Something wrong");
+        }
+        backward.setClickable(true);
+        submit.setClickable(true);
+    }
+
+    private void submitChange2Server(String update){
+        String url = getString(R.string.base_url) + "/update_info";
+        RequestBody body = RequestBody.create(
+                update, MediaType.parse(UnitTools.TYPE_JSON)
+        );
+        Request request = new Request.Builder().url(url).post(body).build();
+        Call call = UnitTools.getOkHttpClient().newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Failed to connect to server.");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handleServerResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_user_info_submit:
-
+                UserBasicInfoBean toUpdate = getInfoFromfields();
+                if(toUpdate == null){
+                    toastMessage("Some input fields are not good");
+                    return;
+                }
+                String updateString = userInfo2Json(toUpdate);
+                submitChange2Server(updateString);
                 break;
             case R.id.imagebtn_backward:
                 finish();
