@@ -42,10 +42,6 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
         userID = bundle.getString("userID");
         userType = bundle.getString("userType");
 
-        if(null != accListener){
-            accListener.getUserInfoFromServer(userID, userType);
-        }
-
         tvDisplayName = (TextView) view.findViewById(R.id.textview_user_account_name);
         tvUserBalance = (TextView) view.findViewById(R.id.textview_user_balance);
         tvUserSpent = (TextView) view.findViewById(R.id.textview_user_spent);
@@ -60,6 +56,15 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
         tvDisputedComplaint.setOnClickListener(this);
         tvFiledComplement.setOnClickListener(this);
         imgbtnDetail.setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // get data from server
+        if(null != accListener){
+            accListener.getUserInfoFromServer(userID, userType);
+        }
     }
 
     private void setUpViewText(UserBasicInfoBean userBasicInfo){
