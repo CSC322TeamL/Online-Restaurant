@@ -210,7 +210,7 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
 
     @Override
     public void getUserInfoFromServer(String userID, String userType) {
-        String url = getString(R.string.base_url) + "/get_menu";
+        String url = getString(R.string.base_url) + "/get_info";
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         bodyBuilder.add("userID", userID);
         bodyBuilder.add("role", userType);
