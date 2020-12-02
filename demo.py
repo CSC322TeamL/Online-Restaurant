@@ -7,12 +7,12 @@ from flask_restful import Api
 app = Flask(__name__)
 api = Api(app)
 
+connectionURL = "mongodb+srv://Luke:123@cluster0.hi0jb.mongodb.net/Restaurants?retryWrites=true&w=majority"
+my_client = pymongo.MongoClient(connectionURL)
+db = my_client.get_database('Restaurants')
 
 class MongoDB:
-    def __init__(self, collection):
-        connectionURL = "mongodb+srv://Luke:123@cluster0.hi0jb.mongodb.net/Restaurants?retryWrites=true&w=majority"
-        my_client = pymongo.MongoClient(connectionURL)
-        my_db = my_client.get_database('Restaurants')
+    def __init__(self, my_db, collection):
         self.conn = my_db[collection]
 
     def get_conn(self):
@@ -21,7 +21,7 @@ class MongoDB:
 
 @app.route('/user_login', methods=['POST'])
 def login():
-    conn = MongoDB('UserLogin').get_conn()
+    conn = MongoDB(db, 'UserLogin').get_conn()
     userId = request.form['userID']
     password = request.form['userPassword']
     user = conn.find_one({'userID': userId})
@@ -37,7 +37,7 @@ def login():
 
 @app.route('/new_user', methods=['POST'])
 def new_user():
-    conn = MongoDB('UserLogin').get_conn()
+    conn = MongoDB(db, 'UserLogin').get_conn()
     userId = request.form['userID']
     if conn.find_one({'userID': userId}):
         return jsonify({'code': 1,
@@ -53,7 +53,7 @@ def new_user():
 
 @app.route('/edit_status', methods=['POST'])
 def edit_status():
-    conn = MongoDB('UserLogin').get_conn()
+    conn = MongoDB(db, 'UserLogin').get_conn()
     userId = request.form['userID']
     user = conn.find_one({'userID': userId})
     if user is None:
@@ -67,10 +67,10 @@ def edit_status():
 @app.route('/get_menu', methods=['POST'])
 def get_menu():
     userid = request.form['userID']
-    conn3 = MongoDB('UserInfo').get_conn()
+    conn3 = MongoDB(db, 'UserInfo').get_conn()
     user = conn3.find_one({'userID': userid})
-    conn1 = MongoDB('Menu').get_conn()
-    conn2 = MongoDB('Dish').get_conn()
+    conn1 = MongoDB(db, 'Menu').get_conn()
+    conn2 = MongoDB(db, 'Dish').get_conn()
     result = []
     if userid == -1:  # for surfer
         menus = conn1.find({'isSpecial': 'false'})
@@ -97,7 +97,7 @@ def get_menu():
 @app.route('/get_dish', methods=['POST'])
 def get_dish():
     dishID_list = request.form['dishID_list']
-    conn = MongoDB('Dish').get_conn()
+    conn = MongoDB(db, 'Dish').get_conn()
     dishes = []
     for dishID in dishID_list:
         dish = conn.find_one({'_id': ObjectId(dishID)})
@@ -110,9 +110,9 @@ def get_dish():
 def get_orders():
     userID = request.form['userID']
     role = request.form['role']
-    conn = MongoDB('Orders').get_conn()
+    conn = MongoDB(db, 'Orders').get_conn()
     if role == 'chef':
-        conn1 = MongoDB('ChefInfo').get_conn()
+        conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
         cooking = []
         finished = []
@@ -127,7 +127,7 @@ def get_orders():
                                    'finished': finished}})
 
     elif role == 'delivery person':
-        conn3 = MongoDB('DeliveryPersonInfo').get_conn()
+        conn3 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn3.find_one({'userID'})
         pick = []
         delivered = []
@@ -142,9 +142,8 @@ def get_orders():
         return jsonify({'result': {'orderPicked': pick,
                                    'orderDelivered': delivered}})
     else:
-        conn4 = MongoDB('UserInfoDetail').get_conn()
+        conn4 = MongoDB(db, 'UserInfoDetail').get_conn()
         customer = conn4.find_one({'userID': userID})
-        appending = []
         waiting = []
         finished = []
         for id in customer['orders']:
@@ -161,7 +160,7 @@ def get_orders():
 @app.route('/uncompleted_order', methods=['POST'])
 def uncompleted_order():
     role = request.form['role']
-    conn = MongoDB('Orders').get_conn()
+    conn = MongoDB(db, 'Orders').get_conn()
     if role == 'chef':
         waiting = []
         for order in conn.find({'status': 'waiting'}):
@@ -180,14 +179,14 @@ def uncompleted_order():
 def place_order():
     order = request.get_json()
     userID = order['customerID']
-    conn1 = MongoDB('UserInfo').get_conn()
+    conn1 = MongoDB(db, 'UserInfo').get_conn()
     user = conn1.find_one({'userID': userID})
     if user['userRole'] == 'VIP':
         discount = 0.8
     else:
         discount = 1
     total = 0
-    conn2 = MongoDB('Dish').get_conn()
+    conn2 = MongoDB(db, 'Dish').get_conn()
     for dish_detail in order['dishDetail']:
         dish_detail['dishID'] = ObjectId(dish_detail['dishID'])
         dish = conn2.find_one({'_id': dish_detail['dishID']})
@@ -203,12 +202,12 @@ def place_order():
             conn1.update_one(user, {'$set', {'userRole': 'VIP'}})
         conn1.update_one(user, {'$set': {'balance': user['balance']-order['totalCharged'],
                                          'spent': update_spent}})
-        conn3 = MongoDB('Orders').get_conn()
+        conn3 = MongoDB(db, 'Orders').get_conn()
         id = conn3.insert_one(order)
-        conn4 = MongoDB('UserInfoDetail').get_conn()
+        conn4 = MongoDB(db, 'UserInfoDetail').get_conn()
         user_detail = conn4.find_one({'userID': userID})
         conn4.update_one(user_detail, {'$push': {'orders': id}})
-        conn5 = MongoDB('OrderDetail').get_conn()
+        conn5 = MongoDB(db, 'OrderDetail').get_conn()
         order_detail = {'orderID': id,
                         'paymentCharge': pymongo.datetime.datetime.now()
                         }
@@ -225,19 +224,19 @@ def pick_order():
     role = request.form['role']
     userID = request.form['userID']
     orderID = request.form['orderID']
-    conn = MongoDB('Orders').get_conn()
+    conn = MongoDB(db, 'Orders').get_conn()
     order = conn.find_one({'_id': ObjectId(orderID)})
-    conn3 = MongoDB('OrderDetail').get_conn()
+    conn3 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn3.find_one({'_id': ObjectId(orderID)})
     if role == 'chef':
         conn.update_one(order, {'$set': {'status': 'cooking'}})
-        conn1 = MongoDB('ChefInfo').get_conn()
+        conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
         conn1.update_one(chef, {'$push': {'orderAccepted': ObjectId(orderID)}})
         conn3.update_one(order_detail, {'$set': {'kitchenPicked': pymongo.datetime.datetime.now()}})
     if role == 'delivery person':
         conn.update_one(order, {'$set': {'status': 'delivering'}})
-        conn2 = MongoDB('DeliveryPersonInfo').get_conn()
+        conn2 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn2.find_one({'userID': userID})
         conn2.update_one(delivery_person, {'$push': {'orderPicked': ObjectId(orderID)}})
         conn3.update_one(order_detail, {'$set': {'deliveryPicked': pymongo.datetime.datetime.now()}})
@@ -246,13 +245,13 @@ def pick_order():
 @app.route('/order_prepared', methods=['POST'])
 def order_prepared():
     orderID = request.form['orderID']
-    conn = MongoDB('Orders').get_conn()
+    conn = MongoDB(db, 'Orders').get_conn()
     order = conn.find_one({'_id': ObjectId(orderID)})
     if order['isDelivery'] == 'true':
         conn.update_one(order, {'$set': {'status': 'prepared'}})
     else:
         conn.update_one(order, {'$set': {'status': 'finished'}})
-    conn1 = MongoDB('OrderDetail').get_conn()
+    conn1 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn1.find_one({'_id': ObjectId(orderID)})
     conn1.update_one(order_detail, {'$set': {'kitchenFinished': pymongo.datetime.datetime.now()}})
 
@@ -261,14 +260,14 @@ def order_prepared():
 def order_delivered():
     userID = request.form['userID']
     orderID = request.form['orderID']
-    conn = MongoDB('Orders').get_conn()
+    conn = MongoDB(db, 'Orders').get_conn()
     order = conn.find_one({'_id': ObjectId(orderID)})
     conn.update_one(order, {'$set': {'status': 'finished'}})
-    conn1 = MongoDB('DeliveryPersonInfo').get_conn()
+    conn1 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
     delivery_person = conn1.find_one({'userID': userID})
     conn1.update(delivery_person, {'$pull': {'orderPicked': ObjectId(orderID)}})
     conn1.update(delivery_person, {'$push', {'orderDelivered': ObjectId(orderID)}})
-    conn2 = MongoDB('OrderDetail').get_conn()
+    conn2 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn2.find_one({'_id': ObjectId(orderID)})
     conn2.update_one(order_detail, {'$set': {'delivered ': pymongo.datetime.datetime.now()}})
 
@@ -276,7 +275,7 @@ def order_delivered():
 @app.route('/get_orderDetail', methods=['POST'])
 def get_order_detail():
     orderID = request.form['orderID']
-    conn = MongoDB('OrderDetail').get_conn()
+    conn = MongoDB(db,'OrderDetail').get_conn()
     order_detail = conn.find_one({'orderID': orderID})
     order_detail['_id'] = str(order_detail['_id'])
     return order_detail
@@ -286,9 +285,9 @@ def get_order_detail():
 def get_info():
     role = request.form['role']
     if role == 'Customer' or role == 'VIP':
-        conn = MongoDB('UserInfo').get_conn()
+        conn = MongoDB(db, 'UserInfo').get_conn()
     else:
-        conn = MongoDB('StaffBasicInfo').get_conn()
+        conn = MongoDB(db, 'StaffBasicInfo').get_conn()
     print(role)
     print(request.form['userID'])
     user = conn.find_one({'userID': request.form['userID']})
@@ -298,22 +297,24 @@ def get_info():
 
 @app.route('/update_info', methods=['POST'])
 def update_info():
-    role = request.form['role']
+    update = request.get_json(force=True)
+    role = update['role']
+    userID = update['userID']
+    del update['role']
     if role == 'customer':
-        conn = MongoDB('UserInfo').get_conn()
+        conn = MongoDB(db, 'UserInfo').get_conn()
     else:
-        conn = MongoDB('StaffBasicInfo').get_conn()
-    user = conn.find_one({'userID': request.form['userID']})
-    update = request.get_json()
+        conn = MongoDB(db, 'StaffBasicInfo').get_conn()
+    user = conn.find_one({'userID': userID})
     conn.replace_one(user, update)
 
 
 @app.route('/get_discussionHeads', methods=['POST'])
 def get_discussionHeads():
     userID = request.form['userID']
-    conn1 = MongoDB('UserInfoDetail').get_conn()
-    conn2 = MongoDB('DiscussionHead').get_conn()
-    conn3 = MongoDB('DiscussionRelied').get_conn()
+    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+    conn2 = MongoDB(db, 'DiscussionHead').get_conn()
+    conn3 = MongoDB(db, 'DiscussionRelied').get_conn()
     user = conn1.find_one({'userID': userID})
     create = []
     for createdDiscussion in user['discussionCreated']:
@@ -338,11 +339,11 @@ def get_discussionHeads():
 
 @app.route('/new_discussion', methods=['POST'])
 def create_new_discussion():
-    head = request.get_json()
+    head = request.get_json(force=True)
     userID = head['userID']
-    conn = MongoDB('DiscussionHead').get_conn()
+    conn = MongoDB(db, 'DiscussionHead').get_conn()
     id = conn.insert_one(head)
-    conn1 = MongoDB('UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'discussionCreated': id}})
 
@@ -350,7 +351,7 @@ def create_new_discussion():
 @app.route('/get_replies', methods=['POST'])
 def get_all_replies():
     discussion_head_id = request.form['_id']
-    conn = MongoDB('DiscussionReplied').get_conn()
+    conn = MongoDB(db, 'DiscussionReplied').get_conn()
     replies = []
     for reply in conn.find({'_id': ObjectId(discussion_head_id)}):
         reply['_id'] = str(reply['_id'])
@@ -360,12 +361,12 @@ def get_all_replies():
 
 @app.route('/reply_discussion', methods=['POST'])
 def reply_discussion():
-    reply = request.get_json()
+    reply = request.get_json(force=True)
     userID = reply['userID']
     reply['targetDiscussion'] = ObjectId(reply['targetDiscussion'])
-    conn = MongoDB('DiscussionReplied').get_conn()
+    conn = MongoDB(db, 'DiscussionReplied').get_conn()
     id = conn.insert_one(reply)
-    conn1 = MongoDB('UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'discussionReplied': id}})
 
@@ -373,7 +374,7 @@ def reply_discussion():
 @app.route('/get_filedComplaint', methods=['POST'])
 def complaint_filed():
     userID = request.form['userID']
-    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     complaints = []
     for complaint in conn.find({'fromID': userID, 'isComplaint': 'true'}):
         complaint['_id'] = str(complaint['_id'])
@@ -383,11 +384,11 @@ def complaint_filed():
 
 @app.route('/fileComplaintAndCompliment', methods=['POST'])
 def new_complaint_or_compliment():
-    complaint_or_compliment = request.get_json()
+    complaint_or_compliment = request.get_json(force=True)
     userID = complaint_or_compliment['fromID']
-    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     id = conn.insert_one(complaint_or_compliment)
-    conn1 = MongoDB('UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     if complaint_or_compliment['isComplaint'] == 'true':
         conn1.update_one(user, {'$push': {'complaintFiled': id}})
@@ -398,7 +399,7 @@ def new_complaint_or_compliment():
 @app.route('/get_filedCompliment', methods=['POST'])
 def compliment_filed():
     userID = request.form['userID']
-    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     compliments = []
     for compliment in conn.find({'fromID': userID, 'isComplaint': 'false'}):
         compliment['_id'] = str(compliment['_id'])
@@ -410,12 +411,12 @@ def compliment_filed():
 def complaint_received():
     userID = request.form['userID']
     role = request.form['role']
-    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db,'ComplaintsAndCompliments').get_conn()
     complaints = []
     if role == 'chef' or role == 'delivery person':
-        conn1 = MongoDB('StaffPerformance').get_conn()
+        conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
-        conn1 = MongoDB('UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     for id in user['complaintReceived']:
         complaint = conn.find_one({'_id': id})
@@ -428,12 +429,12 @@ def complaint_received():
 def compliment_received():
     userID = request.form['userID']
     role = request.form['role']
-    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     compliments = []
     if role == 'chef' or role == 'delivery person':
-        conn1 = MongoDB('StaffPerformance').get_conn()
+        conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
-        conn1 = MongoDB('UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     for id in user['complimentReceived']:
         compliment = conn.find_one({'_id': id})
@@ -451,12 +452,12 @@ def dispute_complaint():
     new_dispute_complaint = {'complaintID': ObjectId(complaintID),
                              'userID': userID,
                              'context': context}
-    conn = MongoDB('ComplaintDispute').get_conn()
+    conn = MongoDB(db, 'ComplaintDispute').get_conn()
     id = conn.insert_one(new_dispute_complaint)
     if role == 'chef' or role == 'delivery person':
-        conn1 = MongoDB('StaffPerformance').get_conn()
+        conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
-        conn1 = MongoDB('UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'complaintDisputed': id}})
 
@@ -465,7 +466,7 @@ def dispute_complaint():
 def get_dispute_complaint():
     userID = request.form['userID']
     dispute = []
-    conn = MongoDB('ComplaintDispute').get_conn()
+    conn = MongoDB(db, 'ComplaintDispute').get_conn()
     for complaintDisputed in conn.find({'userID': userID}):
         complaintDisputed['_id'] = str(complaintDisputed['_id'])
         dispute.append(complaintDisputed)
@@ -476,10 +477,10 @@ def get_dispute_complaint():
 def search():
     keyword = request.form['keyword']
     userID = request.form['userID']
-    conn1 = MongoDB('UserInfo').get_conn()
+    conn1 = MongoDB(db, 'UserInfo').get_conn()
     user = conn1.find({'userID': userID})
-    conn2 = MongoDB('Menu').get_conn()
-    conn3 = MongoDB('Dish').get_conn()
+    conn2 = MongoDB(db, 'Menu').get_conn()
+    conn3 = MongoDB(db, 'Dish').get_conn()
     dishes = []
     if user['userRole'] != 'VIP':
         for menu in conn2.find({'isSpecial': 'false'}):
@@ -505,13 +506,13 @@ def rating():
                   'customerID': userID,
                   'ratingDate': pymongo.datetime.datetime.now(),
                   'rating': point}
-    conn = MongoDB('UserRating').get_conn()
+    conn = MongoDB(db, 'UserRating').get_conn()
     ratingID = conn.insert_one(new_rating)
-    conn1 = MongoDB('UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     if ObjectId(dishID) not in user['dishRated']:
         conn1.update_one(user, {'$push': {'dishRated': ObjectId(dishID)}})
-    conn2 = MongoDB('Dish').get_conn()
+    conn2 = MongoDB(db, 'Dish').get_conn()
     dish = conn2.find_one({'_id': ObjectId(dishID)})
     n = len(dish['ratings'])
     new_point = (dish['digitRating'] * n + point) / (n + 1)
@@ -522,7 +523,7 @@ def rating():
 @app.route('/NewCustomerRequest', methods=['POST'])
 def new_customer_request():
     email = request.form['email']
-    conn = MongoDB('NewCustomerRequest').get_conn()
+    conn = MongoDB(db, 'NewCustomerRequest').get_conn()
     if conn.find_one({'requesterEmail': email}) is None:
         new = {'requesterEmail': email,
                'requestDate': pymongo.datetime.datetime.now(),
@@ -532,7 +533,7 @@ def new_customer_request():
 
 @app.route('/get_NewCustomerRequest', methods=['POST'])
 def get_new_customer_request():
-    conn = MongoDB('NewCustomerRequest').get_conn()
+    conn = MongoDB(db, 'NewCustomerRequest').get_conn()
     waiting = []
     handled = []
     for customer_request in conn.find():
@@ -548,10 +549,10 @@ def get_new_customer_request():
 @app.route('/handle_NewCustomer', methods=['POST'])
 def handle_new_customer():
     requesterEmail = request.form['requesterEmail']
-    conn = MongoDB('NewCustomerRequest').get_conn()
+    conn = MongoDB(db, 'NewCustomerRequest').get_conn()
     requester = conn.find_one({'requesterEmail': requesterEmail})
     conn.update_one(requester, {'$set': {'isHandle': 'true'}})
-    conn1 = MongoDB('HandleNewCustomer').get_conn()
+    conn1 = MongoDB(db, 'HandleNewCustomer').get_conn()
     staffID = request.form['staffID']
     determination = request.form['determination']
     userID = request.form['userID']
@@ -566,9 +567,9 @@ def handle_new_customer():
 def delete_dish():
     dishID = request.form['dishID']
     menu_name = request.form['menu']
-    conn = MongoDB('Dish').get_conn()
+    conn = MongoDB(db, 'Dish').get_conn()
     conn.delete_one({'_id': ObjectId(dishID)})
-    conn1 = MongoDB('Menu').get_conn()
+    conn1 = MongoDB(db, 'Menu').get_conn()
     menu = conn1.find_one({'title': menu_name})
     conn1.update_one(menu, {'$pull': {'dishes': ObjectId(dishID)}})
 
@@ -577,18 +578,18 @@ def delete_dish():
 def add_dish():
     newdish = request.form['dish']
     menu_name = request.form['menu']
-    conn = MongoDB('Dish').get_conn()
+    conn = MongoDB(db, 'Dish').get_conn()
     dishID = conn.insert_one(newdish)
-    conn1 = MongoDB('Menu').get_conn()
+    conn1 = MongoDB(db, 'Menu').get_conn()
     menu = conn1.find_one({'title': menu_name})
-    conn1.update_one(menu, {'$push': {'dishes': ObjectId(dishID)}})
+    conn1.update_one(menu, {'$push': {'dishes': dishID}})
 
 
 @app.route('/update_dish', methods=['POST'])
 def update_dish():
     dish = request.form['dish']
     dish['_id'] = ObjectId(dish['_id'])
-    conn = MongoDB('Dish').get_conn()
+    conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
     conn.replace_one(old_dish, dish)
 
@@ -598,16 +599,16 @@ def handle_ComplaintAndCompliment():
     userID = request.form['userID']
     complaintID = request.form['complaintID']
     determination = request.form['determination']
-    conn = MongoDB('ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     complaint = conn.find_one({'_id': ObjectId(complaintID)})
     conn.update_one(complaint, {'$set': {'status': determination,
                                          'finalizedDate': pymongo.datetime.datetime.now(),
                                          'reviewBy': userID}})
     if determination == 'accept':
         userID = complaint['toID']
-        conn1 = MongoDB('UserLogin').get_conn()
-        conn2 = MongoDB('StaffPerformance').get_conn()
-        conn3 = MongoDB('UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserLogin').get_conn()
+        conn2 = MongoDB(db, 'StaffPerformance').get_conn()
+        conn3 = MongoDB(db, 'UserInfoDetail').get_conn()
         user = conn1.find_one({'userID': userID})
         if complaint['isComplaint'] == 'true':
             if user['role'] == 'chef' or user['role'] == 'delivery person':
