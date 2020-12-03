@@ -152,7 +152,7 @@ def get_orders():
         return jsonify({'result': {'orderPicked': pick,
                                    'orderDelivered': delivered}})
     else:
-        conn4 = MongoDB(db, 'UserInfoDetail').get_conn()
+        conn4 = MongoDB(db, 'UserInforDetail').get_conn()
         waiting = []
         finished = []
         for order in conn.find({'customerID': userID}):
@@ -222,7 +222,7 @@ def place_order():
                                          'spent': update_spent}})
         conn3 = MongoDB(db, 'Orders').get_conn()
         id = conn3.insert_one(order)
-        conn4 = MongoDB(db, 'UserInfoDetail').get_conn()
+        conn4 = MongoDB(db, 'UserInforDetail').get_conn()
         user_detail = conn4.find_one({'userID': userID})
         conn4.update_one(user_detail, {'$push': {'orders': id}})
         conn5 = MongoDB(db, 'OrderDetail').get_conn()
@@ -364,7 +364,7 @@ def create_new_discussion():
     userID = head['userID']
     conn = MongoDB(db, 'DiscussionHead').get_conn()
     id = conn.insert_one(head)
-    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'discussionCreated': id}})
 
@@ -388,7 +388,7 @@ def reply_discussion():
     reply['targetDiscussion'] = ObjectId(reply['targetDiscussion'])
     conn = MongoDB(db, 'DiscussionReplied').get_conn()
     id = conn.insert_one(reply)
-    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'discussionReplied': id}})
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
@@ -413,7 +413,7 @@ def new_complaint_or_compliment():
     userID = complaint_or_compliment['fromID']
     conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     id = conn.insert_one(complaint_or_compliment)
-    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     if complaint_or_compliment['isComplaint'] == 'true':
         conn1.update_one(user, {'$push': {'complaintFiled': id}})
@@ -441,7 +441,7 @@ def complaint_received():
     if role == 'chef' or role == 'delivery person':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
-        conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     for id in user['complaintReceived']:
         complaint = conn.find_one({'_id': id})
@@ -459,7 +459,7 @@ def compliment_received():
     if role == 'chef' or role == 'delivery person':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
-        conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     for id in user['complimentReceived']:
         compliment = conn.find_one({'_id': id})
@@ -482,7 +482,7 @@ def dispute_complaint():
     if role == 'chef' or role == 'delivery person':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
-        conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+        conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'complaintDisputed': id}})
 
@@ -533,7 +533,7 @@ def rating():
                   'rating': point}
     conn = MongoDB(db, 'UserRating').get_conn()
     ratingID = conn.insert_one(new_rating)
-    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     if ObjectId(dishID) not in user['dishRated']:
         conn1.update_one(user, {'$push': {'dishRated': ObjectId(dishID)}})
@@ -633,7 +633,7 @@ def handle_ComplaintAndCompliment():
         userID = complaint['toID']
         conn1 = MongoDB(db, 'UserLogin').get_conn()
         conn2 = MongoDB(db, 'StaffPerformance').get_conn()
-        conn3 = MongoDB(db, 'UserInfoDetail').get_conn()
+        conn3 = MongoDB(db, 'UserInforDetail').get_conn()
         user = conn1.find_one({'userID': userID})
         if complaint['isComplaint'] == 'true':
             if user['role'] == 'chef' or user['role'] == 'delivery person':
