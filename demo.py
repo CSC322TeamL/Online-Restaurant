@@ -111,7 +111,7 @@ def get_orders():
     userID = request.form['userID']
     role = request.form['role']
     conn = MongoDB(db, 'Orders').get_conn()
-    if role == 'chef':
+    if role == 'Chef':
         conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
         cooking = []
