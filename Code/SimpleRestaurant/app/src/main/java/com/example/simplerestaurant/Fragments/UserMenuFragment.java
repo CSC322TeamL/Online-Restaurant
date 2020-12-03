@@ -12,10 +12,14 @@ import androidx.fragment.app.Fragment;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
+import com.example.simplerestaurant.beans.MenuBean;
+import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,6 +33,7 @@ public class UserMenuFragment extends Fragment {
     private OkHttpClient client;
     private String userID, userType;
     private UserMenuFragmentInterface menuListener;
+    private ArrayList<MenuBean> menuList;
 
     public UserMenuFragment(UserMenuFragmentInterface menuListener){
         super(R.layout.fragment_user_main_menu);
@@ -46,6 +51,7 @@ public class UserMenuFragment extends Fragment {
         Log.i("menu", "Fragment called");
         client = UnitTools.getOkHttpClient();
         if(null != menuListener){
+            // call the activity to get the menu info from server
             menuListener.getMenuFromServer(userID);
         }
     }
@@ -54,7 +60,27 @@ public class UserMenuFragment extends Fragment {
         menuListener = listener;
     }
 
+    /**
+     * semi callback function to receive the data from server
+     * @param res
+     */
     public void menuResponse(String res){
-        Log.i("menu", res);
+        //Log.i("menu", res);
+        convertJson2MenuList(res);
+    }
+
+    /**
+     * take in the json res and return the list of menuBean objects
+     * @param res the response from server, should be in json format
+     * @return
+     */
+    private ArrayList<MenuBean> convertJson2MenuList(String res){
+        // get the type of the array
+        Type menuListType = new TypeToken<ArrayList<MenuBean>>(){}.getType();
+        // converting
+        menuList = UnitTools.getGson().fromJson(res, menuListType);
+        Log.i("menu", menuList.toString());
+
+        return menuList;
     }
 }
