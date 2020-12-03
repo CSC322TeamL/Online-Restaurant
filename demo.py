@@ -88,7 +88,8 @@ def get_menu():
             dish = conn2.find_one({'_id': dishid})
             dish['_id'] = str(dish['_id'])
             dishes.append(dish)
-        output[name] = dishes
+        output['title'] = name
+        output['dishes'] = dishes
         result.append(output)
     print(result)
     return jsonify(result)
@@ -111,7 +112,8 @@ def get_orders():
     userID = request.form['userID']
     role = request.form['role']
     conn = MongoDB(db, 'Orders').get_conn()
-    if role == 'Chef':
+    conn2 = MongoDB(db, 'Dish').get_conn()
+    if role == 'chef':
         conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
         cooking = []
@@ -119,6 +121,9 @@ def get_orders():
         for id in chef['orderAccepted']:
             order = conn.find_one({'_id': id})
             order['_id'] = str(order['_id'])
+            for dish_detail in order['dishDetail']:
+                dish = conn2.find_one({'_id': dish_detail['dishID']})
+                dish_detail['dishID'] = dish['title']
             if order['status'] == 'cooking':
                 cooking.append(order)
             else:
@@ -134,21 +139,28 @@ def get_orders():
         for id in delivery_person['orderPicked']:
             order = conn.find_one({'_id': id})
             order['_id'] = str(order['_id'])
+            for dish_detail in order['dishDetail']:
+                dish = conn2.find_one({'_id': dish_detail['dishID']})
+                dish_detail['dishID'] = dish['title']
             pick.append(order)
         for id in delivery_person['orderDelivered']:
             order = conn.find_one({'_id': id})
             order['_id'] = str(order['_id'])
-            pick.append(order)
+            for dish_detail in order['dishDetail']:
+                dish = conn2.find_one({'_id': dish_detail['dishID']})
+                dish_detail['dishID'] = dish['title']
+            delivered.append(order)
         return jsonify({'result': {'orderPicked': pick,
                                    'orderDelivered': delivered}})
     else:
         conn4 = MongoDB(db, 'UserInfoDetail').get_conn()
-        customer = conn4.find_one({'userID': userID})
         waiting = []
         finished = []
-        for id in customer['orders']:
-            order = conn.find_one({'_id': id})
+        for order in conn.find({'customerID': userID}):
             order['_id'] = str(order['_id'])
+            for dish_detail in order['dishDetail']:
+                dish = conn2.find_one({'_id': dish_detail['dishID']})
+                dish_detail['dishID'] = dish['title']
             if order['status'] == 'finished':
                 finished.append(order)
             else:
@@ -161,16 +173,23 @@ def get_orders():
 def uncompleted_order():
     role = request.form['role']
     conn = MongoDB(db, 'Orders').get_conn()
+    conn2 = MongoDB(db, 'Dish').get_conn()
     if role == 'chef':
         waiting = []
         for order in conn.find({'status': 'waiting'}):
             order['_id'] = str(order['_id'])
+            for dish_detail in order['dishDetail']:
+                dish = conn2.find_one({'_id': dish_detail['dishID']})
+                dish_detail['dishID'] = dish['title']
             waiting.append(order)
         return jsonify({'result': {'waiting': waiting}})
     elif role == 'delivery person':
         prepared = []
         for order in conn.find({'status': 'prepared'}):
             order['_id'] = str(order['_id'])
+            for dish_detail in order['dishDetail']:
+                dish = conn2.find_one({'_id': dish_detail['dishID']})
+                dish_detail['dishID'] = dish['title']
             prepared.append(order)
         return jsonify({'result': {'prepared': prepared}})
 
@@ -316,21 +335,22 @@ def get_discussionHeads():
     conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
     conn3 = MongoDB(db, 'DiscussionRelied').get_conn()
-    user = conn1.find_one({'userID': userID})
     create = []
-    for createdDiscussion in user['discussionCreated']:
-        discussion = conn2.find_one({'_id': createdDiscussion})
-        discussion['_id'] = str(discussion['_id'])
-        create.append(discussion)
     reply = []
-    for repliedDiscussion in user['discussionReplied']:
-        discussion = conn3.find_one({'_id': repliedDiscussion})
-        discussionHead = conn2.find_one({'_id': discussion['targetDiscussion']})
-        discussionHead['_id'] = str(discussionHead['_id'])
-        if discussionHead not in reply:
-            reply.append(discussionHead)
+    if userID != '-1':
+        user = conn1.find_one({'userID': userID})
+        for createdDiscussion in user['discussionCreated']:
+            discussion = conn2.find_one({'_id': createdDiscussion}, {"replies": 0})
+            discussion['_id'] = str(discussion['_id'])
+            create.append(discussion)
+        for repliedDiscussion in user['discussionReplied']:
+            discussion = conn3.find_one({'_id': repliedDiscussion})
+            discussionHead = conn2.find_one({'_id': discussion['targetDiscussion']}, {"replies": 0})
+            discussionHead['_id'] = str(discussionHead['_id'])
+            if discussionHead not in reply:
+                reply.append(discussionHead)
     all = []
-    for discussionHead in conn2.find():
+    for discussionHead in conn2.find({}, {"replies": 0}):
         discussionHead['_id'] = str(discussionHead['_id'])
         all.append(discussionHead)
     return jsonify({'result': {'discussionCreated': create,
@@ -351,11 +371,12 @@ def create_new_discussion():
 
 @app.route('/get_replies', methods=['POST'])
 def get_all_replies():
-    discussion_head_id = request.form['_id']
+    discussion_head_id = request.form['id']
     conn = MongoDB(db, 'DiscussionReplied').get_conn()
     replies = []
-    for reply in conn.find({'_id': ObjectId(discussion_head_id)}):
+    for reply in conn.find({'targetDiscussion': ObjectId(discussion_head_id)}):
         reply['_id'] = str(reply['_id'])
+        reply['targetDiscussion'] = str(reply['targetDiscussion'])
         replies.append(reply)
     return jsonify({'result': replies})
 
@@ -370,6 +391,9 @@ def reply_discussion():
     conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'discussionReplied': id}})
+    conn2 = MongoDB(db, 'DiscussionHead').get_conn()
+    head = conn2.find_one({'_id': reply['targetDiscussion']})
+    conn2.update_one(head, {'$push': {'replies': id}})
 
 
 @app.route('/get_filedComplaint', methods=['POST'])
