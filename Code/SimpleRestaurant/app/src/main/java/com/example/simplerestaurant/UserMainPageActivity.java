@@ -14,6 +14,7 @@ import com.example.simplerestaurant.Fragments.UserAccountFragment;
 import com.example.simplerestaurant.Fragments.UserDiscussionFragment;
 import com.example.simplerestaurant.Fragments.UserMenuFragment;
 import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
+import com.example.simplerestaurant.Interfaces.UserDiscussionFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,7 +29,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class UserMainPageActivity extends BaseActivity implements UserMenuFragmentInterface, UserAccountFragmentInterface {
+public class UserMainPageActivity extends BaseActivity implements UserMenuFragmentInterface
+        , UserAccountFragmentInterface
+        , UserDiscussionFragmentInterface {
 
     final private static String MENU_TAG = "fragment_user_menu";
     final private static String ORDER_TAG = "fragment_user_order";
@@ -152,7 +155,11 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                     break;
                 case DISC_TAG:
                     if(null == userDiscussionFragment){
-                        userDiscussionFragment = new UserDiscussionFragment();
+                        userDiscussionFragment = new UserDiscussionFragment(this);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userType", userType);
+                        bundle.putString("userID", userID);
+                        userDiscussionFragment.setArguments(bundle);
                         if(!userDiscussionFragment.isAdded()){
                             fragmentManager.beginTransaction()
                                     .add(R.id.view_user_main_for_replace, userDiscussionFragment, DISC_TAG)
@@ -230,6 +237,32 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                     @Override
                     public void run() {
                         accInfoResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void getDiscussionFromServer(String userID) {
+        String url = getString(R.string.base_url) + "/get_discussionHeads";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                toastMessage("Cannot connect to server");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    final String res = response.body().string();
+                    @Override
+                    public void run() {
+                        Log.i("dis", res);
                     }
                 });
             }
