@@ -331,19 +331,19 @@ def update_info():
 @app.route('/get_discussionHeads', methods=['POST'])
 def get_discussionHeads():
     userID = request.form['userID']
-    conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
+    conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
     conn3 = MongoDB(db, 'DiscussionRelied').get_conn()
+    user = conn1.find_one({'userID': userID})
     create = []
     reply = []
-    if userID != '-1':
-        user = conn1.find_one({'userID': userID})
+    if user is not None:
         for createdDiscussion in user['discussionCreated']:
-            discussion = conn2.find_one({'_id': createdDiscussion}, {"replies": 0})
+            discussion = conn2.find_one({'_id': ObjectId(createdDiscussion)}, {"replies": 0})
             discussion['_id'] = str(discussion['_id'])
             create.append(discussion)
         for repliedDiscussion in user['discussionReplied']:
-            discussion = conn3.find_one({'_id': repliedDiscussion})
+            discussion = conn3.find_one({'_id': ObjectId(repliedDiscussion)})
             discussionHead = conn2.find_one({'_id': discussion['targetDiscussion']}, {"replies": 0})
             discussionHead['_id'] = str(discussionHead['_id'])
             if discussionHead not in reply:
@@ -355,6 +355,7 @@ def get_discussionHeads():
     return jsonify({'result': {'discussionCreated': create,
                                'discussionReplied': reply,
                                'allDiscussion': all}})
+
 
 
 @app.route('/new_discussion', methods=['POST'])
