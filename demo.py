@@ -296,6 +296,7 @@ def get_order_detail():
     conn = MongoDB(db,'OrderDetail').get_conn()
     order_detail = conn.find_one({'orderID': orderID})
     order_detail['_id'] = str(order_detail['_id'])
+    order_detail['orderID'] = str(order_detail['orderID'])
     return order_detail
 
 
@@ -411,6 +412,7 @@ def complaint_filed():
 @app.route('/fileComplaintAndCompliment', methods=['POST'])
 def new_complaint_or_compliment():
     complaint_or_compliment = request.get_json(force=True)
+    complaint_or_compliment['orderID'] = ObjectId(complaint_or_compliment['orderID'])
     userID = complaint_or_compliment['fromID']
     conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     id = conn.insert_one(complaint_or_compliment)
