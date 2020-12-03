@@ -510,20 +510,20 @@ def search():
     keyword = request.form['keyword']
     userID = request.form['userID']
     conn1 = MongoDB(db, 'UserInfo').get_conn()
-    user = conn1.find({'userID': userID})
+    user = conn1.find_one({'userID': userID})
     conn2 = MongoDB(db, 'Menu').get_conn()
     conn3 = MongoDB(db, 'Dish').get_conn()
     dishes = []
     if user['userRole'] != 'VIP':
         for menu in conn2.find({'isSpecial': 'false'}):
-            dishes.extend(menu['dish'])
+            dishes.extend(menu['dishes'])
     else:
         for menu in conn2.find():
-            dishes.extend(menu['dish'])
+            dishes.extend(menu['dishes'])
     output = []
     for dishid in dishes:
-        dish = conn3.find({'_id': dishid})
-        if keyword in dish['keyword'] or keyword in dish['title']:
+        dish = conn3.find_one({'_id': dishid})
+        if keyword in dish['keywords'] or keyword in dish['title']:
             dish['_id'] = str(dish['_id'])
             output.append(dish)
     return jsonify({'result': output})
