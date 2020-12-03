@@ -154,11 +154,9 @@ def get_orders():
                                    'orderDelivered': delivered}})
     else:
         conn4 = MongoDB(db, 'UserInfoDetail').get_conn()
-        customer = conn4.find_one({'userID': userID})
         waiting = []
         finished = []
-        for id in customer['orders']:
-            order = conn.find_one({'_id': id})
+        for order in conn.find({'customerID': userID}):
             order['_id'] = str(order['_id'])
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
@@ -337,19 +335,20 @@ def get_discussionHeads():
     conn1 = MongoDB(db, 'UserInfoDetail').get_conn()
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
     conn3 = MongoDB(db, 'DiscussionRelied').get_conn()
-    user = conn1.find_one({'userID': userID})
     create = []
-    for createdDiscussion in user['discussionCreated']:
-        discussion = conn2.find_one({'_id': createdDiscussion}, {"replies": 0})
-        discussion['_id'] = str(discussion['_id'])
-        create.append(discussion)
     reply = []
-    for repliedDiscussion in user['discussionReplied']:
-        discussion = conn3.find_one({'_id': repliedDiscussion})
-        discussionHead = conn2.find_one({'_id': discussion['targetDiscussion']}, {"replies": 0})
-        discussionHead['_id'] = str(discussionHead['_id'])
-        if discussionHead not in reply:
-            reply.append(discussionHead)
+    if userID != '-1':
+        user = conn1.find_one({'userID': userID})
+        for createdDiscussion in user['discussionCreated']:
+            discussion = conn2.find_one({'_id': createdDiscussion}, {"replies": 0})
+            discussion['_id'] = str(discussion['_id'])
+            create.append(discussion)
+        for repliedDiscussion in user['discussionReplied']:
+            discussion = conn3.find_one({'_id': repliedDiscussion})
+            discussionHead = conn2.find_one({'_id': discussion['targetDiscussion']}, {"replies": 0})
+            discussionHead['_id'] = str(discussionHead['_id'])
+            if discussionHead not in reply:
+                reply.append(discussionHead)
     all = []
     for discussionHead in conn2.find({}, {"replies": 0}):
         discussionHead['_id'] = str(discussionHead['_id'])
