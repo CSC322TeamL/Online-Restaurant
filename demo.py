@@ -72,7 +72,7 @@ def get_menu():
     conn1 = MongoDB(db, 'Menu').get_conn()
     conn2 = MongoDB(db, 'Dish').get_conn()
     result = []
-    if userid == -1:  # for surfer
+    if userid == "-1":  # for surfer
         menus = conn1.find({'isSpecial': 'false'})
     elif user is None:  # userID is id of a chef
         menus = conn1.find({'chefID': userid})
@@ -91,7 +91,6 @@ def get_menu():
         output['title'] = name
         output['dishes'] = dishes
         result.append(output)
-    print(result)
     return jsonify(result)
 
 
