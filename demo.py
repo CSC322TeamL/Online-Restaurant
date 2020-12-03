@@ -334,7 +334,7 @@ def get_discussionHeads():
     userID = request.form['userID']
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
-    conn3 = MongoDB(db, 'DiscussionRelied').get_conn()
+    conn3 = MongoDB(db, 'DiscussionReplied').get_conn()
     user = conn1.find_one({'userID': userID})
     create = []
     reply = []
