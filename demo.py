@@ -399,10 +399,11 @@ def reply_discussion():
 @app.route('/get_filedComplaint', methods=['POST'])
 def complaint_filed():
     userID = request.form['userID']
-    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     complaints = []
     for complaint in conn.find({'fromID': userID, 'isComplaint': 'true'}):
         complaint['_id'] = str(complaint['_id'])
+        complaint['orderID'] = str(complaint['orderID'])
         complaints.append(complaint)
     return jsonify({'result': complaints})
 
@@ -411,7 +412,7 @@ def complaint_filed():
 def new_complaint_or_compliment():
     complaint_or_compliment = request.get_json(force=True)
     userID = complaint_or_compliment['fromID']
-    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     id = conn.insert_one(complaint_or_compliment)
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
@@ -424,19 +425,20 @@ def new_complaint_or_compliment():
 @app.route('/get_filedCompliment', methods=['POST'])
 def compliment_filed():
     userID = request.form['userID']
-    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     compliments = []
     for compliment in conn.find({'fromID': userID, 'isComplaint': 'false'}):
         compliment['_id'] = str(compliment['_id'])
+        compliment['orderID'] = str(compliment['orderID'])
         compliments.append(compliment)
     return jsonify({'result': compliments})
 
 
-@app.route('/compliant', methods=['POST'])
+@app.route('/complaint', methods=['POST'])
 def complaint_received():
     userID = request.form['userID']
     role = request.form['role']
-    conn = MongoDB(db,'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db,'ComplaintsAndComplements').get_conn()
     complaints = []
     if role == 'chef' or role == 'delivery person':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
@@ -446,6 +448,7 @@ def complaint_received():
     for id in user['complaintReceived']:
         complaint = conn.find_one({'_id': id})
         complaint['_id'] = str(complaint['_id'])
+        complaint['orderID'] = str(complaint['orderID'])
         complaints.append(complaint)
     return jsonify({'result': complaints})
 
@@ -454,7 +457,7 @@ def complaint_received():
 def compliment_received():
     userID = request.form['userID']
     role = request.form['role']
-    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     compliments = []
     if role == 'chef' or role == 'delivery person':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
@@ -464,6 +467,7 @@ def compliment_received():
     for id in user['complimentReceived']:
         compliment = conn.find_one({'_id': id})
         compliment['_id'] = str(compliment['_id'])
+        compliment['orderID'] = str(compliment['orderID'])
         compliments.append(compliment)
     return jsonify({'result': compliments})
 
@@ -494,6 +498,7 @@ def get_dispute_complaint():
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
     for complaintDisputed in conn.find({'userID': userID}):
         complaintDisputed['_id'] = str(complaintDisputed['_id'])
+        complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
         dispute.append(complaintDisputed)
     return jsonify({'result': {'complaintDisputed': dispute}})
 
@@ -624,7 +629,7 @@ def handle_ComplaintAndCompliment():
     userID = request.form['userID']
     complaintID = request.form['complaintID']
     determination = request.form['determination']
-    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     complaint = conn.find_one({'_id': ObjectId(complaintID)})
     conn.update_one(complaint, {'$set': {'status': determination,
                                          'finalizedDate': pymongo.datetime.datetime.now(),
