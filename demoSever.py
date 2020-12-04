@@ -499,12 +499,17 @@ def new_complaint_or_compliment():
     id = conn.insert_one(complaint_or_compliment)
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
-    if complaint_or_compliment['isComplaint'] == 'true':
-        conn1.update_one(user, {'$push': {'complaintFiled': id}})
-    else:
-        conn1.update_one(user, {'$push': {'complimentFiled': id}})
+    if user is not None:    # user is a customer
+        if complaint_or_compliment['isComplaint'] == 'true':
+            conn1.update_one(user, {'$push': {'complaintFiled': id}})
+        else:
+            conn1.update_one(user, {'$push': {'complimentFiled': id}})
+    else:     # user is a delivery person
+        conn2 = MongoDB(db, 'StaffPerformance').get_conn()
+        deliver = conn2.find_one({'uesrID': userID})
+        conn2.update_one(deliver, {'$push': {'complaintFiled': id}})
 
-
+        
 @app.route('/get_filedCompliment', methods=['POST'])
 def compliment_filed():
     userID = request.form['userID']
