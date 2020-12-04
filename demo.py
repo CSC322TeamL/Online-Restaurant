@@ -703,5 +703,23 @@ def all_compliments():
                                'handled': handled}})
 
 
+# users should be de-registered
+# de-registration need to be handled by manager
+@app.route('/de-registration', methods=['POST'])
+def de_registration():
+    conn1 = MongoDB(db, 'UserInfo').get_conn()
+    conn2 = MongoDB(db, 'StaffPerformance').get_conn()
+    customer = []
+    staff = []
+    for user in conn1.find():
+        if user['warnings'] >= 3:
+            customer.append(user['userID'])
+    for user in conn2.find():
+        if user['demoted'] - user['promoted'] >= 3:
+            staff.append(user['userID'])
+    return jsonify({'customer': customer,
+                    'staff': staff})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
