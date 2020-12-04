@@ -659,7 +659,39 @@ def handle_ComplaintAndCompliment():
                     conn2.update_one(user_performance, {'$set': {'promoted': user_performance['promoted'] + 1}})
             else:
                 user_detail = conn3.find_one({'userID': userID})
-                conn3.update_one(user_detail, {'$push': {'complimentReceived': ObjectId(complaintID)}})
+                conn3.update_one(user_detail, {'$push': {'complimentReceived': ObjectId(complaintID)
+
+                
+@app.route('/all_complaints', methods=['POST'])
+def all_complaints():
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
+    waiting = []
+    handled = []
+    for complaint in conn.find({'isComplaint': 'true'}):
+        complaint['_id'] = str(complaint['_id'])
+        complaint['orderID'] = str(complaint['orderID'])
+        if complaint['status'] == 'waiting':
+            waiting.append(complaint)
+        else:
+            handled.append(complaint)
+    return jsonify({'result': {'waiting': waiting,
+                               'handled': handled}})
+
+
+@app.route('/all_compliments', methods=['POST'])
+def all_compliments():
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
+    waiting = []
+    handled = []
+    for compliment in conn.find({'isComplaint': 'false'}):
+        compliment['_id'] = str(compliment['_id'])
+        compliment['orderID'] = str(compliment['orderID'])
+        if compliment['status'] == 'waiting':
+            waiting.append(compliment)
+        else:
+            handled.append(compliment)
+    return jsonify({'result': {'waiting': waiting,
+                               'handled': handled}})
 
 
 if __name__ == "__main__":
