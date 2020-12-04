@@ -627,7 +627,7 @@ def handle_ComplaintAndCompliment():
     userID = request.form['userID']
     complaintID = request.form['complaintID']
     determination = request.form['determination']
-    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     complaint = conn.find_one({'_id': ObjectId(complaintID)})
     conn.update_one(complaint, {'$set': {'status': determination,
                                          'finalizedDate': pymongo.datetime.datetime.now(),
@@ -659,9 +659,18 @@ def handle_ComplaintAndCompliment():
                     conn2.update_one(user_performance, {'$set': {'promoted': user_performance['promoted'] + 1}})
             else:
                 user_detail = conn3.find_one({'userID': userID})
-                conn3.update_one(user_detail, {'$push': {'complimentReceived': ObjectId(complaintID)
-
-                
+                conn3.update_one(user_detail, {'$push': {'complimentReceived': ObjectId(complaintID)}})
+    if determination == 'warning':
+        conn4 = MongoDB(db, 'UserInfo').get_conn()
+        user = conn4.find_one({'userID': complaint['fromID']})
+        if user is not None:
+            warning = user['warnings'] + 1
+            if user['userRole'] == 'VIP' and warning >= 2:
+                warning -= 2
+                conn4.update_one(user, {'$set': {'userRole': 'demoted'}})
+            conn4.update_one(user, {'$set': {'warnings': warning}})
+        
+                                                 
 @app.route('/all_complaints', methods=['POST'])
 def all_complaints():
     conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
