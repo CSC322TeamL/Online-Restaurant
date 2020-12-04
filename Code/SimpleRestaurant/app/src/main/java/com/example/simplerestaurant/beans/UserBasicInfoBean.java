@@ -1,7 +1,5 @@
 package com.example.simplerestaurant.beans;
 
-import java.io.Serializable;
-
 public class UserBasicInfoBean {
     private String _id;
     private float balance;

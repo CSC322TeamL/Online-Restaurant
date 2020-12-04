@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.UserMenuListAdapter;
+import com.example.simplerestaurant.Interfaces.MenuAddCartInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
 import com.example.simplerestaurant.beans.DishBean;
+import com.example.simplerestaurant.beans.DishInCart;
 import com.example.simplerestaurant.beans.MenuBean;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,17 +35,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class UserMenuFragment extends Fragment {
+public class UserMenuFragment extends Fragment implements MenuAddCartInterface {
     private String userID, userType;
     private UserMenuFragmentInterface menuListener;
     private ArrayList<MenuBean> menuList;
     private RecyclerView menuRecycler;
     private UserMenuListAdapter menuAdapter;
     private ArrayList<UserMenuListBean> viewData;
+    private ArrayList<DishInCart> dishesInCart;
 
     public UserMenuFragment(UserMenuFragmentInterface menuListener){
         super(R.layout.fragment_user_main_menu);
         this.menuListener = menuListener;
+        dishesInCart = new ArrayList<DishInCart>();
     }
 
     @Override
@@ -55,6 +59,7 @@ public class UserMenuFragment extends Fragment {
         menuRecycler = (RecyclerView) view.findViewById(R.id.recycler_main_menu);
         viewData = new ArrayList<UserMenuListBean>(0);
         menuAdapter = new UserMenuListAdapter(viewData, userID, userType);
+        menuAdapter.setAddCartListener(this);
         menuRecycler.setAdapter(menuAdapter);
         menuRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -119,6 +124,22 @@ public class UserMenuFragment extends Fragment {
             }
         }
         return viewList;
+    }
+
+    @Override
+    public void dishAdd2Cart(DishInCart newDish) {
+        //if the dish is already in cart, then increase the count
+        for (DishInCart cartDish :
+                dishesInCart) {
+            if (cartDish.getDishID().equals(newDish.getDishID())){
+                cartDish.setQuantity(cartDish.getQuantity() + newDish.getQuantity());
+                Log.i("toCart", String.valueOf(cartDish.getQuantity()));
+                return;
+            }
+        }
+        // else, add to the list
+        dishesInCart.add(newDish);
+        Log.i("toCart", String.valueOf(newDish.getQuantity()));
     }
 
     public class UserMenuListBean{

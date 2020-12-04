@@ -11,14 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Fragments.UserMenuFragment;
+import com.example.simplerestaurant.Interfaces.MenuAddCartInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.beans.DishBean;
+import com.example.simplerestaurant.beans.DishInCart;
 
 import java.util.ArrayList;
 
 public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapter.MenuItemViewHolder> {
     private ArrayList<UserMenuFragment.UserMenuListBean> viewData;
     private String userType, userID;
+    private MenuAddCartInterface listener;
 
     public UserMenuListAdapter(ArrayList<UserMenuFragment.UserMenuListBean> viewData, String userID, String userType) {
         this.userID = userID;
@@ -29,6 +32,10 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
     public void setViewData(ArrayList<UserMenuFragment.UserMenuListBean> viewData){
         this.viewData = new ArrayList<UserMenuFragment.UserMenuListBean>(viewData);
     }
+
+    public void setAddCartListener(MenuAddCartInterface listener){
+        this.listener = listener;
+    }
     @NonNull
     @Override
     public UserMenuListAdapter.MenuItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,7 +45,7 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull UserMenuListAdapter.MenuItemViewHolder holder, int position) {
-        UserMenuFragment.UserMenuListBean viewItem = viewData.get(position);
+        final UserMenuFragment.UserMenuListBean viewItem = viewData.get(position);
         // bind the data to different view according to the type
         switch (viewItem.getType()){
             case UserMenuFragment.UserMenuListBean.TYPE_MENU:
@@ -54,9 +61,24 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
                 holder.getTvDishRatingCount().setText(String.valueOf(dish.getRatings().size()));
                 break;
         }
-        if(!userType.equals("Customer") && !userType.equals("VIP")){
+        if(userType.equals("Customer") || userType.equals("VIP")){
+            holder.getBtnAdd2Cart().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(null != listener){
+                        DishInCart newItem = new DishInCart();
+                        DishBean dish = viewItem.getDish();
+                        newItem.setDishID(dish.get_id());
+                        newItem.setQuantity(1);
+                        listener.dishAdd2Cart(newItem);
+                    }
+                }
+            });
+        } else {
+
             holder.getBtnAdd2Cart().setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override
