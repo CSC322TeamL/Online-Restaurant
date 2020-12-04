@@ -17,14 +17,13 @@ public class UserDiscussionFragment extends Fragment {
     private String userID, userType;
 
     public UserDiscussionFragment(UserDiscussionFragmentInterface listener){
-        super(R.layout.fragment_user_main_menu);
+        super(R.layout.fragment_user_main_discussion);
         this.listener = listener;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView greeting = (TextView) view.findViewById(R.id.greeting);
 
 
         Bundle bundle = getArguments();
@@ -32,7 +31,6 @@ public class UserDiscussionFragment extends Fragment {
         userID = bundle.getString("userID");
         userType = bundle.getString("userType");
 
-        greeting.setText("In Discussion");
         if(null != listener){
             listener.getDiscussionFromServer(userID);
         }
