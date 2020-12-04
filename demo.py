@@ -358,16 +358,56 @@ def get_discussionHeads():
                                'allDiscussion': all}})
 
 
-
 @app.route('/new_discussion', methods=['POST'])
 def create_new_discussion():
-    head = request.get_json(force=True)
+    head = request.get_json()
     userID = head['userID']
+    head['detail']['createDate'] = pymongo.datetime.datetime.now()
+    conn2 = MongoDB(db, 'Taboos').get_conn()
+    taboo_collection = conn2.find_one()
+    taboos = taboo_collection['text']
+    context = head['detail']['context']
+    words = context.split(' ')
+    count = 0
+    flag = 0
+    new_context = ""
+    for word in words:
+        for taboo in taboos:
+            if taboo in word:
+                flag = 1
+                count += 1
+                head['detail']['tabooIDs'].append(word)
+                for n in range(len(word)):
+                    context += "*"
+                break
+        if not flag:
+            new_context += word
+        flag = 0
+        new_context += " "    
+    if count > 0:
+        conn3 = MongoDB(db, 'UserInfo').get_conn()
+        user = conn3.find_one({'userID': userID})
+        warning = user['warnings'] + 1
+        if user['userRole'] == 'VIP' and warning >= 2:
+            warning -= 2
+            conn3.update_one(user, {'$set': {'userRole': 'Demoted'}})
+        conn3.update_one(user, {'$set': {'warnings': warning}})
+    if count >= 3:
+        head['detail']['status'] = 'false'
+    else:
+        head['detail']['status'] = 'true'
+    head['detail']['tabooCount'] = count
     conn = MongoDB(db, 'DiscussionHead').get_conn()
     id = conn.insert_one(head)
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
-    user = conn1.find_one({'userID': userID})
-    conn1.update_one(user, {'$push': {'discussionCreated': id}})
+    user_detail = conn1.find_one({'userID': userID})
+    conn1.update_one(user_detail, {'$push': {'discussionCreated': id}})
+    if count == 0:
+        return jsonify({'code': 0, 'content': 'success'})
+    elif count < 3:
+        return jsonify({'code': 1, 'content': 'warning'})
+    else:
+        return jsonify({'code': -1, 'content': 'block'})
 
 
 @app.route('/get_replies', methods=['POST'])
@@ -384,9 +424,44 @@ def get_all_replies():
 
 @app.route('/reply_discussion', methods=['POST'])
 def reply_discussion():
-    reply = request.get_json(force=True)
+    reply = request.get_json()
     userID = reply['userID']
     reply['targetDiscussion'] = ObjectId(reply['targetDiscussion'])
+    reply['detail']['createDate'] = pymongo.datetime.datetime.now()
+    conn2 = MongoDB(db, 'Taboos').get_conn()
+    taboo_collection = conn2.find_one()
+    taboos = taboo_collection['text']
+    context = reply['detail']['context']
+    words = context.split(' ')
+    count = 0
+    flag = 0
+    new_context = ""
+    for word in words:
+        for taboo in taboos:
+            if taboo in word:
+                flag = 1
+                count += 1
+                reply['detail']['tabooIDs'].append(word)
+                for n in range(len(word)):
+                    context += "*"
+                break
+        if not flag:
+            new_context += word
+        flag = 0
+        new_context += " "
+    if count > 0:
+        conn3 = MongoDB(db, 'UserInfo').get_conn()
+        user = conn3.find_one({'userID': userID})
+        warning = user['warnings'] + 1
+        if user['userRole'] == 'VIP' and warning >= 2:
+            warning -= 2
+            conn3.update_one(user, {'$set': {'userRole': 'Demoted'}})
+        conn3.update_one(user, {'$set': {'warnings': warning}})
+    if count >= 3:
+        reply['detail']['status'] = 'false'
+    else:
+        reply['detail']['status'] = 'true'
+    reply['detail']['tabooCount'] = count
     conn = MongoDB(db, 'DiscussionReplied').get_conn()
     id = conn.insert_one(reply)
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
@@ -395,6 +470,12 @@ def reply_discussion():
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
     head = conn2.find_one({'_id': reply['targetDiscussion']})
     conn2.update_one(head, {'$push': {'replies': id}})
+    if count == 0:
+        return jsonify({'code': 0, 'content': 'success'})
+    elif count < 3:
+        return jsonify({'code': 1, 'content': 'warning'})
+    else:
+        return jsonify({'code': -1, 'content': 'block'})
 
 
 @app.route('/get_filedComplaint', methods=['POST'])
