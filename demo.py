@@ -667,7 +667,7 @@ def handle_ComplaintAndCompliment():
             warning = user['warnings'] + 1
             if user['userRole'] == 'VIP' and warning >= 2:
                 warning -= 2
-                conn4.update_one(user, {'$set': {'userRole': 'demoted'}})
+                conn4.update_one(user, {'$set': {'userRole': 'Demoted'}})
             conn4.update_one(user, {'$set': {'warnings': warning}})
         
                                                  
