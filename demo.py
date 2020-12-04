@@ -458,13 +458,9 @@ def complaint_received():
 @app.route('/compliment', methods=['POST'])
 def compliment_received():
     userID = request.form['userID']
-    role = request.form['role']
     conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     compliments = []
-    if role == 'chef' or role == 'delivery person':
-        conn1 = MongoDB(db, 'StaffPerformance').get_conn()
-    else:
-        conn1 = MongoDB(db, 'UserInforDetail').get_conn()
+    conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     user = conn1.find_one({'userID': userID})
     for id in user['complimentReceived']:
         compliment = conn.find_one({'_id': id})
