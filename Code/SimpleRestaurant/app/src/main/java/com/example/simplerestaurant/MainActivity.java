@@ -47,6 +47,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         editUserName.setHint("Username");
         editPsw.setHint("Password");
 
+        editUserName.setText("0001");
+        editPsw.setText("u0001");
+
         buttonSubmit.setOnClickListener(this);
         textSurfer.setOnClickListener(this);
         textSignUp.setOnClickListener(this);

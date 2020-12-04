@@ -70,7 +70,7 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
                         DishBean dish = viewItem.getDish();
                         newItem.setDishID(dish.get_id());
                         newItem.setQuantity(1);
-                        listener.dishAdd2Cart(newItem);
+                        listener.dishAdd2Cart(newItem, dish.getTitle());
                     }
                 }
             });
