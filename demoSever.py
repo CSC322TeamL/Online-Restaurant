@@ -215,11 +215,11 @@ def place_order():
     order['discount'] = total * (1 - discount)
     order['createDate'] = datetime.datetime.now()
     order['status'] = 'waiting'
-    if user['balance'] >= order['totalCharged']:
-        update_spent = user['spent'] + order['totalCharged']
+    if user['balance'] >= order['orderCharged']:
+        update_spent = user['spent'] + order['orderCharged']
         if update_spent >= 500 and user['userRole'] == 'Customer':
             conn1.update_one(user, {'$set', {'userRole': 'VIP'}})
-        conn1.update_one(user, {'$set': {'balance': user['balance']-order['totalCharged'],
+        conn1.update_one(user, {'$set': {'balance': user['balance']-order['orderCharged'],
                                          'spent': update_spent}})
         conn3 = MongoDB(db, 'Orders').get_conn()
         id = conn3.insert_one(order)
