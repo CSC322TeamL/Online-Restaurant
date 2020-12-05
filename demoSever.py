@@ -222,7 +222,7 @@ def place_order():
         conn1.update_one(user, {'$set': {'balance': user['balance']-order['orderCharged'],
                                          'spent': update_spent}})
         conn3 = MongoDB(db, 'Orders').get_conn()
-        id = conn3.insert_one(order)
+        id = conn3.insert_one(order).inserted_id
         conn4 = MongoDB(db, 'UserInforDetail').get_conn()
         user_detail = conn4.find_one({'userID': userID})
         conn4.update_one(user_detail, {'$push': {'orders': id}})
@@ -399,7 +399,7 @@ def create_new_discussion():
         head['detail']['status'] = 'true'
     head['detail']['tabooCount'] = count
     conn = MongoDB(db, 'DiscussionHead').get_conn()
-    id = conn.insert_one(head)
+    id = conn.insert_one(head).inserted_id
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user_detail = conn1.find_one({'userID': userID})
     conn1.update_one(user_detail, {'$push': {'discussionCreated': id}})
@@ -464,7 +464,7 @@ def reply_discussion():
         reply['detail']['status'] = 'true'
     reply['detail']['tabooCount'] = count
     conn = MongoDB(db, 'DiscussionReplied').get_conn()
-    id = conn.insert_one(reply)
+    id = conn.insert_one(reply).inserted_id
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'discussionReplied': id}})
@@ -497,7 +497,7 @@ def new_complaint_or_compliment():
     complaint_or_compliment['orderID'] = ObjectId(complaint_or_compliment['orderID'])
     userID = complaint_or_compliment['fromID']
     conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
-    id = conn.insert_one(complaint_or_compliment)
+    id = conn.insert_one(complaint_or_compliment).inserted_id
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     if user is not None:    # user is a customer
@@ -567,7 +567,7 @@ def dispute_complaint():
                              'userID': userID,
                              'context': context}
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
-    id = conn.insert_one(new_dispute_complaint)
+    id = conn.insert_one(new_dispute_complaint).inserted_id
     if role == 'chef' or role == 'delivery person':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
@@ -622,7 +622,7 @@ def rating():
                   'ratingDate': pymongo.datetime.datetime.now(),
                   'rating': point}
     conn = MongoDB(db, 'UserRating').get_conn()
-    ratingID = conn.insert_one(new_rating)
+    ratingID = conn.insert_one(new_rating).inserted_id
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     if ObjectId(dishID) not in user['dishRated']:
@@ -694,7 +694,7 @@ def add_dish():
     newdish = request.form['dish']
     menu_name = request.form['menu']
     conn = MongoDB(db, 'Dish').get_conn()
-    dishID = conn.insert_one(newdish)
+    dishID = conn.insert_one(newdish).inserted_id
     conn1 = MongoDB(db, 'Menu').get_conn()
     menu = conn1.find_one({'title': menu_name})
     conn1.update_one(menu, {'$push': {'dishes': dishID}})
