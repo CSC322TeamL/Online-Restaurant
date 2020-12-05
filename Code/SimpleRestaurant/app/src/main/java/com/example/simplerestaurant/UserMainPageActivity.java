@@ -16,11 +16,15 @@ import com.example.simplerestaurant.Fragments.UserMenuFragment;
 import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserDiscussionFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
+import com.example.simplerestaurant.beans.DishInCart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -80,6 +84,10 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         setCurrentFragment(R.id.nav_user_main_menu);
     }
 
+    /**
+     * display different page base on which button in the bottom bar is clicked
+     * @param navID
+     */
     private void setCurrentFragment(int navID){
         switch (navID){
             case R.id.nav_user_main_menu:
@@ -118,6 +126,10 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
 
     }
 
+    /**
+     * handle the server response for getting the menu
+     * @param res
+     */
     private void menuResponse(String res){
         if(null == userMenuFragment){
             userMenuFragment = (UserMenuFragment) findFragmentByTag(MENU_TAG);
@@ -125,6 +137,10 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         userMenuFragment.menuResponse(res);
     }
 
+    /**
+     * handle the server response for getting user info
+     * @param res
+     */
     private void accInfoResponse(String res){
         if(null == userAccountFragment){
             userAccountFragment = (UserAccountFragment) findFragmentByTag(ACC_TAG);
@@ -132,6 +148,12 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         userAccountFragment.userInfoResponse(res);
     }
 
+    /**
+     * get the existing fragment by tag
+     * or create the new one if the fragment is not exist
+     * @param tag
+     * @return
+     */
     private Fragment findFragmentByTag(String tag){
         Fragment result = (Fragment) getSupportFragmentManager().findFragmentByTag(tag);
         if(null == result){
@@ -190,6 +212,11 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         return result;
     }
 
+    /**
+     * interface
+     * menu fragment use this to get the data from server
+     * @param uerID
+     */
     @Override
     public void getMenuFromServer(String uerID){
         String url = getString(R.string.base_url) + "/get_menu";
@@ -216,6 +243,12 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         });
     }
 
+    /**
+     * interface
+     * user account page use this to get the data from server
+     * @param userID
+     * @param userType
+     */
     @Override
     public void getUserInfoFromServer(String userID, String userType) {
         String url = getString(R.string.base_url) + "/get_info";
@@ -243,6 +276,11 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         });
     }
 
+    /**
+     * interface
+     * user discussion page use this to get the data from server
+     * @param userID
+     */
     @Override
     public void getDiscussionFromServer(String userID) {
         String url = getString(R.string.base_url) + "/get_discussionHeads";
@@ -267,5 +305,25 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                 });
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case UnitTools.REQUEST_USER_ORDER_CART:
+                if(null == data){
+                    return;
+                }
+                // get the change from the cart activity
+                String dishesInCartStr = data.getStringExtra("dishes");
+                Type listType = new TypeToken<ArrayList<DishInCart>>(){}.getType();
+                ArrayList<DishInCart> toFragment = UnitTools.getGson().fromJson(dishesInCartStr, listType);
+                // apply the change to menu fragment
+                if(null != userMenuFragment){
+                    userMenuFragment.setDishesInCart(toFragment);
+                }
+                break;
+        }
     }
 }

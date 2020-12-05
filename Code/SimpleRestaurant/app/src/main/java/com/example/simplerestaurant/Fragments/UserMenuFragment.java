@@ -130,7 +130,12 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
 
         return menuList;
     }
-    
+
+    /**
+     * prepare the object array for the recycler view
+     * @param menuList
+     * @return
+     */
     private ArrayList<UserMenuListBean> menus2ViewList(ArrayList<MenuBean> menuList){
         ArrayList<UserMenuListBean> viewList = new ArrayList<>();
         for(int i =0; i < menuList.size(); i++){
@@ -147,6 +152,11 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         return viewList;
     }
 
+    /**
+     * get dish price by dishID
+     * @param dishID
+     * @return
+     */
     private float getDishPrice(String dishID){
         for (UserMenuListBean dish :
                 viewData) {
@@ -157,6 +167,10 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         return 0;
     }
 
+    /**
+     * prepare the order bean that being passed to the order activity
+     * @return
+     */
     private OrderBean processOrder(){
         float sum = 0;
         for (DishInCart cartDish:
@@ -170,6 +184,22 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         return newOrder;
     }
 
+    /**
+     * this is used to update the dishInCart
+     * when change is made in the order cart activity
+     * @param newList
+     */
+    public void setDishesInCart(ArrayList<DishInCart> newList){
+        this.dishesInCart = newList;
+    }
+
+    /**
+     * implementing interface
+     * when a dish is added or its quantity changes
+     * this interface will notify the fragment to update the change
+     * @param newDish
+     * @param dishName
+     */
     @Override
     public void dishAdd2Cart(DishInCart newDish, String dishName) {
         //if the dish is already in cart, then increase the count
@@ -196,7 +226,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
             Intent intent = new Intent(getActivity(), UserOrderCartActivity.class);
             intent.putExtra("order",order);
             intent.putExtra("dishes", dishes);
-            startActivity(intent);
+            startActivityForResult(intent, UnitTools.REQUEST_USER_ORDER_CART);
         }
     }
 

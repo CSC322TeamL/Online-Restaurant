@@ -13,6 +13,8 @@ public class UnitTools {
     private static OkHttpClient client;
     private static Gson gson;
 
+    public final static int REQUEST_USER_ORDER_CART = 11;
+
     public final static String TYPE_JSON = "application/json";
 
     public static boolean isValidEmail(String email){

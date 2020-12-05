@@ -47,6 +47,8 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
     private ImageButton imgbtnBack, imgbtnEmpty;
     private Button btnPlace;
 
+    private String activityResultKey = "dishes";
+
     private View afterSubmit, orderFroze, orderSuccess;
 
     private OrderBean currentOrder;
@@ -180,6 +182,18 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
                 orderCartListAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    /**
+     * override the finish call to prepare the result
+     */
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        String returnStr = UnitTools.getGson().toJson(currentOrder.getDishDetail());
+        intent.putExtra(activityResultKey, returnStr);
+        setResult(UnitTools.REQUEST_USER_ORDER_CART, intent);
+        super.finish();
     }
 
     @Override
