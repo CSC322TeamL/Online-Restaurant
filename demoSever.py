@@ -1,4 +1,5 @@
 import pymongo
+import datatime
 from bson import ObjectId
 from flask import Flask, jsonify, request
 from flask_restful import Api
@@ -212,7 +213,7 @@ def place_order():
     order['orderTotal'] = total
     order['orderCharged'] = total * discount
     order['discount'] = total * (1 - discount)
-    order['createDate'] = pymongo.datetime.datetime.now()
+    order['createDate'] = datetime.datetime.now()
     order['status'] = 'waiting'
     if user['balance'] >= order['totalCharged']:
         update_spent = user['spent'] + order['totalCharged']
@@ -227,7 +228,7 @@ def place_order():
         conn4.update_one(user_detail, {'$push': {'orders': id}})
         conn5 = MongoDB(db, 'OrderDetail').get_conn()
         order_detail = {'orderID': id,
-                        'paymentCharge': pymongo.datetime.datetime.now()
+                        'paymentCharge': datetime.datetime.now()
                         }
         conn5.insert_one(order_detail)
         if len(user_detail['orders']) >= 50 and user['userRole'] == 'Customer':
@@ -257,7 +258,7 @@ def pick_order():
         conn2 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn2.find_one({'userID': userID})
         conn2.update_one(delivery_person, {'$push': {'orderPicked': ObjectId(orderID)}})
-        conn3.update_one(order_detail, {'$set': {'deliveryPicked': pymongo.datetime.datetime.now()}})
+        conn3.update_one(order_detail, {'$set': {'deliveryPicked': datetime.datetime.now()}})
 
 
 @app.route('/order_prepared', methods=['POST'])
@@ -271,7 +272,7 @@ def order_prepared():
         conn.update_one(order, {'$set': {'status': 'finished'}})
     conn1 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn1.find_one({'_id': ObjectId(orderID)})
-    conn1.update_one(order_detail, {'$set': {'kitchenFinished': pymongo.datetime.datetime.now()}})
+    conn1.update_one(order_detail, {'$set': {'kitchenFinished': datetime.datetime.now()}})
 
 
 @app.route('/order_delivered', methods=['POST'])
@@ -287,7 +288,7 @@ def order_delivered():
     conn1.update(delivery_person, {'$push', {'orderDelivered': ObjectId(orderID)}})
     conn2 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn2.find_one({'_id': ObjectId(orderID)})
-    conn2.update_one(order_detail, {'$set': {'delivered ': pymongo.datetime.datetime.now()}})
+    conn2.update_one(order_detail, {'$set': {'delivered ': datetime.datetime.now()}})
 
 
 @app.route('/get_orderDetail', methods=['POST'])
@@ -362,7 +363,7 @@ def get_discussionHeads():
 def create_new_discussion():
     head = request.get_json()
     userID = head['userID']
-    head['detail']['createDate'] = pymongo.datetime.datetime.now()
+    head['detail']['createDate'] = datetime.datetime.now()
     conn2 = MongoDB(db, 'Taboos').get_conn()
     taboo_collection = conn2.find_one()
     taboos = taboo_collection['text']
@@ -427,7 +428,7 @@ def reply_discussion():
     reply = request.get_json()
     userID = reply['userID']
     reply['targetDiscussion'] = ObjectId(reply['targetDiscussion'])
-    reply['detail']['createDate'] = pymongo.datetime.datetime.now()
+    reply['detail']['createDate'] = datetime.datetime.now()
     conn2 = MongoDB(db, 'Taboos').get_conn()
     taboo_collection = conn2.find_one()
     taboos = taboo_collection['text']
@@ -640,7 +641,7 @@ def new_customer_request():
     conn = MongoDB(db, 'NewCustomerRequest').get_conn()
     if conn.find_one({'requesterEmail': email}) is None:
         new = {'requesterEmail': email,
-               'requestDate': pymongo.datetime.datetime.now(),
+               'requestDate': datetime.datetime.now(),
                'isHandle': 'false'}
         conn.insert_one(new)
 
