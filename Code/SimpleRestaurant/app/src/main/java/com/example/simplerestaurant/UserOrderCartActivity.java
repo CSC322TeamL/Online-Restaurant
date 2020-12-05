@@ -2,6 +2,7 @@ package com.example.simplerestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,12 +22,21 @@ import com.example.simplerestaurant.beans.OrderBean;
 import com.example.simplerestaurant.beans.UserMenuListBean;
 import com.google.gson.reflect.TypeToken;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import kotlin.Unit;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class UserOrderCartActivity extends BaseActivity implements View.OnClickListener ,
         UserOrderCartInterface {
@@ -101,15 +111,46 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         return null;
     }
 
-    private void upload2server(String res){
-        String url = getString(R.string.base_url) + "";
+    private void orderStatus(String res){
+        Log.i("order", res);
+    }
+
+    private void upload2server(String order){
+        String url = getString(R.string.base_url) + "/place_order";
+        RequestBody body = RequestBody.create(order, MediaType.parse(UnitTools.TYPE_JSON));
+        Request request = new Request.Builder().url(url).post(body).build();
+        Call call = UnitTools.getOkHttpClient().newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Failed to connect to server");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        orderStatus(res);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_order_cart_place:
-
+                currentOrder.setDishDetail(orderCartListAdapter.getDishInCart());
+                String orderStr = UnitTools.getGson().toJson(currentOrder);
+                upload2server(orderStr);
                 break;
             case R.id.imagebtn_backward:
                 this.finish();
