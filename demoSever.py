@@ -714,7 +714,7 @@ def handle_ComplaintAndCompliment():
     userID = request.form['userID']
     complaintID = request.form['complaintID']
     determination = request.form['determination']
-    conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
+    conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     complaint = conn.find_one({'_id': ObjectId(complaintID)})
     conn.update_one(complaint, {'$set': {'status': determination,
                                          'finalizedDate': datetime.datetime.now(),
