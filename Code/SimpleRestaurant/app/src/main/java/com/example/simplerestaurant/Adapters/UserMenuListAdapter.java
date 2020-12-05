@@ -15,22 +15,23 @@ import com.example.simplerestaurant.Interfaces.MenuAddCartInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.beans.DishBean;
 import com.example.simplerestaurant.beans.DishInCart;
+import com.example.simplerestaurant.beans.UserMenuListBean;
 
 import java.util.ArrayList;
 
 public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapter.MenuItemViewHolder> {
-    private ArrayList<UserMenuFragment.UserMenuListBean> viewData;
+    private ArrayList<UserMenuListBean> viewData;
     private String userType, userID;
     private MenuAddCartInterface listener;
 
-    public UserMenuListAdapter(ArrayList<UserMenuFragment.UserMenuListBean> viewData, String userID, String userType) {
+    public UserMenuListAdapter(ArrayList<UserMenuListBean> viewData, String userID, String userType) {
         this.userID = userID;
         this.userType = userType;
         setViewData(viewData);
     }
 
-    public void setViewData(ArrayList<UserMenuFragment.UserMenuListBean> viewData){
-        this.viewData = new ArrayList<UserMenuFragment.UserMenuListBean>(viewData);
+    public void setViewData(ArrayList<UserMenuListBean> viewData){
+        this.viewData = new ArrayList<UserMenuListBean>(viewData);
     }
 
     public void setAddCartListener(MenuAddCartInterface listener){
@@ -45,15 +46,15 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull UserMenuListAdapter.MenuItemViewHolder holder, int position) {
-        final UserMenuFragment.UserMenuListBean viewItem = viewData.get(position);
+        final UserMenuListBean viewItem = viewData.get(position);
         // bind the data to different view according to the type
         switch (viewItem.getType()){
-            case UserMenuFragment.UserMenuListBean.TYPE_MENU:
+            case UserMenuListBean.TYPE_MENU:
                 holder.getTvMenuTitle().setVisibility(View.VISIBLE);
                 holder.getvDish().setVisibility(View.GONE);
                 holder.getTvMenuTitle().setText(viewItem.getTitle());
                 break;
-            case UserMenuFragment.UserMenuListBean.TYPE_DISH:
+            case UserMenuListBean.TYPE_DISH:
                 DishBean dish = viewItem.getDish();
                 holder.getTvDishTitle().setText(dish.getTitle());
                 holder.getTvDishPrice().setText("$" + dish.getPrice());

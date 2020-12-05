@@ -1,5 +1,6 @@
 package com.example.simplerestaurant.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,10 +21,12 @@ import com.example.simplerestaurant.Interfaces.MenuAddCartInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
+import com.example.simplerestaurant.UserOrderCartActivity;
 import com.example.simplerestaurant.beans.DishBean;
 import com.example.simplerestaurant.beans.DishInCart;
 import com.example.simplerestaurant.beans.MenuBean;
 import com.example.simplerestaurant.beans.OrderBean;
+import com.example.simplerestaurant.beans.UserMenuListBean;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
@@ -188,41 +191,14 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btn_menu_view_cart){
-            String res = UnitTools.getGson().toJson(processOrder());
-            Log.i("order", res);
+            String order = UnitTools.getGson().toJson(processOrder());
+            String dishes = UnitTools.getGson().toJson(viewData);
+            Intent intent = new Intent(getActivity(), UserOrderCartActivity.class);
+            intent.putExtra("order",order);
+            intent.putExtra("dishes", dishes);
+            startActivity(intent);
         }
     }
 
-    public class UserMenuListBean{
-        // use type to indicate which viewholder should be applied
-        final public static int TYPE_MENU = 0;
-        final public static int TYPE_DISH = 1;
-        private int type;
-        private String title;
-        private DishBean dish;
 
-        public UserMenuListBean(String title){
-            this.type = TYPE_MENU;
-            this.title = title;
-            this.dish = null;
-        }
-        
-        public UserMenuListBean(DishBean dish){
-            this.type = TYPE_DISH;
-            this.dish = dish;
-            this.title = null;
-        }
-        
-        public int getType() {
-            return type;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public DishBean getDish() {
-            return dish;
-        }
-    }
 }
