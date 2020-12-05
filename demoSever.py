@@ -246,19 +246,20 @@ def pick_order():
     conn = MongoDB(db, 'Orders').get_conn()
     order = conn.find_one({'_id': ObjectId(orderID)})
     conn3 = MongoDB(db, 'OrderDetail').get_conn()
-    order_detail = conn3.find_one({'_id': ObjectId(orderID)})
+    order_detail = conn3.find_one({'orderID': ObjectId(orderID)})
     if role == 'chef':
         conn.update_one(order, {'$set': {'status': 'cooking'}})
         conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
         conn1.update_one(chef, {'$push': {'orderAccepted': ObjectId(orderID)}})
-        conn3.update_one(order_detail, {'$set': {'kitchenPicked': pymongo.datetime.datetime.now()}})
+        conn3.update_one(order_detail, {'$set': {'kitchenPicked': datetime.datetime.now()}})
     if role == 'delivery person':
         conn.update_one(order, {'$set': {'status': 'delivering'}})
         conn2 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn2.find_one({'userID': userID})
         conn2.update_one(delivery_person, {'$push': {'orderPicked': ObjectId(orderID)}})
         conn3.update_one(order_detail, {'$set': {'deliveryPicked': datetime.datetime.now()}})
+    return '0'
 
 
 @app.route('/order_prepared', methods=['POST'])
@@ -271,8 +272,9 @@ def order_prepared():
     else:
         conn.update_one(order, {'$set': {'status': 'finished'}})
     conn1 = MongoDB(db, 'OrderDetail').get_conn()
-    order_detail = conn1.find_one({'_id': ObjectId(orderID)})
+    order_detail = conn1.find_one({'orderID': ObjectId(orderID)})
     conn1.update_one(order_detail, {'$set': {'kitchenFinished': datetime.datetime.now()}})
+    return '0'
 
 
 @app.route('/order_delivered', methods=['POST'])
@@ -284,11 +286,12 @@ def order_delivered():
     conn.update_one(order, {'$set': {'status': 'finished'}})
     conn1 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
     delivery_person = conn1.find_one({'userID': userID})
-    conn1.update(delivery_person, {'$pull': {'orderPicked': ObjectId(orderID)}})
-    conn1.update(delivery_person, {'$push', {'orderDelivered': ObjectId(orderID)}})
+    conn1.update_one(delivery_person, {'$pull': {'orderPicked': ObjectId(orderID)}})
+    conn1.update_one(delivery_person, {'$push': {'orderDelivered': ObjectId(orderID)}})
     conn2 = MongoDB(db, 'OrderDetail').get_conn()
-    order_detail = conn2.find_one({'_id': ObjectId(orderID)})
+    order_detail = conn2.find_one({'orderID': ObjectId(orderID)})
     conn2.update_one(order_detail, {'$set': {'delivered ': datetime.datetime.now()}})
+    return '0'
 
 
 @app.route('/get_orderDetail', methods=['POST'])
@@ -509,6 +512,7 @@ def new_complaint_or_compliment():
         conn2 = MongoDB(db, 'StaffPerformance').get_conn()
         deliver = conn2.find_one({'uesrID': userID})
         conn2.update_one(deliver, {'$push': {'complaintFiled': id}})
+    return '0'
 
         
 @app.route('/get_filedCompliment', methods=['POST'])
@@ -574,6 +578,7 @@ def dispute_complaint():
         conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     user = conn1.find_one({'userID': userID})
     conn1.update_one(user, {'$push': {'complaintDisputed': id}})
+    return '0'
 
 
 @app.route('/get_dispute_complaint', methods=['POST'])
@@ -633,6 +638,7 @@ def rating():
     new_point = (dish['digitRating'] * n + point) / (n + 1)
     conn2.update_one(dish, {'$set': {'digitRating': new_point}})
     conn2.update_one(dish, {'$push': {'ratings': ratingID}})
+    return '0'
 
 
 @app.route('/NewCustomerRequest', methods=['POST'])
@@ -644,6 +650,7 @@ def new_customer_request():
                'requestDate': datetime.datetime.now(),
                'isHandle': 'false'}
         conn.insert_one(new)
+    return '0'
 
 
 @app.route('/get_NewCustomerRequest', methods=['POST'])
@@ -676,6 +683,7 @@ def handle_new_customer():
            'requesterEmail': requesterEmail,
            'userID': userID}
     conn1.insert_one(new)
+    return '0'
 
 
 @app.route('/delete_dish', methods=['POST'])
@@ -687,6 +695,7 @@ def delete_dish():
     conn1 = MongoDB(db, 'Menu').get_conn()
     menu = conn1.find_one({'title': menu_name})
     conn1.update_one(menu, {'$pull': {'dishes': ObjectId(dishID)}})
+    return '0'
 
 
 @app.route('/add_dish', methods=['POST'])
@@ -698,6 +707,7 @@ def add_dish():
     conn1 = MongoDB(db, 'Menu').get_conn()
     menu = conn1.find_one({'title': menu_name})
     conn1.update_one(menu, {'$push': {'dishes': dishID}})
+    return '0'
 
 
 @app.route('/update_dish', methods=['POST'])
@@ -707,6 +717,7 @@ def update_dish():
     conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
     conn.replace_one(old_dish, dish)
+    return '0'
 
 
 @app.route('/handle_ComplaintAndCompliment', methods=['POST'])
@@ -756,7 +767,7 @@ def handle_ComplaintAndCompliment():
                 warning -= 2
                 conn4.update_one(user, {'$set': {'userRole': 'Demoted'}})
             conn4.update_one(user, {'$set': {'warnings': warning}})
-    return "0" 
+    return '0'
         
                                                  
 @app.route('/all_complaints', methods=['POST'])
@@ -807,6 +818,35 @@ def de_registration():
             staff.append(user['userID'])
     return jsonify({'customer': customer,
                     'staff': staff})
+
+
+@app.route('/all_taboos', methods=['POST'])
+def taboo():
+    conn = MongoDB(db, 'Taboos').get_conn()
+    taboos = conn.find()
+    return jsonify(taboos[0]['text'])
+
+
+@app.route('/add_taboo', methods=['POST'])
+def add_taboo():
+    word = request.form['word']
+    conn = MongoDB(db, 'Taboos').get_conn()
+    taboos = conn.find()
+    if word in taboos[0]['text']:
+        return jsonify({'code': 1, 'context': 'word already exists'})
+    conn.update_one(taboos[0], {'$push': {'text': word}})
+    return jsonify({'code': 0, 'content': 'success'})
+
+
+@app.route('/delete_taboo', methods=['POST'])
+def delete_taboo():
+    word = request.form['word']
+    conn = MongoDB(db, 'Taboos').get_conn()
+    taboos = conn.find()
+    if word not in taboos[0]['text']:
+        return jsonify({'code': 1, 'context': "word doesn't exist"})
+    conn.update_one(taboos[0], {'$pull': {'text': word}})
+    return jsonify({'code': 0, 'content': 'success'})
 
 
 if __name__ == "__main__":
