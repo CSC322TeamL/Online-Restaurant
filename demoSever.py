@@ -717,7 +717,7 @@ def handle_ComplaintAndCompliment():
     conn = MongoDB(db, 'ComplaintsAndCompliments').get_conn()
     complaint = conn.find_one({'_id': ObjectId(complaintID)})
     conn.update_one(complaint, {'$set': {'status': determination,
-                                         'finalizedDate': pymongo.datetime.datetime.now(),
+                                         'finalizedDate': datetime.datetime.now(),
                                          'reviewBy': userID}})
     if determination == 'accept':
         userID = complaint['toID']
