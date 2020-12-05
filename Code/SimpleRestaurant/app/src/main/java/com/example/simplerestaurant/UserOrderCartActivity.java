@@ -43,9 +43,11 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
 
     private RecyclerView dishRecycler;
     private TextView tvOrderTotal;
-    private View navigationBar;
+    private View navigationBar, summaryBar;
     private ImageButton imgbtnBack, imgbtnEmpty;
     private Button btnPlace;
+
+    private View afterSubmit, orderFroze, orderSuccess;
 
     private OrderBean currentOrder;
     private ArrayList<UserMenuListBean> dishDetail;
@@ -65,6 +67,11 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         navigationBar = (View) findViewById(R.id.view_order_cart_navigation);
         imgbtnBack = (ImageButton) navigationBar.findViewById(R.id.imagebtn_backward);
         imgbtnEmpty = (ImageButton) navigationBar.findViewById(R.id.imagebtn_cart_empty);
+
+        summaryBar = (View) findViewById(R.id.view_order_cart_summary);
+        afterSubmit = (View) findViewById(R.id.view_order_cart_in_response);
+        orderFroze = (View) findViewById(R.id.view_order_submit_freeze);
+        orderSuccess = (View) findViewById(R.id.view_order_submit_success);
 
         btnPlace.setOnClickListener(this);
         imgbtnBack.setOnClickListener(this);
@@ -88,6 +95,7 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    // set up a dishID-dishBean map
     private void setDishMap(){
         if(null == dishMap){
             dishMap = new HashMap<>(dishDetail.size());
@@ -112,7 +120,18 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
     }
 
     private void orderStatus(String res){
-        Log.i("order", res);
+        //Log.i("order", res);
+        dishRecycler.setVisibility(View.GONE);
+        summaryBar.setVisibility(View.GONE);
+        afterSubmit.setVisibility(View.VISIBLE);
+        OrderSubmitResult result = UnitTools.getGson().fromJson(res, OrderSubmitResult.class);
+        if(result.getCode() == 0){
+            toastMessage(result.getContent());
+            this.finish();
+        } else if(result.getCode() == 1){
+            orderSuccess.setVisibility(View.GONE);
+            orderFroze.setVisibility(View.VISIBLE);
+        }
     }
 
     private void upload2server(String order){
@@ -166,5 +185,26 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
     @Override
     public void updateTotalPrice(String newPrice) {
         tvOrderTotal.setText(newPrice);
+    }
+
+    public class OrderSubmitResult{
+        int code;
+        String content;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
     }
 }

@@ -12,6 +12,8 @@
     <color name="primaryGreen">#6A983C</color>
     <color name="primaryGreenLight">#92C064</color>
     <color name="primaryGreenDark">#46760A</color>
-
+    <color name="primaryBlueLight">#7CD0D3</color>
+    <color name="primaryBlue">#37D0D6</color>
+    <color name="primaryBlueDark">#19B2B8</color>
     <color name="grey">#fafafa</color>
 </resources>
