@@ -756,6 +756,7 @@ def handle_ComplaintAndCompliment():
                 warning -= 2
                 conn4.update_one(user, {'$set': {'userRole': 'Demoted'}})
             conn4.update_one(user, {'$set': {'warnings': warning}})
+    return "0" 
         
                                                  
 @app.route('/all_complaints', methods=['POST'])
