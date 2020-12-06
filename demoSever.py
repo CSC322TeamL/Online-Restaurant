@@ -151,6 +151,7 @@ def get_orders():
     role = request.form['role']
     conn = MongoDB(db, 'Orders').get_conn()
     conn2 = MongoDB(db, 'Dish').get_conn()
+    conn4 = MongoDB(db, 'UserInfo').get_conn()
     if role == 'chef':
         conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
@@ -171,7 +172,7 @@ def get_orders():
 
     elif role == 'delivery person':
         conn3 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
-        delivery_person = conn3.find_one({'userID'})
+        delivery_person = conn3.find_one({'userID': userID})
         pick = []
         delivered = []
         for id in delivery_person['orderPicked']:
@@ -183,6 +184,10 @@ def get_orders():
             pick.append(order)
         for id in delivery_person['orderDelivered']:
             order = conn.find_one({'_id': id})
+            customer_id = order['customerID']
+            customer = conn4.find_one({'userID': customer_id})
+            order['customerInfo'] = customer['basicInfo']
+            order['contact'] = customer['contact']
             order['_id'] = str(order['_id'])
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
@@ -214,6 +219,7 @@ def uncompleted_order():
     role = request.form['role']
     conn = MongoDB(db, 'Orders').get_conn()
     conn2 = MongoDB(db, 'Dish').get_conn()
+    conn4 = MongoDB(db, 'UserInfo').get_conn()
     if role == 'chef':
         waiting = []
         for order in conn.find({'status': 'waiting'}):
@@ -227,6 +233,10 @@ def uncompleted_order():
         prepared = []
         for order in conn.find({'status': 'prepared'}):
             order['_id'] = str(order['_id'])
+            customer_id = order['customerID']
+            customer = conn4.find_one({'userID': customer_id})
+            order['customerInfo'] = customer['basicInfo']
+            order['contact'] = customer['contact']
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
                 dish_detail['dishID'] = dish['title']
