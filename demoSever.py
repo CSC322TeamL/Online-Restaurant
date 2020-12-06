@@ -43,11 +43,47 @@ def new_user():
     if conn.find_one({'userID': userId}):
         return jsonify({'code': 1,
                         'content': 'userID already exists'})
-    new = {'userID': request.form['userID'],
+    new = {'userID': userId,
            'userPassword': request.form['userPassword'],
            'userStatus': request.form['userStatus'],
            'role': request.form['role']}
     conn.insert_one(new)
+    if new['role'] == 'Customer' or new['role'] == 'VIP':
+        new_user_info = {'userID': userId,
+                         'balance': 0,
+                         'spent': 0,
+                         'warnings': 0}
+        conn1 = MongoDB(db, 'UserInfo').get_conn()
+        conn1.insert_one(new_user_info)
+        new_user_infor_detail = {"userID": userId,
+                                 "discussionReplied": [],
+                                 "dishRated": [],
+                                 "complaintFiled": [],
+                                 "complaintedDisputed": [],
+                                 "discussionCreated": [],
+                                 "complimentFiled": [],
+                                 "complaintReceived": [],
+                                 "orders": []}
+        conn2 = MongoDB(db, 'UserInforDetail').get_conn()
+        conn2.insert_one(new_user_infor_detail)
+    else:
+        new_staff = {'userID': userId,
+                     'staffType': new['role'],
+                     'hourlyRate': 15.25,
+                     'registeredDate': datetime.datetime.now(),
+                     'deregisteredDate': None}
+        conn3 = MongoDB(db, 'StaffBasicInfo').get_conn()
+        conn3.insert_one(new_staff)
+        new_staff_performance = {"userID": userId,
+                                 "complaintReceived": [],
+                                 "complaintFiled": [],
+                                 "complaintDisputed": [],
+                                 "accumulatePerformance": 1,
+                                 "promoted": 0,
+                                 "demoted": 0,
+                                 "complimentReceived": []}
+        conn4 = MongoDB(db, 'StaffPerformance').get_conn()
+        conn4.insert_one(new_staff_performance)
     return jsonify({'code': 0,
                     'content': 'success'})
 
@@ -88,6 +124,7 @@ def get_menu():
         for dishid in menu['dishes']:
             dish = conn2.find_one({'_id': dishid})
             dish['_id'] = str(dish['_id'])
+            dish['ratings'] = len(dish['ratings'])
             dishes.append(dish)
         output['title'] = name
         output['dishes'] = dishes
@@ -103,6 +140,7 @@ def get_dish():
     for dishID in dishID_list:
         dish = conn.find_one({'_id': ObjectId(dishID)})
         dish['_id'] = str(dish['_id'])
+        dish['ratings'] = len(dish['ratings'])
         dishes.append(dish)
     return jsonify(dishes)
 
@@ -160,7 +198,9 @@ def get_orders():
             order['_id'] = str(order['_id'])
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
-                dish_detail['dishID'] = dish['title']
+                dish_detail['dishID'] = str(dish_detail['dishID'])
+                dish_detail['title'] = dish['title']
+                dish_detail['price'] = dish['price']
             if order['status'] == 'finished':
                 finished.append(order)
             else:
@@ -196,7 +236,7 @@ def uncompleted_order():
 
 @app.route('/place_order', methods=['POST'])
 def place_order():
-    order = request.get_json()
+    order = request.get_json(force=True)
     userID = order['customerID']
     conn1 = MongoDB(db, 'UserInfo').get_conn()
     user = conn1.find_one({'userID': userID})
@@ -364,7 +404,7 @@ def get_discussionHeads():
 
 @app.route('/new_discussion', methods=['POST'])
 def create_new_discussion():
-    head = request.get_json()
+    head = request.get_json(force=True)
     userID = head['userID']
     head['detail']['createDate'] = datetime.datetime.now()
     conn2 = MongoDB(db, 'Taboos').get_conn()
@@ -428,7 +468,7 @@ def get_all_replies():
 
 @app.route('/reply_discussion', methods=['POST'])
 def reply_discussion():
-    reply = request.get_json()
+    reply = request.get_json(force=True)
     userID = reply['userID']
     reply['targetDiscussion'] = ObjectId(reply['targetDiscussion'])
     reply['detail']['createDate'] = datetime.datetime.now()
@@ -735,6 +775,7 @@ def handle_ComplaintAndCompliment():
         conn1 = MongoDB(db, 'UserLogin').get_conn()
         conn2 = MongoDB(db, 'StaffPerformance').get_conn()
         conn3 = MongoDB(db, 'UserInforDetail').get_conn()
+        conn4 = MongoDB(db, 'UserBasicInfo').get_conn()
         user = conn1.find_one({'userID': userID})
         if complaint['isComplaint'] == 'true':
             if user['role'] == 'chef' or user['role'] == 'delivery person':
@@ -744,6 +785,8 @@ def handle_ComplaintAndCompliment():
                 num_of_compliment = len(user_performance['complimentReceived'])
                 if (num_of_complaint - num_of_compliment) // 3 > user_performance['demoted']:
                     conn2.update_one(user_performance, {'$set': {'demoted': user_performance['demoted'] + 1}})
+                    user_info = conn4.find_one({'userID': userID})
+                    conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] - 1}})
             else:
                 user_detail = conn3.find_one({'userID': userID})
                 conn3.update_one(user_detail, {'$push': {'complaintReceived': ObjectId(complaintID)}})
@@ -755,9 +798,8 @@ def handle_ComplaintAndCompliment():
                 num_of_compliment = len(user_performance['complimentReceived'])
                 if (num_of_compliment - num_of_complaint) // 3 > user_performance['promoted']:
                     conn2.update_one(user_performance, {'$set': {'promoted': user_performance['promoted'] + 1}})
-            else:
-                user_detail = conn3.find_one({'userID': userID})
-                conn3.update_one(user_detail, {'$push': {'complimentReceived': ObjectId(complaintID)}})
+                    user_info = conn4.find_one({'userID': userID})
+                    conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] + 1}})
     if determination == 'warning':
         conn4 = MongoDB(db, 'UserInfo').get_conn()
         user = conn4.find_one({'userID': complaint['fromID']})
@@ -846,6 +888,29 @@ def delete_taboo():
     if word not in taboos[0]['text']:
         return jsonify({'code': 1, 'context': "word doesn't exist"})
     conn.update_one(taboos[0], {'$pull': {'text': word}})
+    return jsonify({'code': 0, 'content': 'success'})
+
+
+@app.route('/de-register', methods=['POST'])
+def de_register():
+    userID = request.form['userID']
+    conn = MongoDB(db, 'UserLogin').get_conn()
+    user = conn.find_one({'userID': userID})
+    if user is None:
+        return jsonify({'code': 1, 'content': "user doesn't exist"})
+    conn.update_one(user, {'$set': {'status': -1}})
+    return jsonify({'code': 0, 'content': 'success'})
+
+
+@app.route('/change_password', methods=['POST'])
+def change_password():
+    userID = request.form['userID']
+    new_password = request.form['password']
+    conn = MongoDB(db, 'UserLogin').get_conn()
+    user = conn.find_one({'userID': userID})
+    if user is None:
+        return jsonify({'code': 1, 'content': "user doesn't exist"})
+    conn.update_one(user, {'$set': {'userPassword': new_password}})
     return jsonify({'code': 0, 'content': 'success'})
 
 
