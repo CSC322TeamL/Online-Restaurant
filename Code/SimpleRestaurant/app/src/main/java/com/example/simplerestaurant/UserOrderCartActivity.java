@@ -23,6 +23,7 @@ import com.example.simplerestaurant.beans.UserMenuListBean;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -200,6 +201,31 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         return res.floatValue();
     }
 
+    private String format2Json(OrderBean currentOrder){
+        String orderStr = UnitTools.getGson().toJson(currentOrder);
+        try {
+            JSONObject jsonObject = new JSONObject(orderStr);
+            jsonObject.remove("_id");
+            // remove the title and price
+            JSONArray dishes = jsonObject.getJSONArray("dishDetail");
+            JSONArray newDishes = new JSONArray();
+            for(int i = 0; i < dishes.length(); i++){
+                String dishStr = dishes.getString(i).toString().trim();
+                JSONObject dish = new JSONObject(dishStr);
+                dish.remove("title");
+                dish.remove("price");
+                newDishes.put(dish);
+            }
+            jsonObject.remove("dishDetail");
+            jsonObject.put("dishDetail", newDishes);
+            Log.i("order", jsonObject.toString());
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -211,13 +237,9 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
                 }
                 currentOrder.setDishDetail(uniqueDishes);
                 currentOrder.setOrderTotal(calculateOrderTotal());
-                String orderStr = UnitTools.getGson().toJson(currentOrder);
-                try {
-                    JSONObject jsonObject = new JSONObject(orderStr);
-                    jsonObject.remove("_id");
-                    upload2server(jsonObject.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                String orderJson = format2Json(currentOrder);
+                if(null != orderJson){
+                    upload2server(orderJson);
                 }
                 break;
             case R.id.imagebtn_backward:
