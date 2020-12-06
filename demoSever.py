@@ -766,10 +766,11 @@ def delete_dish():
 
 @app.route('/add_dish', methods=['POST'])
 def add_dish():
-    newdish = request.form['dish']
-    menu_name = request.form['menu']
+    new_dish = request.get_json(force=True)
+    menu_name = new_dish['menu']
+    del new_dish['menu']
     conn = MongoDB(db, 'Dish').get_conn()
-    dishID = conn.insert_one(newdish).inserted_id
+    dishID = conn.insert_one(new_dish).inserted_id
     conn1 = MongoDB(db, 'Menu').get_conn()
     menu = conn1.find_one({'title': menu_name})
     conn1.update_one(menu, {'$push': {'dishes': dishID}})
