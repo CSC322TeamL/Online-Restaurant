@@ -43,11 +43,47 @@ def new_user():
     if conn.find_one({'userID': userId}):
         return jsonify({'code': 1,
                         'content': 'userID already exists'})
-    new = {'userID': request.form['userID'],
+    new = {'userID': userId,
            'userPassword': request.form['userPassword'],
            'userStatus': request.form['userStatus'],
            'role': request.form['role']}
     conn.insert_one(new)
+    if new['role'] == 'Customer' or new['role'] == 'VIP':
+        new_user_info = {'userID': userId,
+                         'balance': 0,
+                         'spent': 0,
+                         'warnings': 0}
+        conn1 = MongoDB(db, 'UserInfo').get_conn()
+        conn1.insert_one(new_user_info)
+        new_user_infor_detail = {"userID": userId,
+                                 "discussionReplied": [],
+                                 "dishRated": [],
+                                 "complaintFiled": [],
+                                 "complaintedDisputed": [],
+                                 "discussionCreated": [],
+                                 "complimentFiled": [],
+                                 "complaintReceived": [],
+                                 "orders": []}
+        conn2 = MongoDB(db, 'UserInforDetail').get_conn()
+        conn2.insert_one(new_user_infor_detail)
+    else:
+        new_staff = {'userID': userId,
+                     'staffType': new['role'],
+                     'hourlyRate': 15.25,
+                     'registeredDate': datetime.datetime.now(),
+                     'deregisteredDate': None}
+        conn3 = MongoDB(db, 'StaffBasicInfo').get_conn()
+        conn3.insert_one(new_staff)
+        new_staff_performance = {"userID": userId,
+                                 "complaintReceived": [],
+                                 "complaintFiled": [],
+                                 "complaintDisputed": [],
+                                 "accumulatePerformance": 1,
+                                 "promoted": 0,
+                                 "demoted": 0,
+                                 "complimentReceived": []}
+        conn4 = MongoDB(db, 'StaffPerformance').get_conn()
+        conn4.insert_one(new_staff_performance)
     return jsonify({'code': 0,
                     'content': 'success'})
 
