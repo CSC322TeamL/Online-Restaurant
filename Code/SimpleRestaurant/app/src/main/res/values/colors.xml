@@ -15,5 +15,6 @@
     <color name="primaryBlueLight">#7CD0D3</color>
     <color name="primaryBlue">#37D0D6</color>
     <color name="primaryBlueDark">#19B2B8</color>
-    <color name="grey">#fafafa</color>
+    <color name="grey">#d9d9d9</color>
+    <color name="greyDark">#878787</color>
 </resources>

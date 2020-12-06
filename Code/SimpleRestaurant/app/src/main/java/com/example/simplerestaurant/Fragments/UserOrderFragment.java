@@ -1,5 +1,6 @@
 package com.example.simplerestaurant.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,10 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.OrderListAdapter;
+import com.example.simplerestaurant.Interfaces.OrderHis2DetailInterface;
 import com.example.simplerestaurant.Interfaces.UserOrderFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
+import com.example.simplerestaurant.UserOrderDetailActivity;
 import com.example.simplerestaurant.beans.OrderBean;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -26,11 +30,14 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class UserOrderFragment extends Fragment {
+public class UserOrderFragment extends Fragment implements View.OnClickListener,
+        OrderHis2DetailInterface {
     private RecyclerView orderRecycler;
     private TextView tvEmptyList;
     private String userID, userType;
     private ArrayList<OrderBean> displayOrder;
+
+    private FloatingActionButton btnRefresh;
 
     private UserOrderFragmentInterface listener;
 
@@ -51,7 +58,10 @@ public class UserOrderFragment extends Fragment {
         tvEmptyList = (TextView) view.findViewById(R.id.tv_main_order_record_empty);
         orderRecycler = (RecyclerView) view.findViewById(R.id.recycler_main_order_list);
 
-        orderListAdapter = new OrderListAdapter(userID, userType, displayOrder);
+        btnRefresh = (FloatingActionButton)  view.findViewById(R.id.btn_main_order_refresh);
+        btnRefresh.setOnClickListener(this);
+
+        orderListAdapter = new OrderListAdapter(userID, userType, displayOrder, this);
         orderRecycler.setAdapter(orderListAdapter);
         orderRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -83,6 +93,25 @@ public class UserOrderFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == btnRefresh.getId()){
+            if(null != listener){
+                listener.getOrderListFromServer(userID, userType);
+            }
+        }
+    }
+
+    @Override
+    public void startOrderDetail(OrderBean selectedOrder) {
+        String selectedOrderStr = UnitTools.getGson().toJson(selectedOrder);
+        Intent intent = new Intent(getActivity(), UserOrderDetailActivity.class);
+        intent.putExtra("order", selectedOrderStr);
+        intent.putExtra("userID", this.userID);
+        intent.putExtra("userType", this.userType);
+        getActivity().startActivity(intent);
     }
 
     public class OrderListResponseBean{

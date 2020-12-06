@@ -23,6 +23,7 @@
         <activity android:name=".UserRegisterRequestActivity" android:parentActivityName=".MainActivity"/>
         <activity android:name=".UserPersonalInfoActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".UserOrderCartActivity" android:parentActivityName=".UserMainPageActivity"/>
+        <activity android:name=".UserOrderDetailActivity" android:parentActivityName=".UserMainPageActivity"/>
     </application>
 
 </manifest>

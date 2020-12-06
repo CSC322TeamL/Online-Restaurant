@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplerestaurant.Interfaces.OrderHis2DetailInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.beans.OrderBean;
 
@@ -17,11 +18,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
     private String userID, userType;
     private ArrayList<OrderBean> orderList;
+    private OrderHis2DetailInterface listener;
 
-    public OrderListAdapter(String userID, String userType, ArrayList<OrderBean> orderList) {
+    public OrderListAdapter(String userID, String userType, ArrayList<OrderBean> orderList, OrderHis2DetailInterface listener) {
         setOrderList(orderList);
         this.userID = userID;
         this.userType = userType;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,7 +35,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OrderListViewHolder holder, final int position) {
         OrderBean currentOrder = orderList.get(position);
         String title = currentOrder.getDishDetail().get(0).getTitle();
         int dishCount = currentOrder.getDishDetail().size();
@@ -46,6 +49,14 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
         holder.getTvOrderDishQuantity().setText(dishCount + dishPo);
         holder.getTvOrderCharged().setText("$" + currentOrder.getOrderCharged());
         holder.getTvOrderStatus().setText(currentOrder.getStatus());
+        holder.getCard().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null != listener){
+                    listener.startOrderDetail(orderList.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -69,6 +80,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
         private TextView tvOrderTitle, tvOrderDate, tvOrderDishQuantity
                 , tvOrderCharged, tvOrderStatus;
+        private View card;
 
         public OrderListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +89,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
             tvOrderDate = (TextView) itemView.findViewById(R.id.tv_order_list_order_date);
             tvOrderCharged = (TextView) itemView.findViewById(R.id.tv_order_list_total_charged);
             tvOrderStatus = (TextView) itemView.findViewById(R.id.tv_order_list_order_status);
+            card = (View) itemView.findViewById(R.id.view_order_list_order);
         }
 
         public TextView getTvOrderTitle() {
@@ -97,6 +110,10 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
 
         public TextView getTvOrderStatus() {
             return tvOrderStatus;
+        }
+
+        public View getCard() {
+            return card;
         }
     }
 }
