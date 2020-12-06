@@ -301,14 +301,16 @@ def pick_order():
         conn.update_one(order, {'$set': {'status': 'cooking', 'cookBy': userID}})
         conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
-        conn1.update_one(chef, {'$push': {'orderAccepted': ObjectId(orderID)}})
-        conn3.update_one(order_detail, {'$set': {'kitchenPicked': datetime.datetime.now()}})
+        if ObjectId(orderID) not in chef['orderAccepted']:
+            conn1.update_one(chef, {'$push': {'orderAccepted': ObjectId(orderID)}})
+            conn3.update_one(order_detail, {'$set': {'kitchenPicked': datetime.datetime.now()}})
     if role == 'delivery person':
         conn.update_one(order, {'$set': {'status': 'delivering', 'deliverBy': userID}})
         conn2 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn2.find_one({'userID': userID})
-        conn2.update_one(delivery_person, {'$push': {'orderPicked': ObjectId(orderID)}})
-        conn3.update_one(order_detail, {'$set': {'deliveryPicked': datetime.datetime.now()}})
+        if ObjectId(orderID) not in delivery_person['orderPicked']:
+            conn2.update_one(delivery_person, {'$push': {'orderPicked': ObjectId(orderID)}})
+            conn3.update_one(order_detail, {'$set': {'deliveryPicked': datetime.datetime.now()}})
     return '0'
 
 
