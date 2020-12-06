@@ -13,6 +13,8 @@ public class OrderBean {
     private String createDate = "";
     private String status = "";
     private String isDelivery = "";
+    private String cookBy = "";
+    private String deliverBy = "";
 
     public String get_id() {
         return _id;
@@ -86,6 +88,22 @@ public class OrderBean {
         this.isDelivery = isDelivery;
     }
 
+    public String getCookBy() {
+        return cookBy;
+    }
+
+    public void setCookBy(String cookBy) {
+        this.cookBy = cookBy;
+    }
+
+    public String getDeliverBy() {
+        return deliverBy;
+    }
+
+    public void setDeliverBy(String deliverBy) {
+        this.deliverBy = deliverBy;
+    }
+
     @Override
     public String toString() {
         return "OrderBean{" +
@@ -98,6 +116,8 @@ public class OrderBean {
                 ", createDate='" + createDate + '\'' +
                 ", status='" + status + '\'' +
                 ", isDelivery='" + isDelivery + '\'' +
+                ", cookBy='" + cookBy + '\'' +
+                ", deliverBy='" + deliverBy + '\'' +
                 '}';
     }
 }

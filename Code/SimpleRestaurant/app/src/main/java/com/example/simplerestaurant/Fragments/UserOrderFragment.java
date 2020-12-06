@@ -8,8 +8,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplerestaurant.Adapters.OrderListAdapter;
 import com.example.simplerestaurant.Interfaces.UserOrderFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
@@ -32,6 +34,8 @@ public class UserOrderFragment extends Fragment {
 
     private UserOrderFragmentInterface listener;
 
+    private OrderListAdapter orderListAdapter;
+
     public UserOrderFragment(String userID, String userType, UserOrderFragmentInterface listener) {
         super(R.layout.fragment_user_main_orders);
         this.listener = listener;
@@ -46,6 +50,10 @@ public class UserOrderFragment extends Fragment {
 
         tvEmptyList = (TextView) view.findViewById(R.id.tv_main_order_record_empty);
         orderRecycler = (RecyclerView) view.findViewById(R.id.recycler_main_order_list);
+
+        orderListAdapter = new OrderListAdapter(userID, userType, displayOrder);
+        orderRecycler.setAdapter(orderListAdapter);
+        orderRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
@@ -66,7 +74,12 @@ public class UserOrderFragment extends Fragment {
             displayOrder.clear();
             displayOrder.addAll(orderListFromResponse.getWaiting());
             displayOrder.addAll(orderListFromResponse.getFinished());
-            Log.i("order", displayOrder.toString());
+            //Log.i("order", displayOrder.toString());
+            if(orderListAdapter != null){
+                Log.i("order" , "IM here");
+                orderListAdapter.setOrderList(this.displayOrder);
+                orderListAdapter.notifyDataSetChanged();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
