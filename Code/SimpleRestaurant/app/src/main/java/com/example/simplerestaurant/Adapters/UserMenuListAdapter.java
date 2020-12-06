@@ -61,7 +61,7 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
                 holder.getTvDishTitle().setText(dish.getTitle());
                 holder.getTvDishPrice().setText("$" + dish.getPrice());
                 holder.getTvDishRating().setText(String.valueOf(dish.getDigitRating()));
-                holder.getTvDishRatingCount().setText(String.valueOf(dish.getRatings().size()));
+                holder.getTvDishRatingCount().setText(String.valueOf(dish.getRatings()));
                 break;
         }
         if(userType.equals("Customer") || userType.equals("VIP")){

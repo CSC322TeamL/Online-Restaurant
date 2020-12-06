@@ -11,7 +11,7 @@ public class DishBean {
     private String image;
     private List<String> keywords;
     private float price;
-    private List<String> ratings;
+    private int ratings;
     private String title;
 
     public String get_id() {
@@ -78,11 +78,11 @@ public class DishBean {
         this.price = price;
     }
 
-    public List<String> getRatings() {
+    public int getRatings() {
         return ratings;
     }
 
-    public void setRatings(List<String> ratings) {
+    public void setRatings(int ratings) {
         this.ratings = ratings;
     }
 
