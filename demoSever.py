@@ -288,13 +288,13 @@ def pick_order():
     conn3 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn3.find_one({'orderID': ObjectId(orderID)})
     if role == 'chef':
-        conn.update_one(order, {'$set': {'status': 'cooking'}})
+        conn.update_one(order, {'$set': {'status': 'cooking', 'cookBy': userID}})
         conn1 = MongoDB(db, 'ChefInfo').get_conn()
         chef = conn1.find_one({'userID': userID})
         conn1.update_one(chef, {'$push': {'orderAccepted': ObjectId(orderID)}})
         conn3.update_one(order_detail, {'$set': {'kitchenPicked': datetime.datetime.now()}})
     if role == 'delivery person':
-        conn.update_one(order, {'$set': {'status': 'delivering'}})
+        conn.update_one(order, {'$set': {'status': 'delivering', 'deliverBy': userID}})
         conn2 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn2.find_one({'userID': userID})
         conn2.update_one(delivery_person, {'$push': {'orderPicked': ObjectId(orderID)}})
