@@ -1,6 +1,7 @@
 package com.example.simplerestaurant.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,13 +25,20 @@ public class UserDiscussionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         Bundle bundle = getArguments();
 
         userID = bundle.getString("userID");
         userType = bundle.getString("userType");
 
+    }
+
+    public void discussionResponse(String res){
+        Log.i("diss", res);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         if(null != listener){
             listener.getDiscussionFromServer(userID);
         }

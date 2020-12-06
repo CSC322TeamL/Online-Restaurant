@@ -14,9 +14,11 @@ import androidx.fragment.app.FragmentManager;
 import com.example.simplerestaurant.Fragments.UserAccountFragment;
 import com.example.simplerestaurant.Fragments.UserDiscussionFragment;
 import com.example.simplerestaurant.Fragments.UserMenuFragment;
+import com.example.simplerestaurant.Fragments.UserOrderFragment;
 import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserDiscussionFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
+import com.example.simplerestaurant.Interfaces.UserOrderFragmentInterface;
 import com.example.simplerestaurant.beans.DishInCart;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +38,8 @@ import okhttp3.Response;
 
 public class UserMainPageActivity extends BaseActivity implements UserMenuFragmentInterface
         , UserAccountFragmentInterface
-        , UserDiscussionFragmentInterface {
+        , UserDiscussionFragmentInterface
+        , UserOrderFragmentInterface {
 
     final private static String MENU_TAG = "fragment_user_menu";
     final private static String ORDER_TAG = "fragment_user_order";
@@ -51,6 +54,7 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
     private UserMenuFragment userMenuFragment;
     private UserAccountFragment userAccountFragment;
     private UserDiscussionFragment userDiscussionFragment;
+    private UserOrderFragment userOrderFragment;
 
     private Fragment activeFragment;
     private FragmentManager fragmentManager;
@@ -92,7 +96,6 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
     private void setCurrentFragment(int navID){
         switch (navID){
             case R.id.nav_user_main_menu:
-            case R.id.nav_user_main_order:
                 if(null == userMenuFragment){
                     userMenuFragment = (UserMenuFragment)findFragmentByTag(MENU_TAG);
                 }
@@ -112,6 +115,17 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                         .show(userDiscussionFragment)
                         .commit();
                 activeFragment = userDiscussionFragment;
+                break;
+
+            case R.id.nav_user_main_order:
+                if(null == userOrderFragment){
+                    userOrderFragment = (UserOrderFragment) findFragmentByTag(ORDER_TAG);
+                }
+                fragmentManager.beginTransaction()
+                        .hide(activeFragment)
+                        .show(userOrderFragment)
+                        .commit();
+                activeFragment = userOrderFragment;
                 break;
             case R.id.nav_user_main_account:
                 if(null == userAccountFragment){
@@ -147,6 +161,20 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
             userAccountFragment = (UserAccountFragment) findFragmentByTag(ACC_TAG);
         }
         userAccountFragment.userInfoResponse(res);
+    }
+
+    private void orderListResponse(String res){
+        if(null == userOrderFragment){
+            userOrderFragment = (UserOrderFragment) findFragmentByTag(ORDER_TAG);
+        }
+        userOrderFragment.orderListResponse(res);
+    }
+
+    private void discussionResponse(String res){
+        if(null == userDiscussionFragment){
+            userDiscussionFragment = (UserDiscussionFragment) findFragmentByTag(DISC_TAG);
+        }
+        userDiscussionFragment.discussionResponse(res);
     }
 
     /**
@@ -206,6 +234,18 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                                     .commit();
                         }
                         return userAccountFragment;
+                    }
+                    break;
+                case ORDER_TAG:
+                    if(null == userOrderFragment){
+                        userOrderFragment = new UserOrderFragment(userID, userType, this);
+                        if(!userOrderFragment.isAdded()){
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.view_user_main_for_replace, userOrderFragment, ORDER_TAG)
+                                    .hide(userOrderFragment)
+                                    .commit();
+                        }
+                        return userOrderFragment;
                     }
                     break;
             }
@@ -292,7 +332,12 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                toastMessage("Cannot connect to server");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Cannot connect to server");
+                    }
+                });
             }
 
             @Override
@@ -301,7 +346,40 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                     final String res = response.body().string();
                     @Override
                     public void run() {
-                        Log.i("dis", res);
+                        discussionResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
+
+    @Override
+    public void getOrderListFromServer(String userID, String userType) {
+        String url = getString(R.string.base_url) + "/get_order";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        bodyBuilder.add("role", userType);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Cannot connect to server");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        orderListResponse(res);
                     }
                 });
             }
@@ -330,4 +408,5 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                 break;
         }
     }
+
 }
