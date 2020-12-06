@@ -1,5 +1,6 @@
 package com.example.simplerestaurant;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -307,20 +308,23 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         });
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        //super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
             case UnitTools.REQUEST_USER_ORDER_CART:
-                if(null == data){
+                if (null == data) {
+                    toastMessage("For result data empty");
                     return;
                 }
                 // get the change from the cart activity
                 String dishesInCartStr = data.getStringExtra("dishes");
-                Type listType = new TypeToken<ArrayList<DishInCart>>(){}.getType();
+                Type listType = new TypeToken<ArrayList<DishInCart>>() {
+                }.getType();
                 ArrayList<DishInCart> toFragment = UnitTools.getGson().fromJson(dishesInCartStr, listType);
                 // apply the change to menu fragment
-                if(null != userMenuFragment){
+                if (null != userMenuFragment) {
                     userMenuFragment.setDishesInCart(toFragment);
                 }
                 break;

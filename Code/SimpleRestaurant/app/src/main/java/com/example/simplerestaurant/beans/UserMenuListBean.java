@@ -32,4 +32,12 @@ public class UserMenuListBean {
         return dish;
     }
 
+    @Override
+    public String toString() {
+        return "UserMenuListBean{" +
+                "type=" + type +
+                ", title='" + title + '\'' +
+                ", dish=" + dish +
+                '}';
+    }
 }

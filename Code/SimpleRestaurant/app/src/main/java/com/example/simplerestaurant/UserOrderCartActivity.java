@@ -23,9 +23,12 @@ import com.example.simplerestaurant.beans.UserMenuListBean;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -129,11 +132,15 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         OrderSubmitResult result = UnitTools.getGson().fromJson(res, OrderSubmitResult.class);
         if(result.getCode() == 0){
             toastMessage(result.getContent());
-            this.finish();
+            currentOrder.getDishDetail().clear();
         } else if(result.getCode() == 1){
             orderSuccess.setVisibility(View.GONE);
             orderFroze.setVisibility(View.VISIBLE);
         }
+        Intent intent = new Intent();
+        String returnStr = UnitTools.getGson().toJson(orderCartListAdapter.getDishInCart());
+        intent.putExtra(activityResultKey, returnStr);
+        setResult(UnitTools.REQUEST_USER_ORDER_CART, intent);
     }
 
     private void upload2server(String order){
@@ -165,15 +172,59 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         });
     }
 
+    private ArrayList<DishInCart> removeZeroQuantity(ArrayList<DishInCart> dishes){
+        ArrayList<Integer> zeros = new ArrayList<>(dishes.size());
+        for(int i = 0; i < dishes.size(); i++){
+            if(dishes.get(i).getQuantity() == 0){
+                zeros.add(i);
+            }
+        }
+        for(int i = zeros.size() - 1; i >= 0; i--){
+            dishes.remove(zeros.get(i));
+        }
+        return dishes;
+    }
+
+    private float getPriceByID(String id){
+        return dishMap.get(id).getPrice();
+    }
+
+    private float calculateOrderTotal(){
+        float sum = 0;
+        for (DishInCart dish :
+                currentOrder.getDishDetail()) {
+            sum += (getPriceByID(dish.getDishID()) * dish.getQuantity());
+        }
+        BigDecimal res = new BigDecimal(sum);
+        res.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return res.floatValue();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_order_cart_place:
-                currentOrder.setDishDetail(orderCartListAdapter.getDishInCart());
+                ArrayList<DishInCart> uniqueDishes = removeZeroQuantity(orderCartListAdapter.getDishInCart());
+                if(uniqueDishes.size() == 0){
+                    toastMessage("Cart Empty");
+                    return;
+                }
+                currentOrder.setDishDetail(uniqueDishes);
+                currentOrder.setOrderTotal(calculateOrderTotal());
                 String orderStr = UnitTools.getGson().toJson(currentOrder);
-                upload2server(orderStr);
+                try {
+                    JSONObject jsonObject = new JSONObject(orderStr);
+                    jsonObject.remove("_id");
+                    upload2server(jsonObject.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.imagebtn_backward:
+                Intent intent = new Intent();
+                String returnStr = UnitTools.getGson().toJson(orderCartListAdapter.getDishInCart());
+                intent.putExtra(activityResultKey, returnStr);
+                setResult(1, intent);
                 this.finish();
                 break;
             case R.id.imagebtn_cart_empty:
@@ -182,18 +233,6 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
                 orderCartListAdapter.notifyDataSetChanged();
                 break;
         }
-    }
-
-    /**
-     * override the finish call to prepare the result
-     */
-    @Override
-    public void finish() {
-        Intent intent = new Intent();
-        String returnStr = UnitTools.getGson().toJson(currentOrder.getDishDetail());
-        intent.putExtra(activityResultKey, returnStr);
-        setResult(UnitTools.REQUEST_USER_ORDER_CART, intent);
-        super.finish();
     }
 
     @Override

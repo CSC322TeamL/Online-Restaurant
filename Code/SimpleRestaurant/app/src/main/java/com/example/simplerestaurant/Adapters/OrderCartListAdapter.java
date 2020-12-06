@@ -44,8 +44,11 @@ public class OrderCartListAdapter extends RecyclerView.Adapter<OrderCartListAdap
         holder.getImgbtnQMinus().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int originQ = viewData.get(position).getQuantity();
-                viewData.get(position).setQuantity(originQ - 1);
+                int newQ = viewData.get(position).getQuantity() - 1;
+                if(newQ < 1){
+                    newQ = 1;
+                }
+                viewData.get(position).setQuantity(newQ);
                 // update display
                 setDishQuantityPrice(holder, position);
                 if(null != listener){
@@ -66,6 +69,18 @@ public class OrderCartListAdapter extends RecyclerView.Adapter<OrderCartListAdap
                 }
             }
         });
+
+        holder.getImgbtnRemove().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewData.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, viewData.size());
+                if(null != listener){
+                    listener.updateTotalPrice("$" + calculateTotalPrice());
+                }
+            }
+        });
     }
 
     @Override
@@ -77,7 +92,7 @@ public class OrderCartListAdapter extends RecyclerView.Adapter<OrderCartListAdap
         }
     }
 
-    private float calculateTotalPrice(){
+    public float calculateTotalPrice(){
         float total = 0;
         for(int i = 0; i < viewData.size(); i++){
             total += getDisplayPrice(i);

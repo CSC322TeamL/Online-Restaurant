@@ -126,7 +126,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         Type menuListType = new TypeToken<ArrayList<MenuBean>>(){}.getType();
         // converting
         menuList = UnitTools.getGson().fromJson(res, menuListType);
-        Log.i("menu", menuList.toString());
+        //Log.i("menu", res);
 
         return menuList;
     }
@@ -149,6 +149,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
                 viewList.add(menuDish);
             }
         }
+        Log.i("menu", viewList.toString());
         return viewList;
     }
 
@@ -175,7 +176,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         float sum = 0;
         for (DishInCart cartDish:
              dishesInCart) {
-            sum += getDishPrice(cartDish.getDishID());
+            sum += (getDishPrice(cartDish.getDishID()) * cartDish.getQuantity());
         }
         OrderBean newOrder = new OrderBean();
         newOrder.setCustomerID(userID);
@@ -207,14 +208,12 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
                 dishesInCart) {
             if (cartDish.getDishID().equals(newDish.getDishID())){
                 cartDish.setQuantity(cartDish.getQuantity() + newDish.getQuantity());
-                Log.i("toCart", String.valueOf(cartDish.getQuantity()));
                 Toast.makeText(getActivity(), dishName + " #" + cartDish.getQuantity(), Toast.LENGTH_SHORT).show();
                 return;
             }
         }
         // else, add to the list
         dishesInCart.add(newDish);
-        Log.i("toCart", String.valueOf(newDish.getQuantity()));
         Toast.makeText(getActivity(), dishName + " Added", Toast.LENGTH_SHORT).show();
     }
 
@@ -226,7 +225,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
             Intent intent = new Intent(getActivity(), UserOrderCartActivity.class);
             intent.putExtra("order",order);
             intent.putExtra("dishes", dishes);
-            startActivityForResult(intent, UnitTools.REQUEST_USER_ORDER_CART);
+            getActivity().startActivityForResult(intent, UnitTools.REQUEST_USER_ORDER_CART);
         }
     }
 

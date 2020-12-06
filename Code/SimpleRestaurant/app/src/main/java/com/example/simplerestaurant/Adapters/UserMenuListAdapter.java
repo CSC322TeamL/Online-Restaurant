@@ -31,7 +31,9 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
     }
 
     public void setViewData(ArrayList<UserMenuListBean> viewData){
-        this.viewData = new ArrayList<UserMenuListBean>(viewData);
+        this.viewData = new ArrayList<>(viewData.size());
+        this.viewData.addAll(viewData);
+        notifyDataSetChanged();
     }
 
     public void setAddCartListener(MenuAddCartInterface listener){
