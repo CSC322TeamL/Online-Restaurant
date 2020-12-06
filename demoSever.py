@@ -124,6 +124,7 @@ def get_menu():
         for dishid in menu['dishes']:
             dish = conn2.find_one({'_id': dishid})
             dish['_id'] = str(dish['_id'])
+            dish['ratings'] = len(dish['ratings'])
             dishes.append(dish)
         output['title'] = name
         output['dishes'] = dishes
@@ -139,6 +140,7 @@ def get_dish():
     for dishID in dishID_list:
         dish = conn.find_one({'_id': ObjectId(dishID)})
         dish['_id'] = str(dish['_id'])
+        dish['ratings'] = len(dish['ratings'])
         dishes.append(dish)
     return jsonify(dishes)
 
