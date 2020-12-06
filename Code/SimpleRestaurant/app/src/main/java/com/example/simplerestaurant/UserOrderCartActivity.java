@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -43,13 +45,17 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UserOrderCartActivity extends BaseActivity implements View.OnClickListener ,
-        UserOrderCartInterface {
+        UserOrderCartInterface, RadioGroup.OnCheckedChangeListener {
 
     private RecyclerView dishRecycler;
     private TextView tvOrderTotal;
     private View navigationBar, summaryBar;
     private ImageButton imgbtnBack, imgbtnEmpty;
     private Button btnPlace;
+    private RadioButton rbtnPickUp, rbtnDelivery;
+    private RadioGroup orderGroup;
+
+    private String isDelivery = "true";
 
     private String activityResultKey = "dishes";
 
@@ -69,6 +75,13 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         dishRecycler = (RecyclerView) findViewById(R.id.recycler_order_cart);
         tvOrderTotal = (TextView) findViewById(R.id.tv_order_cart_total);
         btnPlace = (Button) findViewById(R.id.button_order_cart_place);
+
+        orderGroup = (RadioGroup) findViewById(R.id.radiogroup_order_type);
+        rbtnPickUp = (RadioButton) findViewById(R.id.radiobtn_order_pick_up);
+        rbtnDelivery = (RadioButton) findViewById(R.id.radiobtn_order_delivery);
+
+        orderGroup.setOnCheckedChangeListener(this);
+        orderGroup.check(R.id.radiobtn_order_delivery);
 
         navigationBar = (View) findViewById(R.id.view_order_cart_navigation);
         imgbtnBack = (ImageButton) navigationBar.findViewById(R.id.imagebtn_backward);
@@ -237,6 +250,7 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
                 }
                 currentOrder.setDishDetail(uniqueDishes);
                 currentOrder.setOrderTotal(calculateOrderTotal());
+                currentOrder.setIsDelivery(isDelivery);
                 String orderJson = format2Json(currentOrder);
                 if(null != orderJson){
                     upload2server(orderJson);
@@ -257,9 +271,26 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+
+
     @Override
     public void updateTotalPrice(String newPrice) {
         tvOrderTotal.setText(newPrice);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId){
+            case R.id.radiobtn_order_delivery:
+                Log.i("order", "delivery selected");
+                isDelivery = "true";
+                break;
+            case R.id.radiobtn_order_pick_up:
+                Log.i("order", "Pick up selected");
+                isDelivery = "false";
+                break;
+        }
+        Log.i("order", "Deliver it?: " + isDelivery);
     }
 
     public class OrderSubmitResult{

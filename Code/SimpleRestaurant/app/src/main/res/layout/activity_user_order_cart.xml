@@ -20,12 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="60dp"/>
+        android:layout_marginBottom="72dp"/>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_order_cart_summary"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="72dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +57,33 @@
             app:layout_constraintStart_toEndOf="@+id/tv_order_cart_total_header"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.512" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup_order_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_order_cart_place"
+            app:layout_constraintStart_toEndOf="@+id/tv_order_cart_total"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/radiobtn_order_pick_up"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="PickUp" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_order_delivery"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Delivery" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/button_order_cart_place"
