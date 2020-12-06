@@ -232,7 +232,7 @@ def uncompleted_order():
 
 @app.route('/place_order', methods=['POST'])
 def place_order():
-    order = request.get_json()
+    order = request.get_json(force=True)
     userID = order['customerID']
     conn1 = MongoDB(db, 'UserInfo').get_conn()
     user = conn1.find_one({'userID': userID})
@@ -400,7 +400,7 @@ def get_discussionHeads():
 
 @app.route('/new_discussion', methods=['POST'])
 def create_new_discussion():
-    head = request.get_json()
+    head = request.get_json(force=True)
     userID = head['userID']
     head['detail']['createDate'] = datetime.datetime.now()
     conn2 = MongoDB(db, 'Taboos').get_conn()
@@ -464,7 +464,7 @@ def get_all_replies():
 
 @app.route('/reply_discussion', methods=['POST'])
 def reply_discussion():
-    reply = request.get_json()
+    reply = request.get_json(force=True)
     userID = reply['userID']
     reply['targetDiscussion'] = ObjectId(reply['targetDiscussion'])
     reply['detail']['createDate'] = datetime.datetime.now()
