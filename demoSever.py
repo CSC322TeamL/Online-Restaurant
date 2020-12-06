@@ -196,7 +196,9 @@ def get_orders():
             order['_id'] = str(order['_id'])
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
-                dish_detail['dishID'] = dish['title']
+                dish_detail['dishID'] = str(dish_detail['dishID'])
+                dish_detail['title'] = dish['title']
+                dish_detail['price'] = dish['price']
             if order['status'] == 'finished':
                 finished.append(order)
             else:
