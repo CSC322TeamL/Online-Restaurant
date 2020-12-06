@@ -771,6 +771,7 @@ def handle_ComplaintAndCompliment():
         conn1 = MongoDB(db, 'UserLogin').get_conn()
         conn2 = MongoDB(db, 'StaffPerformance').get_conn()
         conn3 = MongoDB(db, 'UserInforDetail').get_conn()
+        conn4 = MongoDB(db, 'UserBasicInfo').get_conn()
         user = conn1.find_one({'userID': userID})
         if complaint['isComplaint'] == 'true':
             if user['role'] == 'chef' or user['role'] == 'delivery person':
@@ -780,6 +781,8 @@ def handle_ComplaintAndCompliment():
                 num_of_compliment = len(user_performance['complimentReceived'])
                 if (num_of_complaint - num_of_compliment) // 3 > user_performance['demoted']:
                     conn2.update_one(user_performance, {'$set': {'demoted': user_performance['demoted'] + 1}})
+                    user_info = conn4.find_one({'userID': userID})
+                    conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] - 1}})
             else:
                 user_detail = conn3.find_one({'userID': userID})
                 conn3.update_one(user_detail, {'$push': {'complaintReceived': ObjectId(complaintID)}})
@@ -791,9 +794,8 @@ def handle_ComplaintAndCompliment():
                 num_of_compliment = len(user_performance['complimentReceived'])
                 if (num_of_compliment - num_of_complaint) // 3 > user_performance['promoted']:
                     conn2.update_one(user_performance, {'$set': {'promoted': user_performance['promoted'] + 1}})
-            else:
-                user_detail = conn3.find_one({'userID': userID})
-                conn3.update_one(user_detail, {'$push': {'complimentReceived': ObjectId(complaintID)}})
+                    user_info = conn4.find_one({'userID': userID})
+                    conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] + 1}})
     if determination == 'warning':
         conn4 = MongoDB(db, 'UserInfo').get_conn()
         user = conn4.find_one({'userID': complaint['fromID']})
