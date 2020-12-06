@@ -379,23 +379,33 @@ def get_discussionHeads():
     conn1 = MongoDB(db, 'UserInforDetail').get_conn()
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
     conn3 = MongoDB(db, 'DiscussionReplied').get_conn()
+    conn4 = MongoDB(db, 'UserInfo').get_conn()
+    user_info = conn4.find_one({'userID': userID})
+    display_name = user_info['displayName']
     user = conn1.find_one({'userID': userID})
     create = []
     reply = []
     if user is not None:
         for createdDiscussion in user['discussionCreated']:
-            discussion = conn2.find_one({'_id': ObjectId(createdDiscussion)}, {"replies": 0})
+            discussion = conn2.find_one({'_id': createdDiscussion}, {"replies": 0})
             discussion['_id'] = str(discussion['_id'])
+            discussion['displayName'] = display_name
             create.append(discussion)
         for repliedDiscussion in user['discussionReplied']:
-            discussion = conn3.find_one({'_id': ObjectId(repliedDiscussion)})
+            discussion = conn3.find_one({'_id': repliedDiscussion})
             discussionHead = conn2.find_one({'_id': discussion['targetDiscussion']}, {"replies": 0})
+            customerID = discussionHead['userID']
+            customer_info = conn4.find_one({'userID': customerID})
+            discussionHead['displayName'] = customer_info['displayName']
             discussionHead['_id'] = str(discussionHead['_id'])
             if discussionHead not in reply:
                 reply.append(discussionHead)
     all = []
     for discussionHead in conn2.find({}, {"replies": 0}):
         discussionHead['_id'] = str(discussionHead['_id'])
+        customerID = discussionHead['userID']
+        customer_info = conn4.find_one({'userID': customerID})
+        discussionHead['displayName'] = customer_info['displayName']
         all.append(discussionHead)
     return jsonify({'result': {'discussionCreated': create,
                                'discussionReplied': reply,
@@ -456,10 +466,14 @@ def create_new_discussion():
 
 @app.route('/get_replies', methods=['POST'])
 def get_all_replies():
-    discussion_head_id = request.form['id']
+    discussion_head_id = request.form['_id']
     conn = MongoDB(db, 'DiscussionReplied').get_conn()
+    conn1 = MongoDB(db, 'UserInfo').get_conn()
     replies = []
     for reply in conn.find({'targetDiscussion': ObjectId(discussion_head_id)}):
+        userID = reply['userID']
+        user = conn1.find_one({'userID': userID})
+        reply['displayName'] = user['displayName']
         reply['_id'] = str(reply['_id'])
         reply['targetDiscussion'] = str(reply['targetDiscussion'])
         replies.append(reply)
