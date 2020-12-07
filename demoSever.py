@@ -779,10 +779,14 @@ def add_dish():
 
 @app.route('/update_dish', methods=['POST'])
 def update_dish():
-    dish = request.form['dish']
+    dish = request.get_json(force=True)
     dish['_id'] = ObjectId(dish['_id'])
     conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
+    dish['createBy'] = old_dish['createBy']
+    dish['createDate'] = old_dish['createDate']
+    dish['digitRating'] = old_dish['digitRating']
+    dish['ratings'] = old_dish['ratings']
     conn.replace_one(old_dish, dish)
     return '0'
 
@@ -939,6 +943,16 @@ def change_password():
         return jsonify({'code': 1, 'content': "user doesn't exist"})
     conn.update_one(user, {'$set': {'userPassword': new_password}})
     return jsonify({'code': 0, 'content': 'success'})
+
+
+@app.route('/dish_info', methods=['POST'])
+def dish_info():
+    title = request.form['title']
+    conn = MongoDB(db, 'Dish').get_conn()
+    dish = conn.find_one({'title': title})
+    dish['_id'] = str(dish['_id'])
+    dish['ratings'] = len(dish['ratings'])
+    return jsonify(dish)
 
 
 if __name__ == "__main__":
