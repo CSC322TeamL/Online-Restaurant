@@ -762,10 +762,12 @@ def rating():
 @app.route('/NewCustomerRequest', methods=['POST'])
 def new_customer_request():
     email = request.form['email']
+    context = request.form['context']
     conn = MongoDB(db, 'NewCustomerRequest').get_conn()
     if conn.find_one({'requesterEmail': email}) is None:
         new = {'requesterEmail': email,
                'requestDate': datetime.datetime.now(),
+               'context': context,
                'isHandle': 'false'}
         conn.insert_one(new)
     return '0'
@@ -793,11 +795,9 @@ def handle_new_customer():
     requester = conn.find_one({'requesterEmail': requesterEmail})
     conn.update_one(requester, {'$set': {'isHandle': 'true'}})
     conn1 = MongoDB(db, 'HandleNewCustomer').get_conn()
-    staffID = request.form['staffID']
     determination = request.form['determination']
     userID = request.form['userID']
-    new = {'staffID': staffID,
-           'determination': determination,
+    new = {'determination': determination,
            'requesterEmail': requesterEmail,
            'userID': userID}
     conn1.insert_one(new)
