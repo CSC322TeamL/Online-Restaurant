@@ -584,6 +584,8 @@ def complaint_filed():
 def new_complaint_or_compliment():
     complaint_or_compliment = request.get_json(force=True)
     complaint_or_compliment['orderID'] = ObjectId(complaint_or_compliment['orderID'])
+    complaint_or_compliment['createDate'] = datetime.datetime.now()
+    complaint_or_compliment['status'] = 'waiting'
     userID = complaint_or_compliment['fromID']
     conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     id = conn.insert_one(complaint_or_compliment).inserted_id
