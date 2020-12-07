@@ -762,10 +762,12 @@ def rating():
 @app.route('/NewCustomerRequest', methods=['POST'])
 def new_customer_request():
     email = request.form['email']
+    context = request.form['context']
     conn = MongoDB(db, 'NewCustomerRequest').get_conn()
     if conn.find_one({'requesterEmail': email}) is None:
         new = {'requesterEmail': email,
                'requestDate': datetime.datetime.now(),
+               'context': context,
                'isHandle': 'false'}
         conn.insert_one(new)
     return '0'
