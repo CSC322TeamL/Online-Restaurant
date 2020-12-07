@@ -7,6 +7,7 @@ public class DiscussionBean {
     private String subjectID;
     private String title;
     private String userID;
+    private String displayName;
 
     public String get_id() {
         return _id;
@@ -56,6 +57,14 @@ public class DiscussionBean {
         this.userID = userID;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     @Override
     public String toString() {
         return "DiscussionBean{" +
@@ -65,6 +74,7 @@ public class DiscussionBean {
                 ", subjectID='" + subjectID + '\'' +
                 ", title='" + title + '\'' +
                 ", userID='" + userID + '\'' +
+                ", displayName='" + displayName + '\'' +
                 '}';
     }
 }

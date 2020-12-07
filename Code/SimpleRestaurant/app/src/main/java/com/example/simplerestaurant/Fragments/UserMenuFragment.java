@@ -83,11 +83,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         menuAdapter.setAddCartListener(this);
         menuRecycler.setAdapter(menuAdapter);
         menuRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
         if(null != menuListener){
             // call the activity to get the menu info from server
             menuListener.getMenuFromServer(userID);
