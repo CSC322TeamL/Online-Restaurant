@@ -87,6 +87,8 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
                 vChefCC.setVisibility(View.VISIBLE);
                 if(currentOrder.getIsDelivery().equals("true")){
                     vDeliveryCC.setVisibility(View.VISIBLE);
+                } else{
+                    vDeliveryCC.setVisibility(View.GONE);
                 }
                 vCustomerCC.setVisibility(View.GONE);
             }
@@ -191,8 +193,15 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
         popupWindow4Rating(userID, dishID, dishTitle);
     }
 
-    private void startCCActivity(String fromID, String toID, String orderID, String isComplaint){
-
+    private void startCCActivity(String fromID, String toID, String orderID, String isComplaint, String subjectType){
+        Intent intent = new Intent(this, ComplaintComplimentActivity.class);
+        intent.putExtra("isComplaint", isComplaint);
+        intent.putExtra("subjectID", toID);
+        intent.putExtra("subjectTo", subjectType);
+        intent.putExtra("userID", userID);
+        intent.putExtra("userType", userType);
+        intent.putExtra("orderID", orderID);
+        startActivity(intent);
     }
 
     @Override
@@ -202,19 +211,19 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
                 this.finish();
                 break;
             case R.id.tv_order_detail_customer_complaint:
-                startCCActivity(userID, currentOrder.getCustomerID(), currentOrder.get_id(), "true");
+                startCCActivity(userID, currentOrder.getCustomerID(), currentOrder.get_id(), "true", "Customer");
                 break;
             case R.id.tv_order_detail_chef_complaint:
-                startCCActivity(userID, currentOrder.getCookBy(), currentOrder.get_id(), "true");
+                startCCActivity(userID, currentOrder.getCookBy(), currentOrder.get_id(), "true", "Chef");
                 break;
             case R.id.tv_order_detail_chef_compliment:
-                startCCActivity(userID, currentOrder.getCookBy(), currentOrder.get_id(), "false");
+                startCCActivity(userID, currentOrder.getCookBy(), currentOrder.get_id(), "false", "Chef");
                 break;
             case R.id.tv_order_detail_delivery_complaint:
-                startCCActivity(userID, currentOrder.getDeliverBy(), currentOrder.get_id(), "true");
+                startCCActivity(userID, currentOrder.getDeliverBy(), currentOrder.get_id(), "true", "Delivery Person");
                 break;
             case R.id.tv_order_detail_delivery_compliment:
-                startCCActivity(userID, currentOrder.getDeliverBy(), currentOrder.get_id(), "false");
+                startCCActivity(userID, currentOrder.getDeliverBy(), currentOrder.get_id(), "false", "Delivery Person");
                 break;
         }
     }
