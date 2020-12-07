@@ -42,14 +42,21 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
     private ImageButton imgbtnBack;
     private PopupWindow myPopUp;
 
+    private View vCustomerCC, vChefCC, vDeliveryCC, vCCGroup;
+    private TextView tvCustomerComplaint
+                    ,tvChefComplaint, tvChefCompliment
+                    ,tvDeliverComplaint, tvDeliverCompliment;
+    private String cc2ID = null;
+    private String userID, userType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_order_detail);
         Intent intent = getIntent();
         String orderStr = intent.getStringExtra("order");
-        String userID = intent.getStringExtra("userID");
-        String userType = intent.getStringExtra("userType");
+        userID = intent.getStringExtra("userID");
+        userType = intent.getStringExtra("userType");
         this.currentOrder = UnitTools.getGson().fromJson(orderStr, OrderBean.class);
 
         tvOrderID = (TextView) findViewById(R.id.tv_user_order_detail_id);
@@ -57,6 +64,39 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
         tvOrderCharged = (TextView) findViewById(R.id.tv_user_order_detail_charged);
         tvDishQuantity = (TextView) findViewById(R.id.tv_user_order_detail_quantity);
         tvOrderStatus = (TextView) findViewById(R.id.tv_user_order_detail_status);
+
+        vCCGroup = (View) findViewById(R.id.view_order_detail_cc_group);
+        vCustomerCC = (View) findViewById(R.id.view_user_order_detail_customer_cc);
+        vChefCC = (View) findViewById(R.id.view_user_order_detail_chef_cc);
+        vDeliveryCC = (View) findViewById(R.id.view_user_order_detail_delivery_cc);
+        tvCustomerComplaint =(TextView)findViewById(R.id.tv_order_detail_customer_complaint);
+        tvChefComplaint =(TextView)findViewById(R.id.tv_order_detail_chef_complaint);
+        tvChefCompliment = (TextView) findViewById(R.id.tv_order_detail_chef_compliment);
+        tvDeliverComplaint =(TextView)findViewById(R.id.tv_order_detail_delivery_complaint);
+        tvDeliverCompliment = (TextView) findViewById(R.id.tv_order_detail_delivery_compliment);
+
+        if(!currentOrder.getStatus().equals("finished")){
+            vCCGroup.setVisibility(View.GONE);
+        } else{
+            vCCGroup.setVisibility(View.VISIBLE);
+            if(userType.toLowerCase().equals("delivery")){
+                vChefCC.setVisibility(View.GONE);
+                vDeliveryCC.setVisibility(View.GONE);
+                vCustomerCC.setVisibility(View.VISIBLE);
+            } else if(userType.equals("Customer") || userType.equals("VIP")){
+                vChefCC.setVisibility(View.VISIBLE);
+                if(currentOrder.getIsDelivery().equals("true")){
+                    vDeliveryCC.setVisibility(View.VISIBLE);
+                }
+                vCustomerCC.setVisibility(View.GONE);
+            }
+        }
+
+        tvCustomerComplaint.setOnClickListener(this);
+        tvChefComplaint.setOnClickListener(this);
+        tvChefCompliment.setOnClickListener(this);
+        tvDeliverComplaint.setOnClickListener(this);
+        tvDeliverCompliment.setOnClickListener(this);
 
         tvOrderID.setText(currentOrder.get_id());
         tvOrderCreated.setText(currentOrder.getCreateDate());
@@ -151,12 +191,30 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
         popupWindow4Rating(userID, dishID, dishTitle);
     }
 
+    private void startCCActivity(String fromID, String toID, String orderID, String isComplaint){
+
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imagebtn_backward:
                 this.finish();
+                break;
+            case R.id.tv_order_detail_customer_complaint:
+                startCCActivity(userID, currentOrder.getCustomerID(), currentOrder.get_id(), "true");
+                break;
+            case R.id.tv_order_detail_chef_complaint:
+                startCCActivity(userID, currentOrder.getCookBy(), currentOrder.get_id(), "true");
+                break;
+            case R.id.tv_order_detail_chef_compliment:
+                startCCActivity(userID, currentOrder.getCookBy(), currentOrder.get_id(), "false");
+                break;
+            case R.id.tv_order_detail_delivery_complaint:
+                startCCActivity(userID, currentOrder.getDeliverBy(), currentOrder.get_id(), "true");
+                break;
+            case R.id.tv_order_detail_delivery_compliment:
+                startCCActivity(userID, currentOrder.getDeliverBy(), currentOrder.get_id(), "false");
                 break;
         }
     }

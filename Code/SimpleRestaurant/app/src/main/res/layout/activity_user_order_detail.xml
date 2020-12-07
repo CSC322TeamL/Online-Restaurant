@@ -124,4 +124,79 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/view_user_order_detail_header" />
 
+    <LinearLayout
+        android:id="@+id/view_order_detail_cc_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/view_user_order_detail_delivery_cc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_order_detail_delivery_complaint"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Complaint Delivery" />
+
+            <TextView
+                android:id="@+id/tv_order_detail_delivery_compliment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Compliment Delivery" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view_user_order_detail_chef_cc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_order_detail_chef_complaint"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Complaint Chef" />
+
+            <TextView
+                android:id="@+id/tv_order_detail_chef_compliment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Compliment Chef" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/view_user_order_detail_customer_cc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_order_detail_customer_complaint"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Complaint Customer" />
+        </LinearLayout>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
