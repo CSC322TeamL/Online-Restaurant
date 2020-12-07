@@ -780,14 +780,21 @@ def add_dish():
 
 @app.route('/update_dish', methods=['POST'])
 def update_dish():
-    dish = request.get_json(force=True)
+    dish = {}
+    dish['_id'] = request.form['_id']
     dish['_id'] = ObjectId(dish['_id'])
+    dish['title'] = request.form['title']
+    dish['price'] = request.form['price']
+    dish['description'] = request.form['description']
+    keywords = request.form['keywords']
+    dish['keywords'] = keywords.split(" ")
     conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
     dish['createBy'] = old_dish['createBy']
     dish['createDate'] = old_dish['createDate']
     dish['digitRating'] = old_dish['digitRating']
     dish['ratings'] = old_dish['ratings']
+    dish['image'] = old_dish['image']
     conn.replace_one(old_dish, dish)
     return '0'
 
