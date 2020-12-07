@@ -695,6 +695,21 @@ def get_dispute_complaint():
         return jsonify(dispute)
 
 
+@app.route('/handle_dispute_complaint', methods=['POST'])
+def handle_dispute_complaint():
+    disputeID = request.form['disputeID']
+    determination = request.form['determination']
+    conn = MongoDB(db, 'ComplaintDispute').get_conn()
+    conn1 = MongoDB(db, 'StaffPerformance').get_conn()
+    dispute_complaint = conn.find_one({'_id': disputeID})
+    userID = dispute_complaint['userID']
+    conn.update_one(dispute_complaint, {'status': determination})
+    if determination == 'accept':
+        user = conn1.find_one({'userID': userID})
+        conn1.update_one(user, {'$pull': {'complaintReceived': dispute_complaint['complaintID']}})
+    return '0'
+
+
 @app.route('/search', methods=['POST'])
 def search():
     keyword = request.form['keyword']
