@@ -793,11 +793,9 @@ def handle_new_customer():
     requester = conn.find_one({'requesterEmail': requesterEmail})
     conn.update_one(requester, {'$set': {'isHandle': 'true'}})
     conn1 = MongoDB(db, 'HandleNewCustomer').get_conn()
-    staffID = request.form['staffID']
     determination = request.form['determination']
     userID = request.form['userID']
-    new = {'staffID': staffID,
-           'determination': determination,
+    new = {'determination': determination,
            'requesterEmail': requesterEmail,
            'userID': userID}
     conn1.insert_one(new)
