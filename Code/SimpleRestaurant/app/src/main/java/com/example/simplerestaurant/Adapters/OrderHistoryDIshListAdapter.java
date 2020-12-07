@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplerestaurant.Interfaces.UserDishRatingInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.beans.DishInCart;
 import com.example.simplerestaurant.beans.OrderBean;
@@ -17,12 +18,13 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
-public class OrderHistoryDIshListAdapter extends RecyclerView.Adapter<OrderHistoryDIshListAdapter.DishHisListViewHolder> {
+public class OrderHistoryDIshListAdapter extends RecyclerView.Adapter<OrderHistoryDIshListAdapter.DishHisListViewHolder>{
 
     private String userID, userType;
     private OrderBean currentOrder;
     private ArrayList<DishInCart> dishList;
     private double discountNum;
+    private UserDishRatingInterface ratingListener;
 
     public OrderHistoryDIshListAdapter(String userID, String userType, OrderBean currentOrder) {
         this.userID = userID;
@@ -37,6 +39,10 @@ public class OrderHistoryDIshListAdapter extends RecyclerView.Adapter<OrderHisto
         }
     }
 
+    public void setRatingListener(UserDishRatingInterface listener){
+        this.ratingListener = listener;
+    }
+
     @NonNull
     @Override
     public DishHisListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,7 +51,7 @@ public class OrderHistoryDIshListAdapter extends RecyclerView.Adapter<OrderHisto
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DishHisListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DishHisListViewHolder holder, final int position) {
         String title = dishList.get(position).getTitle();
         int quantity = dishList.get(position).getQuantity();
         if(quantity > 1){
@@ -60,6 +66,15 @@ public class OrderHistoryDIshListAdapter extends RecyclerView.Adapter<OrderHisto
             holder.getTvDishNote().setVisibility(View.VISIBLE);
             holder.getTvDishNote().setText(note);
         }
+
+        holder.getBtnRate().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(null != ratingListener){
+                    ratingListener.openRatingPopupWindow(userID, dishList.get(position).getDishID(), dishList.get(position).getTitle());
+                }
+            }
+        });
     }
 
     @Override
