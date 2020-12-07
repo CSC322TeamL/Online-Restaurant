@@ -448,6 +448,7 @@ def create_new_discussion():
     head = request.get_json(force=True)
     userID = head['userID']
     head['detail']['createDate'] = datetime.datetime.now()
+    head['replies'] = []
     conn2 = MongoDB(db, 'Taboos').get_conn()
     taboo_collection = conn2.find_one()
     taboos = taboo_collection['text']
