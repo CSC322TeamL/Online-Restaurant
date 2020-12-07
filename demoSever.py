@@ -786,7 +786,8 @@ def update_dish():
     dish['title'] = request.form['title']
     dish['price'] = request.form['price']
     dish['description'] = request.form['description']
-    dish['keywords'] = request.form['keywords']
+    keywords = request.form['keywords']
+    dish['keywords'] = keywords.split(" ")
     conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
     dish['createBy'] = old_dish['createBy']
