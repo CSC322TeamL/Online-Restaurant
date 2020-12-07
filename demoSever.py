@@ -657,7 +657,8 @@ def dispute_complaint():
     context = request.form['context']
     new_dispute_complaint = {'complaintID': ObjectId(complaintID),
                              'userID': userID,
-                             'context': context}
+                             'context': context,
+                             'status': 'waiting'}
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
     id = conn.insert_one(new_dispute_complaint).inserted_id
     if role == 'chef' or role == 'delivery person':
@@ -672,13 +673,26 @@ def dispute_complaint():
 @app.route('/get_dispute_complaint', methods=['POST'])
 def get_dispute_complaint():
     userID = request.form['userID']
-    dispute = []
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
-    for complaintDisputed in conn.find({'userID': userID}):
-        complaintDisputed['_id'] = str(complaintDisputed['_id'])
-        complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
-        dispute.append(complaintDisputed)
-    return jsonify({'result': {'complaintDisputed': dispute}})
+    conn1 = MongoDB(db, 'ComplaintsAndComplements').get_conn()
+    if userID == "-1":  # user is a manager
+        waiting = []
+        for complaintDisputed in conn.find({'status': 'waiting'}):
+            complaintDisputed['_id'] = str(complaintDisputed['_id'])
+            complaint = conn1.find_one({'_id': complaintDisputed['complaintID']})
+            complaintDisputed['complaintContext'] = complaint['context']
+            complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
+            waiting.append(complaintDisputed)
+        return jsonify(waiting)
+    else:
+        dispute = []
+        for complaintDisputed in conn.find({'userID': userID}):
+            complaintDisputed['_id'] = str(complaintDisputed['_id'])
+            complaint = conn1.find_one({'_id': complaintDisputed['complaintID']})
+            complaintDisputed['complaintContext'] = complaint['context']
+            complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
+            dispute.append(complaintDisputed)
+        return jsonify(dispute)
 
 
 @app.route('/search', methods=['POST'])
