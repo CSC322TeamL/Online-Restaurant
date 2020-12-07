@@ -787,9 +787,12 @@ def update_dish():
     dish['price'] = request.form['price']
     dish['description'] = request.form['description']
     keywords = request.form['keywords']
-    dish['keywords'] = keywords.split(" ")
     conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
+    if keywords == "-1":
+        dish['keywords'] = old_dish['keywords']
+    else:
+        dish['keywords'] = keywords.split(" ")
     dish['createBy'] = old_dish['createBy']
     dish['createDate'] = old_dish['createDate']
     dish['digitRating'] = old_dish['digitRating']
