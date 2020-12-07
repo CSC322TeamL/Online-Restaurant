@@ -25,6 +25,7 @@
         <activity android:name=".UserOrderCartActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".UserOrderDetailActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".NewDiscussionActivity" android:parentActivityName=".UserMainPageActivity"/>
-    </application>
+        <activity android:name=".DiscussionRepliesActivity" android:parentActivityName=".UserMainPageActivity"/>
+     </application>
 
 </manifest>

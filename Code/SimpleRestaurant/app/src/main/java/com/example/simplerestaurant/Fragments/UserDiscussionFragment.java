@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.DiscussionHeaderListAdapter;
+import com.example.simplerestaurant.DiscussionRepliesActivity;
+import com.example.simplerestaurant.Interfaces.Discussion2DetailInterface;
 import com.example.simplerestaurant.Interfaces.UserDiscussionFragmentInterface;
 import com.example.simplerestaurant.NewDiscussionActivity;
 import com.example.simplerestaurant.R;
@@ -26,7 +28,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserDiscussionFragment extends Fragment implements View.OnClickListener {
+public class UserDiscussionFragment extends Fragment implements View.OnClickListener
+    , Discussion2DetailInterface {
 
     private ArrayList<DiscussionBean> allDiscussions;
     private RecyclerView discussionHeadRecycler;
@@ -63,6 +66,7 @@ public class UserDiscussionFragment extends Fragment implements View.OnClickList
         }
 
         adapter = new DiscussionHeaderListAdapter(userID, userType, allDiscussions);
+        adapter.setDetailActivityListener(this);
         discussionHeadRecycler.setAdapter(adapter);
         discussionHeadRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -104,6 +108,16 @@ public class UserDiscussionFragment extends Fragment implements View.OnClickList
                 getActivity().startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    public void showDetailActivity(DiscussionBean discussion) {
+        String discJson = UnitTools.getGson().toJson(discussion);
+        Intent intent = new Intent(getActivity(), DiscussionRepliesActivity.class);
+        intent.putExtra("disc", discJson);
+        intent.putExtra("userID", userID);
+        intent.putExtra("userType", userType);
+        getActivity().startActivity(intent);
     }
 
     class DiscussionResponseBean{

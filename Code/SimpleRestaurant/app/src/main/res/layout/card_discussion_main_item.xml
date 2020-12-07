@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tv_main_discussion_card_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
         android:textStyle="bold"
@@ -24,12 +24,13 @@
 
     <TextView
         android:id="@+id/tv_main_discussion_card_context"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="3"
+        android:inputType="textMultiLine"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:text="this is the main body of the discussion"
+        android:text="this is the main body of the discussion which should have more than two lines"
         android:textColor="@color/greyDark"/>
 
 </LinearLayout>

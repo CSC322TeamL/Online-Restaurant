@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplerestaurant.Interfaces.Discussion2DetailInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.beans.DiscussionBean;
 
@@ -16,11 +17,16 @@ import java.util.ArrayList;
 public class DiscussionHeaderListAdapter extends RecyclerView.Adapter<DiscussionHeaderListAdapter.DiscussionHeaderViewHolder> {
     private String userID, userType;
     private ArrayList<DiscussionBean> viewData;
+    private Discussion2DetailInterface listener;
 
     public DiscussionHeaderListAdapter(String userID, String userType, ArrayList<DiscussionBean> viewData) {
         this.userID = userID;
         this.userType = userType;
         setDiscussionList(viewData);
+    }
+
+    public void setDetailActivityListener(Discussion2DetailInterface listener){
+        this.listener = listener;
     }
 
     public void setDiscussionList(ArrayList<DiscussionBean> newList){
@@ -40,9 +46,17 @@ public class DiscussionHeaderListAdapter extends RecyclerView.Adapter<Discussion
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DiscussionHeaderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DiscussionHeaderViewHolder holder, final int position) {
         holder.getTvTitle().setText(viewData.get(position).getTitle());
         holder.getTvContext().setText(viewData.get(position).getDetail().getContext());
+        holder.getCard().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != listener) {
+                    listener.showDetailActivity(viewData.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -69,6 +83,10 @@ public class DiscussionHeaderListAdapter extends RecyclerView.Adapter<Discussion
 
         public TextView getTvContext() {
             return tvContext;
+        }
+
+        public View getCard() {
+            return card;
         }
     }
 }
