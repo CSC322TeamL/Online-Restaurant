@@ -28,6 +28,7 @@
         <activity android:name=".DiscussionRepliesActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".ComplaintComplimentActivity" android:parentActivityName=".UserOrderDetailActivity"/>
         <activity android:name=".UserRefillBalanceActivity" android:parentActivityName=".UserMainPageActivity"/>
+        <activity android:name=".GeneralCCActivity" android:parentActivityName=".UserMainPageActivity"/>
      </application>
 
 </manifest>

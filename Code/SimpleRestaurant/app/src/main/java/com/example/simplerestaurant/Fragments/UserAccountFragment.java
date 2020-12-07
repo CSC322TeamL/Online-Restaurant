@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.simplerestaurant.GeneralCCActivity;
 import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
@@ -28,7 +29,7 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
     private UserBasicInfoBean userBasicInfo;
 
     private TextView tvDisplayName, tvUserBalance, tvUserSpent;
-    private TextView tvFiledComplaint, tvReceivedComplaint, tvDisputedComplaint, tvFiledComplement;
+    private TextView tvFiledComplaint, tvReceivedComplaint, tvFiledComplement;
     private TextView tvWarnings, tvRefill;
     private ImageButton imgbtnDetail;
 
@@ -52,7 +53,6 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
         tvUserSpent = (TextView) view.findViewById(R.id.textview_user_spent);
         tvFiledComplaint = (TextView) view.findViewById(R.id.textview_user_complaint_filed);
         tvReceivedComplaint = (TextView) view.findViewById(R.id.textview_user_complaint_recieved);
-        tvDisputedComplaint = (TextView) view.findViewById(R.id.textview_user_complaint_disputed);
         tvFiledComplement = (TextView) view.findViewById(R.id.textview_user_complement_filed);
         imgbtnDetail = (ImageButton) view.findViewById(R.id.imgbtn_user_account_me);
         tvWarnings = (TextView) view.findViewById(R.id.textview_user_warnings);
@@ -60,7 +60,6 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
 
         tvFiledComplaint.setOnClickListener(this);
         tvReceivedComplaint.setOnClickListener(this);
-        tvDisputedComplaint.setOnClickListener(this);
         tvFiledComplement.setOnClickListener(this);
         imgbtnDetail.setOnClickListener(this);
         tvRefill.setOnClickListener(this);
@@ -97,6 +96,14 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
         setUpViewText(userBasicInfo);
     }
 
+    private void startGeneralCCActivity(int selection){
+        Intent intent = new Intent(getActivity(), GeneralCCActivity.class);
+        intent.putExtra("selection", selection);
+        intent.putExtra("userID", userID);
+        intent.putExtra("userType", userType);
+        getActivity().startActivity(intent);
+    }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -107,12 +114,13 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
                 startActivity(intent);
                 break;
             case R.id.textview_user_complaint_filed:
+                startGeneralCCActivity(GeneralCCActivity.FILED_COMPLAINT);
                 break;
             case R.id.textview_user_complaint_recieved:
-                break;
-            case R.id.textview_user_complaint_disputed:
+                startGeneralCCActivity(GeneralCCActivity.RECEIVED_COMPLAINT);
                 break;
             case R.id.textview_user_complement_filed:
+                startGeneralCCActivity(GeneralCCActivity.FILED_COMPLIMENT);
                 break;
             case R.id.textview_user_refill_balance:
                 intent = new Intent(getActivity(), UserRefillBalanceActivity.class);
