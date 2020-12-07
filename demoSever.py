@@ -339,7 +339,7 @@ def order_delivered():
     conn1 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
     delivery_person = conn1.find_one({'userID': userID})
     conn1.update_one(delivery_person, {'$pull': {'orderPicked': ObjectId(orderID)}})
-    conn1.update_one(delivery_person, {'$push': {'orderDelivered': ObjectId(orderID)}})
+    conn1.update_one({'userID': userID}, {'$push': {'orderDelivered': ObjectId(orderID)}})
     conn2 = MongoDB(db, 'OrderDetail').get_conn()
     order_detail = conn2.find_one({'orderID': ObjectId(orderID)})
     conn2.update_one(order_detail, {'$set': {'delivered ': datetime.datetime.now()}})
@@ -704,7 +704,7 @@ def rating():
     n = len(dish['ratings'])
     new_point = (dish['digitRating'] * n + point) / (n + 1)
     conn2.update_one(dish, {'$set': {'digitRating': new_point}})
-    conn2.update_one(dish, {'$push': {'ratings': ratingID}})
+    conn2.update_one({'_id': dish['_id']}, {'$push': {'ratings': ratingID}})
     return '0'
 
 
