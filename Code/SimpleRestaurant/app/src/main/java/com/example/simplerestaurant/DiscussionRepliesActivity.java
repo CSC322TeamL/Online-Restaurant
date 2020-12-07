@@ -2,6 +2,7 @@ package com.example.simplerestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.DiscussionRepliesAdapter;
 import com.example.simplerestaurant.beans.DiscussionBean;
+import com.example.simplerestaurant.beans.DiscussionDetailBean;
 import com.example.simplerestaurant.beans.ReplyBean;
+import com.example.simplerestaurant.beans.SimpleResponseBean;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
@@ -26,11 +29,13 @@ import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class DiscussionRepliesActivity extends BaseActivity{
+public class DiscussionRepliesActivity extends BaseActivity implements View.OnClickListener{
 
     private String userID, userType;
     private DiscussionBean currentDiscussion;
@@ -67,6 +72,7 @@ public class DiscussionRepliesActivity extends BaseActivity{
 
         etReply = (EditText) findViewById(R.id.et_disc_reply_reply_context);
         imgbtnSubmit = (ImageButton) findViewById(R.id.imgbtn_disc_reply_submit);
+        imgbtnSubmit.setOnClickListener(this);
 
         repliesRecycler = (RecyclerView) findViewById(R.id.recycler_disc_reply_replies);
 
@@ -130,5 +136,96 @@ public class DiscussionRepliesActivity extends BaseActivity{
                 });
             }
         });
+    }
+
+    private void onSubmitReplyResponse(String res){
+        etReply.setText("");
+        SimpleResponseBean response;
+        try {
+            response = UnitTools.getGson().fromJson(res, SimpleResponseBean.class);
+        } catch (Exception e){
+            return;
+        }
+        if(response.getCode() == 0){
+            toastMessage("Reply submitted");
+        }  else if(response.getCode() == 1){
+            toastMessage("Your reply has some taboo words.\nA waring received.");
+        } else if(response.getCode() == -1){
+            toastMessage("Your reply has more than 3 taboo words.\nThe discussion had been blocked.");
+        }else {
+            toastMessage("Unknow error");
+        }
+        getRepliesFromServer();
+    }
+
+    private void uploadReply2Server(String res){
+        String url = getString(R.string.base_url) + "/reply_discussion";
+        RequestBody body = RequestBody.create(
+                res, MediaType.parse(UnitTools.TYPE_JSON)
+        );
+        final Request request = new Request.Builder().url(url).post(body).build();
+        Call call = UnitTools.getOkHttpClient().newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Failed to connect to server");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        onSubmitReplyResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
+    private String getReplyJson(){
+        String userReply = etReply.getText().toString().trim();
+        if(userReply.isEmpty() || userReply.equals("")){
+            toastMessage("Reply empty");
+            return null;
+        }
+        ReplyBean newReply = new ReplyBean();
+        DiscussionDetailBean detail = new DiscussionDetailBean();
+        detail.setContext(userReply);
+        newReply.setDetail(detail);
+        newReply.setUserID(userID);
+        newReply.setTargetDiscussion(currentDiscussion.get_id());
+        try {
+            String temStr = UnitTools.getGson().toJson(newReply);
+            JSONObject jsonTemp = new JSONObject(temStr);
+            jsonTemp.remove("_id");
+            jsonTemp.remove("displayName");
+            return jsonTemp.toString().trim();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        toastMessage("Error when formatting data");
+        return null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.imgbtn_disc_reply_submit:
+                String res = getReplyJson();
+                if(null == res){
+                    return;
+                }
+                uploadReply2Server(res);
+                break;
+        }
     }
 }
