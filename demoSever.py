@@ -793,6 +793,7 @@ def update_dish():
     dish['createDate'] = old_dish['createDate']
     dish['digitRating'] = old_dish['digitRating']
     dish['ratings'] = old_dish['ratings']
+    dish['image'] = old_dish['image']
     conn.replace_one(old_dish, dish)
     return '0'
 
