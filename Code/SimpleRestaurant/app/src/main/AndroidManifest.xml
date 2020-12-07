@@ -27,6 +27,7 @@
         <activity android:name=".NewDiscussionActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".DiscussionRepliesActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".ComplaintComplimentActivity" android:parentActivityName=".UserOrderDetailActivity"/>
+        <activity android:name=".UserRefillBalanceActivity" android:parentActivityName=".UserMainPageActivity"/>
      </application>
 
 </manifest>

@@ -9,13 +9,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
 import com.example.simplerestaurant.UserPersonalInfoActivity;
+import com.example.simplerestaurant.UserRefillBalanceActivity;
 import com.example.simplerestaurant.beans.UserBasicInfoBean;
+
+import org.w3c.dom.Text;
 
 public class UserAccountFragment extends Fragment implements View.OnClickListener{
 
@@ -25,6 +29,7 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
 
     private TextView tvDisplayName, tvUserBalance, tvUserSpent;
     private TextView tvFiledComplaint, tvReceivedComplaint, tvDisputedComplaint, tvFiledComplement;
+    private TextView tvWarnings, tvRefill;
     private ImageButton imgbtnDetail;
 
     private String res;
@@ -50,12 +55,15 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
         tvDisputedComplaint = (TextView) view.findViewById(R.id.textview_user_complaint_disputed);
         tvFiledComplement = (TextView) view.findViewById(R.id.textview_user_complement_filed);
         imgbtnDetail = (ImageButton) view.findViewById(R.id.imgbtn_user_account_me);
+        tvWarnings = (TextView) view.findViewById(R.id.textview_user_warnings);
+        tvRefill = (TextView) view.findViewById(R.id.textview_user_refill_balance);
 
         tvFiledComplaint.setOnClickListener(this);
         tvReceivedComplaint.setOnClickListener(this);
         tvDisputedComplaint.setOnClickListener(this);
         tvFiledComplement.setOnClickListener(this);
         imgbtnDetail.setOnClickListener(this);
+        tvRefill.setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +80,14 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
             tvDisplayName.setText(userBasicInfo.getDisplayName());
             tvUserBalance.setText("$" + userBasicInfo.getBalance());
             tvUserSpent.setText("$" + userBasicInfo.getSpent());
+
+            int ws = userBasicInfo.getWarnings();
+            tvWarnings.setText(String.valueOf(ws));
+            if(ws > 0){
+                tvWarnings.setTextColor(ContextCompat.getColor(getActivity(), R.color.primaryRedDark));
+            } else {
+                tvWarnings.setTextColor(ContextCompat.getColor(getActivity(), R.color.primaryGreen));
+            }
         }
     }
 
@@ -83,9 +99,10 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()){
             case R.id.imgbtn_user_account_me:
-                Intent intent = new Intent(getActivity(), UserPersonalInfoActivity.class);
+                intent = new Intent(getActivity(), UserPersonalInfoActivity.class);
                 intent.putExtra("userInfo", res);
                 startActivity(intent);
                 break;
@@ -96,6 +113,11 @@ public class UserAccountFragment extends Fragment implements View.OnClickListene
             case R.id.textview_user_complaint_disputed:
                 break;
             case R.id.textview_user_complement_filed:
+                break;
+            case R.id.textview_user_refill_balance:
+                intent = new Intent(getActivity(), UserRefillBalanceActivity.class);
+                intent.putExtra("userInfo", res);
+                startActivity(intent);
                 break;
         }
     }
