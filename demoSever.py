@@ -688,6 +688,7 @@ def rating():
     userID = request.form['userID']
     dishID = request.form['dishID']
     point = request.form['rating']
+    point = int(point)
     new_rating = {'subjectID': ObjectId(dishID),
                   'customerID': userID,
                   'ratingDate': datetime.datetime.now(),
