@@ -584,6 +584,8 @@ def complaint_filed():
 def new_complaint_or_compliment():
     complaint_or_compliment = request.get_json(force=True)
     complaint_or_compliment['orderID'] = ObjectId(complaint_or_compliment['orderID'])
+    complaint_or_compliment['createDate'] = datetime.datetime.now()
+    complaint_or_compliment['status'] = 'waiting'
     userID = complaint_or_compliment['fromID']
     conn = MongoDB(db, 'ComplaintsAndComplements').get_conn()
     id = conn.insert_one(complaint_or_compliment).inserted_id
@@ -655,7 +657,8 @@ def dispute_complaint():
     context = request.form['context']
     new_dispute_complaint = {'complaintID': ObjectId(complaintID),
                              'userID': userID,
-                             'context': context}
+                             'context': context,
+                             'status': 'waiting'}
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
     id = conn.insert_one(new_dispute_complaint).inserted_id
     if role == 'chef' or role == 'delivery person':
@@ -670,13 +673,41 @@ def dispute_complaint():
 @app.route('/get_dispute_complaint', methods=['POST'])
 def get_dispute_complaint():
     userID = request.form['userID']
-    dispute = []
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
-    for complaintDisputed in conn.find({'userID': userID}):
-        complaintDisputed['_id'] = str(complaintDisputed['_id'])
-        complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
-        dispute.append(complaintDisputed)
-    return jsonify({'result': {'complaintDisputed': dispute}})
+    conn1 = MongoDB(db, 'ComplaintsAndComplements').get_conn()
+    if userID == "-1":  # user is a manager
+        waiting = []
+        for complaintDisputed in conn.find({'status': 'waiting'}):
+            complaintDisputed['_id'] = str(complaintDisputed['_id'])
+            complaint = conn1.find_one({'_id': complaintDisputed['complaintID']})
+            complaintDisputed['complaintContext'] = complaint['context']
+            complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
+            waiting.append(complaintDisputed)
+        return jsonify(waiting)
+    else:
+        dispute = []
+        for complaintDisputed in conn.find({'userID': userID}):
+            complaintDisputed['_id'] = str(complaintDisputed['_id'])
+            complaint = conn1.find_one({'_id': complaintDisputed['complaintID']})
+            complaintDisputed['complaintContext'] = complaint['context']
+            complaintDisputed['complaintID'] = str(complaintDisputed['complaintID'])
+            dispute.append(complaintDisputed)
+        return jsonify(dispute)
+
+
+@app.route('/handle_dispute_complaint', methods=['POST'])
+def handle_dispute_complaint():
+    disputeID = request.form['disputeID']
+    determination = request.form['determination']
+    conn = MongoDB(db, 'ComplaintDispute').get_conn()
+    conn1 = MongoDB(db, 'StaffPerformance').get_conn()
+    dispute_complaint = conn.find_one({'_id': disputeID})
+    userID = dispute_complaint['userID']
+    conn.update_one(dispute_complaint, {'status': determination})
+    if determination == 'accept':
+        user = conn1.find_one({'userID': userID})
+        conn1.update_one(user, {'$pull': {'complaintReceived': dispute_complaint['complaintID']}})
+    return '0'
 
 
 @app.route('/search', methods=['POST'])
