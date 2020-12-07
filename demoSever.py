@@ -756,12 +756,12 @@ def handle_new_customer():
 @app.route('/delete_dish', methods=['POST'])
 def delete_dish():
     dishID = request.form['dishID']
-    menu_name = request.form['menu']
     conn = MongoDB(db, 'Dish').get_conn()
     conn.delete_one({'_id': ObjectId(dishID)})
     conn1 = MongoDB(db, 'Menu').get_conn()
-    menu = conn1.find_one({'title': menu_name})
-    conn1.update_one(menu, {'$pull': {'dishes': ObjectId(dishID)}})
+    for menu in conn1.find():
+        if ObjectId(dishID) in menu['dishes']:
+            conn1.update_one(menu, {'$pull': {'dishes': ObjectId(dishID)}})
     return '0'
 
 
