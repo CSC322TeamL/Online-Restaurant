@@ -2,11 +2,11 @@ package com.example.simplerestaurant.beans;
 
 import java.io.Serializable;
 
-public class UserLoginBean implements Serializable {
+public class SimpleResponseBean implements Serializable {
     private int code;
     private String content;
 
-    public UserLoginBean(int code, String content) {
+    public SimpleResponseBean(int code, String content) {
         this.code = code;
         this.content = content;
     }

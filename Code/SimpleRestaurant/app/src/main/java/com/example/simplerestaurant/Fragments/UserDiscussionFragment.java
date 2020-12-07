@@ -1,5 +1,6 @@
 package com.example.simplerestaurant.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.DiscussionHeaderListAdapter;
 import com.example.simplerestaurant.Interfaces.UserDiscussionFragmentInterface;
+import com.example.simplerestaurant.NewDiscussionActivity;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.UnitTools;
 import com.example.simplerestaurant.beans.DiscussionBean;
@@ -53,6 +55,8 @@ public class UserDiscussionFragment extends Fragment implements View.OnClickList
         btnRefresh = (Button) view.findViewById(R.id.button_main_discussion_refresh);
         btnNew = (Button) view.findViewById(R.id.button_main_discussion_new);
 
+        btnNew.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
         // hide the new discussion button when user is a surfer
         if(userID.equals("-1")){
             btnNew.setVisibility(View.GONE);
@@ -93,6 +97,11 @@ public class UserDiscussionFragment extends Fragment implements View.OnClickList
                 }
                 break;
             case R.id.button_main_discussion_new:
+                Intent intent = new Intent(getActivity(), NewDiscussionActivity.class);
+                intent.putExtra("userID", userID);
+                intent.putExtra("userType", userType);
+
+                getActivity().startActivity(intent);
                 break;
         }
     }

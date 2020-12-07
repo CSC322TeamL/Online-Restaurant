@@ -64,6 +64,9 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
         tvDishQuantity.setText(String.valueOf(currentOrder.getDishDetail().size()));
         tvOrderStatus.setText(currentOrder.getStatus());
 
+        imgbtnBack = (ImageButton) findViewById(R.id.imagebtn_backward);
+        imgbtnBack.setOnClickListener(this);
+
         dishRecycler = (RecyclerView) findViewById(R.id.recycler_user_order_detail);
         adapter = new OrderHistoryDIshListAdapter(userID, userType, currentOrder);
         adapter.setRatingListener(this);
@@ -152,8 +155,8 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_popup_submit:
-
+            case R.id.imagebtn_backward:
+                this.finish();
                 break;
         }
     }

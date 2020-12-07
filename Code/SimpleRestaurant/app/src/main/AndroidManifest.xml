@@ -24,6 +24,7 @@
         <activity android:name=".UserPersonalInfoActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".UserOrderCartActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".UserOrderDetailActivity" android:parentActivityName=".UserMainPageActivity"/>
+        <activity android:name=".NewDiscussionActivity" android:parentActivityName=".UserMainPageActivity"/>
     </application>
 
 </manifest>

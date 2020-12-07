@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.simplerestaurant.beans.UserLoginBean;
+import com.example.simplerestaurant.beans.SimpleResponseBean;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void loginResponseHandler(String res){
         Log.i("222", "In the UI: " + res);
         Gson gson = UnitTools.getGson();
-        UserLoginBean result = gson.fromJson(res, UserLoginBean.class);
+        SimpleResponseBean result = gson.fromJson(res, SimpleResponseBean.class);
         if(result.getCode() == 1){
             textLoginError.setText(result.getContent());
             textLoginError.setVisibility(View.VISIBLE);

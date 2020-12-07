@@ -284,11 +284,11 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
             case R.id.radiobtn_order_delivery:
-                Log.i("order", "delivery selected");
+                //Log.i("order", "delivery selected");
                 isDelivery = "true";
                 break;
             case R.id.radiobtn_order_pick_up:
-                Log.i("order", "Pick up selected");
+                //Log.i("order", "Pick up selected");
                 isDelivery = "false";
                 break;
         }
