@@ -45,7 +45,7 @@ def new_user():
                         'content': 'userID already exists'})
     new = {'userID': userId,
            'userPassword': request.form['userPassword'],
-           'userStatus': request.form['userStatus'],
+           'userStatus': 1,
            'role': request.form['role']}
     conn.insert_one(new)
     if new['role'] == 'Customer' or new['role'] == 'VIP':
