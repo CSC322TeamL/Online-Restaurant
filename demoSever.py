@@ -690,7 +690,7 @@ def rating():
     point = request.form['rating']
     new_rating = {'subjectID': ObjectId(dishID),
                   'customerID': userID,
-                  'ratingDate': pymongo.datetime.datetime.now(),
+                  'ratingDate': datetime.datetime.now(),
                   'rating': point}
     conn = MongoDB(db, 'UserRating').get_conn()
     ratingID = conn.insert_one(new_rating).inserted_id
