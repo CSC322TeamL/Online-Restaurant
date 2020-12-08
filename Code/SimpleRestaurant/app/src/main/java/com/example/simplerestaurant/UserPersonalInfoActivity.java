@@ -29,7 +29,8 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
 
     private UserBasicInfoBean userInfo;
     private TextInputLayout tiFirstName, tiLastName, tiDisplayName
-            , tiEmail, tiPhone, tiStreet, tiCity, tiState, tiZipCode;
+            , tiEmail, tiPhone, tiStreet, tiCity, tiState, tiZipCode
+            , tiBalance;
     private String firstName, lastName, displayName, email, phone
             , street, city, state, zipCode;
 
@@ -37,6 +38,7 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
     private Button submit;
 
     private String userID, userType;
+    private int isActivation = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         tiCity = (TextInputLayout)findViewById(R.id.textinput_user_city);
         tiState = (TextInputLayout)findViewById(R.id.textinput_user_state);
         tiZipCode = (TextInputLayout)findViewById(R.id.textinput_user_zipcode);
+        tiBalance = (TextInputLayout)findViewById(R.id.textinput_user_balance);
 
         backward = (ImageButton) findViewById(R.id.imagebtn_backward);
         submit = (Button) findViewById(R.id.button_user_info_submit);
@@ -62,8 +65,15 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
 
         Intent intent = getIntent();
         userInfo = UnitTools.getGson().fromJson(intent.getStringExtra("userInfo"), UserBasicInfoBean.class);
-        Log.i("acc", userInfo.toString());
+        //Log.i("acc", userInfo.toString());
+        if(isActivation == 0){
+            userID = userInfo.getUserID();
+        }
 
+        isActivation = intent.getIntExtra("activate", 1);
+        if(isActivation == 0){
+            tiBalance.setVisibility(View.VISIBLE);
+        }
         userID = userInfo.getUserID();
         userType = userInfo.getUserRole();
         setUpFields(userInfo);
@@ -72,6 +82,9 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
     private void setUpFields(UserBasicInfoBean userinfo){
         if(null == tiFirstName){
             return;
+        }
+        if(isActivation == 0){
+            tiBalance.getEditText().setText(String.valueOf(userinfo.getBalance()));
         }
         tiFirstName.getEditText().setText(userinfo.getBasicInfo().getFistName());
         tiLastName.getEditText().setText(userinfo.getBasicInfo().getLastName());
@@ -93,35 +106,50 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         city = tiCity.getEditText().getText().toString().trim();
         state = tiState.getEditText().getText().toString().trim();
         zipCode = tiZipCode.getEditText().getText().toString().trim();
-        if(null == firstName){
+        String balanceStr = tiBalance.getEditText().getText().toString().trim();
+        float balance;
+        if(isActivation == 0){
+            if(null == balanceStr || balanceStr.isEmpty()|| balanceStr.equals("")){
+                tiBalance.getEditText().setError("Balance must no less than 50.");
+                return null;
+            } else {
+                balance = Float.valueOf(balanceStr);
+                if(balance < 50){
+                    tiBalance.getEditText().setError("Balance must no less than 50.");
+                    return null;
+                }
+            }
+            userInfo.setBalance(balance);
+        }
+        if(null == firstName || firstName.isEmpty()){
             tiFirstName.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == lastName){
+        if(null == lastName || lastName.isEmpty()){
             tiLastName.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == displayName){
+        if(null == displayName || displayName.isEmpty()){
             tiDisplayName.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == phone){
+        if(null == phone || phone.isEmpty()){
             tiPhone.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == street){
+        if(null == street || street.isEmpty()){
             tiStreet.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == city){
+        if(null == city || city.isEmpty()){
             tiCity.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == state){
+        if(null == state || state.isEmpty()){
             tiState.getEditText().setError("First Name empty");
             return null;
         }
-        if(null == zipCode){
+        if(null == zipCode || zipCode.isEmpty()){
             tiZipCode.getEditText().setError("First Name empty");
             return null;
         }
@@ -158,6 +186,13 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         }
         backward.setClickable(true);
         submit.setClickable(true);
+        if(isActivation == 0){
+            Intent intent = new Intent(this, UserMainPageActivity.class);
+            intent.putExtra("userID", userID);
+            intent.putExtra("userType", userType);
+            finish();
+            startActivity(intent);
+        }
     }
 
     private void submitChange2Server(String update){

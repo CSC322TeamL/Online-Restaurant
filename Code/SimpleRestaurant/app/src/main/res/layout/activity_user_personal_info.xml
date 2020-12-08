@@ -10,6 +10,22 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"/>
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textinput_user_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp"
+            android:visibility="gone">
+            <EditText
+                android:id="@+id/et_user_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fund Balance"
+                android:text="500"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textinput_user_firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

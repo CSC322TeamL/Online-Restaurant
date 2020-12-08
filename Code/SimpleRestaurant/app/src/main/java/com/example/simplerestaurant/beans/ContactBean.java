@@ -2,8 +2,8 @@ package com.example.simplerestaurant.beans;
 
 public class ContactBean {
 
-    private String email;
-    private String phone;
+    private String email  = "";
+    private String phone = "";
     private AddressBean address;
 
     public String getEmail() {

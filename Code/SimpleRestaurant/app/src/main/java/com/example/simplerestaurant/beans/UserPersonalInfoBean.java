@@ -1,9 +1,9 @@
 package com.example.simplerestaurant.beans;
 
 public class UserPersonalInfoBean {
-    private String fistName;
-    private String lastName;
-    private String gender;
+    private String fistName = "";
+    private String lastName = "";
+    private String gender = "";
 
     public String getFistName() {
         return fistName;

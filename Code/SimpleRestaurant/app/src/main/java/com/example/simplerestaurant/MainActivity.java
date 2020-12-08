@@ -47,8 +47,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         editUserName.setHint("Username");
         editPsw.setHint("Password");
 
-        editUserName.setText("0001");
-        editPsw.setText("u0001");
+        editUserName.setText("kaven12@gmail.com");
+        editPsw.setText("000000");
 
         buttonSubmit.setOnClickListener(this);
         textSurfer.setOnClickListener(this);
@@ -87,7 +87,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("222", "In the run: " + res);
                         loginResponseHandler(res);
                     }
                 });
@@ -96,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void loginResponseHandler(String res){
-        Log.i("222", "In the UI: " + res);
+        //Log.i("222", "In the UI: " + res);
         Gson gson = UnitTools.getGson();
         SimpleResponseBean result = gson.fromJson(res, SimpleResponseBean.class);
         if(result.getCode() == 1){
@@ -109,7 +108,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 intent.putExtra("userType", result.getContent());
                 finish();
                 startActivity(intent);
-            } else
+            } else if("active".equals(result.getContent())){
+                // user that needs to be activated
+                Intent intent = new Intent(this, ResetPSWActivity.class);
+                intent.putExtra("activate", 0);
+                intent.putExtra("userID", editUserName.getText().toString().trim());
+                finish();
+                startActivity(intent);
+            } else if("delivery".equals(result.getContent())){
+                // delivery people
+            }
+            else
                 toastMessage("Hello " + result.getContent());
         } else {
             textLoginError.setText("Unexpected Error");

@@ -1,10 +1,10 @@
 package com.example.simplerestaurant.beans;
 
 public class AddressBean {
-    private String city;
-    private String state;
-    private String street;
-    private String zipCode;
+    private String city = "";
+    private String state = "";
+    private String street = "";
+    private String zipCode = "";
 
     public String getCity() {
         return city;
