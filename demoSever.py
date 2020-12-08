@@ -36,7 +36,7 @@ def login():
     elif user['userStatus'] != -1:
         return jsonify({'code': 1, 'content': 'password is incorrect'})
     else:
-        return jsonify({'code': 1, 'content': 'account has been de-registed'})
+        return jsonify({'code': 1, 'content': 'account has been de-registered'})
 
 
 @app.route('/new_user', methods=['POST'])
@@ -947,7 +947,7 @@ def all_compliments():
 def de_registration():
     conn1 = MongoDB(db, 'UserInfo').get_conn()
     customer = []
-    for user in conn1.find():
+    for user in conn1.find({'de-register': 'false'}):
         if user['warnings'] >= 3:
             data = {}
             data['userID'] = user['userID']
