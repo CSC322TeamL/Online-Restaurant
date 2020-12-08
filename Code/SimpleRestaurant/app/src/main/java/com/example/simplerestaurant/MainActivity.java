@@ -47,13 +47,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         editUserName.setHint("Username");
         editPsw.setHint("Password");
 
-        editUserName.setText("kaven12@gmail.com");
-        editPsw.setText("000000");
+        editUserName.setText("deli0001");
+        editPsw.setText("deli0001");
 
         buttonSubmit.setOnClickListener(this);
         textSurfer.setOnClickListener(this);
         textSignUp.setOnClickListener(this);
-
 
         editUserName.addTextChangedListener(this);
         editPsw.addTextChangedListener(this);
@@ -117,6 +116,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(intent);
             } else if("delivery".equals(result.getContent())){
                 // delivery people
+                Intent intent = new Intent(this, DeliveryMainPageActivity.class);
+                intent.putExtra("userID", editUserName.getText().toString().trim());
+                intent.putExtra("userType", result.getContent());
+                finish();
+                startActivity(intent);
             }
             else
                 toastMessage("Hello " + result.getContent());

@@ -30,4 +30,26 @@ public class DeliveryDataStore {
     public ArrayList<OrderBean> getOrderSending(){
         return orderSending;
     }
+
+    public void addOrder2Finished(OrderBean newOrder){
+        orderFinished.add(newOrder);
+    }
+    public void resetOrderFinished(ArrayList<OrderBean> newList){
+        orderFinished.clear();
+        orderFinished.addAll(newList);
+    }
+    public ArrayList<OrderBean> getOrderFinished(){
+        return orderFinished;
+    }
+
+    public void addOrder2Waiting(OrderBean newOrder){
+        orderWaiting.add(newOrder);
+    }
+    public void resetOrderWaiting(ArrayList<OrderBean> newList){
+        orderWaiting.clear();
+        orderWaiting.addAll(newList);
+    }
+    public ArrayList<OrderBean> getOrderWaiting() {
+        return orderWaiting;
+    }
 }
