@@ -4,7 +4,7 @@ public class ContactBean {
 
     private String email  = "";
     private String phone = "";
-    private AddressBean address;
+    private AddressBean address = new AddressBean();
 
     public String getEmail() {
         return email;

@@ -89,6 +89,7 @@ public class ResetPSWActivity extends BaseActivity implements View.OnClickListen
             this.finish();
             startActivity(intent);
         } catch (Exception e){
+            e.printStackTrace();
             toastMessage("Please Login manually");
         }
     }
@@ -103,6 +104,7 @@ public class ResetPSWActivity extends BaseActivity implements View.OnClickListen
         String url = getString(R.string.base_url) + "/get_info";
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         bodyBuilder.add("role", userType);
+        bodyBuilder.add("userID", userID);
         Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
         Call call = UnitTools.getOkHttpClient().newCall(request);
         call.enqueue(new Callback() {

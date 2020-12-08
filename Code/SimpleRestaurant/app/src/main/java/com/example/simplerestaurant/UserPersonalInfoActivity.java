@@ -187,9 +187,7 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         backward.setClickable(true);
         submit.setClickable(true);
         if(isActivation == 0){
-            Intent intent = new Intent(this, UserMainPageActivity.class);
-            intent.putExtra("userID", userID);
-            intent.putExtra("userType", userType);
+            Intent intent = new Intent(this, MainActivity.class);
             finish();
             startActivity(intent);
         }

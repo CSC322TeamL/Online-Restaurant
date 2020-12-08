@@ -1,15 +1,15 @@
 package com.example.simplerestaurant.beans;
 
 public class UserBasicInfoBean {
-    private String _id;
-    private float balance;
-    private UserPersonalInfoBean basicInfo;
-    private ContactBean contact;
-    private String displayName;
-    private float spent;
-    private String userID;
-    private String userRole;
-    private int warnings;
+    private String _id = "";
+    private float balance = 0;
+    private UserPersonalInfoBean basicInfo = new UserPersonalInfoBean();
+    private ContactBean contact = new ContactBean();
+    private String displayName = "";
+    private float spent = 0;
+    private String userID = "";
+    private String userRole = "";
+    private int warnings = 0;
 
     public String get_id() {
         return _id;
