@@ -266,7 +266,7 @@ def place_order():
     conn1 = MongoDB(db, 'UserInfo').get_conn()
     user = conn1.find_one({'userID': userID})
     if user['userRole'] == 'VIP':
-        discount = 0.8
+        discount = 0.9
     else:
         discount = 1
     total = 0
