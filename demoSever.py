@@ -55,7 +55,8 @@ def new_user():
         new_user_info = {'userID': userId,
                          'balance': 0,
                          'spent': 0,
-                         'warnings': 0}
+                         'warnings': 0,
+                        'de-register': 'false'}
         conn1 = MongoDB(db, 'UserInfo').get_conn()
         conn1.insert_one(new_user_info)
         new_user_infor_detail = {"userID": userId,
@@ -84,7 +85,8 @@ def new_user():
                                  "accumulatePerformance": 1,
                                  "promoted": 0,
                                  "demoted": 0,
-                                 "complimentReceived": []}
+                                 "complimentReceived": [],
+                                'de-register': 'false'}
         conn4 = MongoDB(db, 'StaffPerformance').get_conn()
         conn4.insert_one(new_staff_performance)
     return jsonify({'code': 0,
@@ -396,6 +398,7 @@ def update_info():
     else:
         conn = MongoDB(db, 'StaffBasicInfo').get_conn()
     user = conn.find_one({'userID': userID})
+    update['de-register'] = 'false'
     conn.delete_one(user)
     conn.insert_one(update)
     return '0'
@@ -988,7 +991,16 @@ def de_register():
     user = conn.find_one({'userID': userID})
     if user is None:
         return jsonify({'code': 1, 'content': "user doesn't exist"})
-    conn.update_one(user, {'$set': {'status': -1}})
+    conn.update_one(user, {'$set': {'userStatus': -1}})
+    role = user['role']
+    if role == 'Customer' or role == 'VIP':
+        conn1 = MongoDB(db, 'UserInfo').get_conn()
+        conn1.update_one({'userID': userID}, {'$set': {'de-register': 'true'}})
+    else:
+        conn2 = MongoDB(db, 'StaffBasicInfo').get_conn()
+        conn2.update_one({'userID': userID}, {'$set': {'deregisteredDate': datetime.datetime.now()}})
+        conn3 = MongoDB(db, 'StaffPerformance').get_conn()
+        conn3.update_one({'userID': userID}, {'$set': {'de-register': 'true'}})
     return jsonify({'code': 0, 'content': 'success'})
 
 
@@ -1019,7 +1031,7 @@ def dish_info():
 def performance():
     conn = MongoDB(db, 'StaffPerformance').get_conn()
     result = []
-    for staff in conn.find():
+    for staff in conn.find({'de-register': 'false'}):
         data = {}
         data['userID'] = staff['userID']
         data['complaints'] = len(staff['complaintReceived'])
