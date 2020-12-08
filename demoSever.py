@@ -599,7 +599,7 @@ def new_complaint_or_compliment():
             conn1.update_one(user, {'$push': {'complaintFiled': id}})
         else:
             conn1.update_one(user, {'$push': {'complimentFiled': id}})
-    else:     # user is a delivery person
+    else:     # user is a delivery
         conn2 = MongoDB(db, 'StaffPerformance').get_conn()
         deliver = conn2.find_one({'uesrID': userID})
         conn2.update_one(deliver, {'$push': {'complaintFiled': id}})
@@ -664,7 +664,7 @@ def dispute_complaint():
                              'status': 'waiting'}
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
     id = conn.insert_one(new_dispute_complaint).inserted_id
-    if role == 'chef' or role == 'delivery person':
+    if role == 'chef' or role == 'delivery':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
         conn1 = MongoDB(db, 'UserInforDetail').get_conn()
@@ -874,7 +874,7 @@ def handle_ComplaintAndCompliment():
         conn4 = MongoDB(db, 'UserBasicInfo').get_conn()
         user = conn1.find_one({'userID': userID})
         if complaint['isComplaint'] == 'true':
-            if user['role'] == 'chef' or user['role'] == 'delivery person':
+            if user['role'] == 'chef' or user['role'] == 'delivery':
                 user_performance = conn2.find_one({'userID': userID})
                 conn2.update_one(user_performance, {'$push': {'complaintReceived': ObjectId(complaintID)}})
                 num_of_complaint = len(user_performance['complaintReceived'])
@@ -887,7 +887,7 @@ def handle_ComplaintAndCompliment():
                 user_detail = conn3.find_one({'userID': userID})
                 conn3.update_one(user_detail, {'$push': {'complaintReceived': ObjectId(complaintID)}})
         else:
-            if user['role'] == 'chef' or user['role'] == 'delivery person':
+            if user['role'] == 'chef' or user['role'] == 'delivery':
                 user_performance = conn2.find_one({'userID': userID})
                 conn2.update_one(user_performance, {'$push': {'complimentReceived': ObjectId(complaintID)}})
                 num_of_complaint = len(user_performance['complaintReceived'])
