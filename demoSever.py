@@ -172,6 +172,10 @@ def get_orders():
         delivered = []
         for id in delivery_person['orderPicked']:
             order = conn.find_one({'_id': id})
+            customer_id = order['customerID']
+            customer = conn4.find_one({'userID': customer_id})
+            order['customerInfo'] = customer['basicInfo']
+            order['contact'] = customer['contact']
             order['_id'] = str(order['_id'])
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
