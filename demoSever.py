@@ -176,7 +176,7 @@ def get_orders():
         return jsonify({'result': {'cooking': cooking,
                                    'finished': finished}})
 
-    elif role == 'delivery person':
+    elif role == 'delivery':
         conn3 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn3.find_one({'userID': userID})
         pick = []
@@ -248,7 +248,7 @@ def uncompleted_order():
                     dish_detail['dishID'] = 'the dish has been deleted'
             waiting.append(order)
         return jsonify({'result': {'waiting': waiting}})
-    elif role == 'delivery person':
+    elif role == 'delivery':
         prepared = []
         for order in conn.find({'status': 'prepared'}):
             order['_id'] = str(order['_id'])
@@ -326,7 +326,7 @@ def pick_order():
         if ObjectId(orderID) not in chef['orderAccepted']:
             conn1.update_one(chef, {'$push': {'orderAccepted': ObjectId(orderID)}})
             conn3.update_one(order_detail, {'$set': {'kitchenPicked': datetime.datetime.now()}})
-    if role == 'delivery person':
+    if role == 'delivery':
         conn.update_one(order, {'$set': {'status': 'delivering', 'deliverBy': userID}})
         conn2 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
         delivery_person = conn2.find_one({'userID': userID})
@@ -624,7 +624,7 @@ def complaint_received():
     role = request.form['role']
     conn = MongoDB(db,'ComplaintsAndComplements').get_conn()
     complaints = []
-    if role == 'chef' or role == 'delivery person':
+    if role == 'chef' or role == 'delivery':
         conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     else:
         conn1 = MongoDB(db, 'UserInforDetail').get_conn()
