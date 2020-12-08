@@ -30,6 +30,9 @@
         <activity android:name=".UserRefillBalanceActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".GeneralCCActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".ResetPSWActivity"/>
+        <activity android:name=".BaseActivity"/>
+        <activity android:name=".DeliveryBaseActivity"/>
+        <activity android:name=".DeliveryMainPageActivity"/>
      </application>
 
 </manifest>
