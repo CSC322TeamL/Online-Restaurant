@@ -964,24 +964,24 @@ def taboo():
 
 @app.route('/add_taboo', methods=['POST'])
 def add_taboo():
-    word = request.form['word']
+    words = request.form['words']
     conn = MongoDB(db, 'Taboos').get_conn()
     taboos = conn.find()
-    if word in taboos[0]['text']:
-        return jsonify({'code': 1, 'context': 'word already exists'})
-    conn.update_one(taboos[0], {'$push': {'text': word}})
-    return jsonify({'code': 0, 'content': 'success'})
+    for word in words.split(' '):
+        if word not in taboos[0]['text']:
+             conn.update_one({'_id': taboos[0]['_id']}, {'$push': {'text': word}})
+    return '0'
 
 
 @app.route('/delete_taboo', methods=['POST'])
 def delete_taboo():
-    word = request.form['word']
+    words = request.form['words']
     conn = MongoDB(db, 'Taboos').get_conn()
     taboos = conn.find()
-    if word not in taboos[0]['text']:
-        return jsonify({'code': 1, 'context': "word doesn't exist"})
-    conn.update_one(taboos[0], {'$pull': {'text': word}})
-    return jsonify({'code': 0, 'content': 'success'})
+    for word in words.split(' '):
+        if word in taboos[0]['text']:
+            conn.update_one({'_id': taboos[0]['_id']}, {'$pull': {'text': word}})
+    return '0'
 
 
 @app.route('/de-register', methods=['POST'])
