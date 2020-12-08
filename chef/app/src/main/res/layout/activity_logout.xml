@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".logout">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="You have Successfully Log out.\nSee You Next Time!"
+        android:textSize="25dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/black"
+        />
+    <Button
+        android:id="@+id/chef_logout_btn"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="OK"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="150dp"
+        android:textSize="20dp"
+        />
+
+</RelativeLayout>
