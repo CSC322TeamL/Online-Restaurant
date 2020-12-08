@@ -1031,5 +1031,20 @@ def change_status():
     return jsonify({'code': 0, 'content': 'success'})
 
 
+@app.route('/performance', methods=['POST'])
+def performance():
+    conn = MongoDB(db, 'StaffPerformance').get_conn()
+    result = []
+    for staff in conn.find():
+        data = {}
+        data['userID'] = staff['userID']
+        data['complaints'] = len(staff['complaintReceived'])
+        data['compliments'] = len(staff['complimentReceived'])
+        data['demoted'] = staff['demoted']
+        data['promoted'] = staff['promoted']
+        result.append(data)
+    return jsonify(result)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
