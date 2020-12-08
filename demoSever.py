@@ -388,7 +388,7 @@ def get_info():
     print(role)
     print(request.form['userID'])
     user = conn.find_one({'userID': request.form['userID']})
-    #user['_id'] = str(user['_id'])
+    user['_id'] = str(user['_id'])
     return jsonify(user)
 
 
