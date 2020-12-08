@@ -91,19 +91,6 @@ def new_user():
                     'content': 'success'})
 
 
-@app.route('/edit_status', methods=['POST'])
-def edit_status():
-    conn = MongoDB(db, 'UserLogin').get_conn()
-    userId = request.form['userID']
-    user = conn.find_one({'userID': userId})
-    if user is None:
-        return jsonify({'result': {'code': 1,
-                                   'content': 'userID already exists'}})
-    conn.update_one(user, {'$set': {'userStatus': request.form['userStatus']}})
-    return jsonify({'result': {'code': 0,
-                               'content': 'success'}})
-
-
 @app.route('/get_menu', methods=['POST'])
 def get_menu():
     userid = request.form['userID']
@@ -403,7 +390,8 @@ def update_info():
     else:
         conn = MongoDB(db, 'StaffBasicInfo').get_conn()
     user = conn.find_one({'userID': userID})
-    conn.replace_one(user, update)
+    conn.delete_one(user)
+    conn.insert_one(update)
     return '0'
 
 
