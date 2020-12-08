@@ -840,6 +840,7 @@ def update_dish():
     dish['_id'] = ObjectId(dish['_id'])
     dish['title'] = request.form['title']
     dish['price'] = request.form['price']
+    dish['price'] = float(dish['price'])
     dish['description'] = request.form['description']
     keywords = request.form['keywords']
     conn = MongoDB(db, 'Dish').get_conn()
