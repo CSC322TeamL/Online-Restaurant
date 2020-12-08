@@ -949,6 +949,7 @@ def de_registration():
             data['userID'] = user['userID']
             data['spent'] = user['spent']
             data['balance'] = user['balance']
+            data['warnings'] = user['warnings']
             customer.append(data)
     return jsonify(customer)
 
