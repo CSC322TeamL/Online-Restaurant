@@ -29,7 +29,10 @@ def login():
     if user is None:
         return jsonify({'code': 1, 'content': "user doesn't exist"})
     elif user['userPassword'] == password and user['userStatus'] != -1:
-        return jsonify({'code': 0, 'content': user['role']})
+        if user['userStatus'] == 0:
+            return jsonify({'code': 0, 'content': 'active'})
+        else:
+            return jsonify({'code': 0, 'content': user['role']})
     elif user['userStatus'] != -1:
         return jsonify({'code': 1, 'content': 'password is incorrect'})
     else:
