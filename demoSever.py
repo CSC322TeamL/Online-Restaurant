@@ -1020,5 +1020,16 @@ def dish_info():
     return jsonify(dish)
 
 
+@app.route('/change_status', methods=['POST'])
+def change_status():
+    userID = request.form['userID']
+    conn = MongoDB(db, 'UserLogin').get_conn()
+    user = conn.find_one({'userID': userID})
+    if user is None:
+        return jsonify({'code': 1, 'content': "user doesn't exist"})
+    conn.update_one(user, {'$set': {'status': 1}})
+    return jsonify({'code': 0, 'content': 'success'})
+
+
 if __name__ == "__main__":
     app.run(debug=True)
