@@ -86,6 +86,7 @@ public class ResetPSWActivity extends BaseActivity implements View.OnClickListen
             Intent intent = new Intent(this, UserPersonalInfoActivity.class);
             intent.putExtra("userInfo", res);
             intent.putExtra("activate", 0);
+            intent.putExtra("userType", userType);
             this.finish();
             startActivity(intent);
         } catch (Exception e){

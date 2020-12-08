@@ -66,16 +66,19 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
         Intent intent = getIntent();
         userInfo = UnitTools.getGson().fromJson(intent.getStringExtra("userInfo"), UserBasicInfoBean.class);
         //Log.i("acc", userInfo.toString());
-        if(isActivation == 0){
-            userID = userInfo.getUserID();
-        }
+
+        userID = userInfo.getUserID();
+        userType = userInfo.getUserRole();
 
         isActivation = intent.getIntExtra("activate", 1);
         if(isActivation == 0){
             tiBalance.setVisibility(View.VISIBLE);
         }
-        userID = userInfo.getUserID();
-        userType = userInfo.getUserRole();
+
+        if(isActivation == 0){
+            userID = userInfo.getUserID();
+            userType = intent.getStringExtra("userType");
+        }
         setUpFields(userInfo);
     }
 
@@ -120,6 +123,8 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
                 }
             }
             userInfo.setBalance(balance);
+            userInfo.setUserRole(userType);
+            userInfo.getContact().setEmail(tiEmail.getEditText().getText().toString().trim());
         }
         if(null == firstName || firstName.isEmpty()){
             tiFirstName.getEditText().setError("First Name empty");
@@ -194,6 +199,7 @@ public class UserPersonalInfoActivity extends BaseActivity implements View.OnCli
     }
 
     private void submitChange2Server(String update){
+        Log.i("acc", update);
         String url = getString(R.string.base_url) + "/update_info";
         RequestBody body = RequestBody.create(
                 update, MediaType.parse(UnitTools.TYPE_JSON)
