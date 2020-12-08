@@ -174,8 +174,10 @@ def get_orders():
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
                 if dish is not None:
+                    dish_detail['dishID'] = str(dish_detail['dishID'])
                     dish_detail['title'] = dish['title']
                 else:
+                    dish_detail['dishID'] = str(dish_detail['dishID'])
                     dish_detail['title'] = 'the dish has been deleted'
             pick.append(order)
         for id in delivery_person['orderDelivered']:
@@ -188,8 +190,10 @@ def get_orders():
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
                 if dish is not None:
+                    dish_detail['dishID'] = str(dish_detail['dishID'])
                     dish_detail['title'] = dish['title']
                 else:
+                    dish_detail['dishID'] = str(dish_detail['dishID'])
                     dish_detail['title'] = 'the dish has been deleted'
             delivered.append(order)
         return jsonify({'result': {'orderPicked': pick,
@@ -246,8 +250,10 @@ def uncompleted_order():
             for dish_detail in order['dishDetail']:
                 dish = conn2.find_one({'_id': dish_detail['dishID']})
                 if dish is not None:
+                    dish_detail['dishID'] = str(dish_detail['dishID'])
                     dish_detail['title'] = dish['title']
                 else:
+                    dish_detail['dishID'] = str(dish_detail['dishID'])
                     dish_detail['title'] = 'the dish has been deleted'
             prepared.append(order)
         return jsonify({'result': {'prepared': prepared}})
