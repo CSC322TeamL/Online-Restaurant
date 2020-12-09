@@ -393,7 +393,7 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         switch (requestCode) {
             case UnitTools.REQUEST_USER_ORDER_CART:
                 if (null == data) {
-                    toastMessage("For result data empty");
+                    //toastMessage("For result data empty");
                     return;
                 }
                 // get the change from the cart activity
@@ -408,5 +408,6 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                 break;
         }
     }
+
 
 }

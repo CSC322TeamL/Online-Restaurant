@@ -16,7 +16,9 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="15dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_balance"
                 android:layout_width="match_parent"
@@ -31,7 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_firstname"
                 android:layout_width="match_parent"
@@ -45,7 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_lastname"
                 android:layout_width="match_parent"
@@ -59,7 +65,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_diaplayname"
                 android:layout_width="match_parent"
@@ -73,7 +81,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_email"
                 android:layout_width="match_parent"
@@ -88,7 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_phone"
                 android:layout_width="match_parent"
@@ -102,7 +114,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_street"
                 android:layout_width="match_parent"
@@ -116,7 +130,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_city"
                 android:layout_width="match_parent"
@@ -130,7 +146,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_state"
                 android:layout_width="match_parent"
@@ -144,7 +162,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="15dp"
+            android:background="@drawable/round_stroke_background"
+            android:padding="8dp">
             <EditText
                 android:id="@+id/et_user_zipcode"
                 android:layout_width="match_parent"

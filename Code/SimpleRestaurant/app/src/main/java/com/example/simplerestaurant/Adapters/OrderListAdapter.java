@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Interfaces.OrderHis2DetailInterface;
 import com.example.simplerestaurant.R;
+import com.example.simplerestaurant.beans.DishInCart;
 import com.example.simplerestaurant.beans.OrderBean;
 
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
     public void onBindViewHolder(@NonNull OrderListViewHolder holder, final int position) {
         OrderBean currentOrder = orderList.get(position);
         String title = currentOrder.getDishDetail().get(0).getTitle();
-        int dishCount = currentOrder.getDishDetail().size();
+        int dishCount = getDishesCount(position);
         String dishPo = " dish";
-        if(dishCount > 1){
+        if(currentOrder.getDishDetail().size() > 1){
             title += (", " +currentOrder.getDishDetail().get(1).getTitle());
             dishPo += "es";
         }
@@ -57,6 +58,15 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.Orde
                 }
             }
         });
+    }
+
+    private int getDishesCount(int position){
+        int count = 0;
+        for (DishInCart dish :
+                orderList.get(position).getDishDetail()) {
+            count += dish.getQuantity();
+        }
+        return count;
     }
 
     @Override

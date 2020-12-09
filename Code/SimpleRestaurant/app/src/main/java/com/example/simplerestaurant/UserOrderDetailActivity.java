@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.OrderHistoryDIshListAdapter;
 import com.example.simplerestaurant.Interfaces.UserDishRatingInterface;
+import com.example.simplerestaurant.beans.DishInCart;
 import com.example.simplerestaurant.beans.OrderBean;
 
 import org.jetbrains.annotations.NotNull;
@@ -103,7 +104,7 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
         tvOrderID.setText(currentOrder.get_id());
         tvOrderCreated.setText(currentOrder.getCreateDate());
         tvOrderCharged.setText("$" + currentOrder.getOrderCharged());
-        tvDishQuantity.setText(String.valueOf(currentOrder.getDishDetail().size()));
+        tvDishQuantity.setText(String.valueOf(getDishesCount()));
         tvOrderStatus.setText(currentOrder.getStatus());
 
         imgbtnBack = (ImageButton) findViewById(R.id.imagebtn_backward);
@@ -114,6 +115,15 @@ public class UserOrderDetailActivity extends BaseActivity implements UserDishRat
         adapter.setRatingListener(this);
         dishRecycler.setAdapter(adapter);
         dishRecycler.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private int getDishesCount(){
+        int count = 0;
+        for (DishInCart dish :
+                currentOrder.getDishDetail()) {
+            count += dish.getQuantity();
+        }
+        return count;
     }
 
     private void submitRating2Server(String userID, String dishID, final int rating){

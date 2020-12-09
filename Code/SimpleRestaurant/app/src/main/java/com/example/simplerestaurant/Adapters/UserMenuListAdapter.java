@@ -77,6 +77,14 @@ public class UserMenuListAdapter extends RecyclerView.Adapter<UserMenuListAdapte
                     }
                 }
             });
+            holder.getvDish().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(null != listener){
+                        listener.dishPopupWindow(viewItem.getDish().get_id());
+                    }
+                }
+            });
         } else {
 
             holder.getBtnAdd2Cart().setVisibility(View.INVISIBLE);

@@ -5,4 +5,5 @@ import com.example.simplerestaurant.beans.DishInCart;
 
 public interface MenuAddCartInterface {
     void dishAdd2Cart(DishInCart newDish, String dishName);
+    void dishPopupWindow(String dishID);
 }

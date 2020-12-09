@@ -3,9 +3,14 @@ package com.example.simplerestaurant.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +38,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +58,15 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
     private UserMenuListAdapter menuAdapter;
     private ArrayList<UserMenuListBean> viewData;
     private ArrayList<DishInCart> dishesInCart;
+
+    private int popUpDishQuantity;
+    private ImageButton popUpDishPlus, popUpDishMinus;
+    private Button popUpDishAdd2Cart;
+    private EditText popUpNote;
+    private DishInCart popUpDishInCart;
+    private TextView popUpTotalPrice, popUpQ;
+    private View popUpBackground;
+    private PopupWindow popupWindow;
 
     public UserMenuFragment(UserMenuFragmentInterface menuListener){
         super(R.layout.fragment_user_main_menu);
@@ -105,7 +120,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
 
     private void setUpListView(String res){
         ArrayList<MenuBean> menus = convertJson2MenuList(res);
-        viewData = menus2ViewList(menus);
+        viewData = new ArrayList<>(menus2ViewList(menus));
         if(null != menuAdapter){
             menuAdapter.setViewData(viewData);
             menuAdapter.notifyDataSetChanged();
@@ -181,6 +196,28 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
         return newOrder;
     }
 
+    private DishInCart findDishInCart(String dishID){
+        for (DishInCart dish :
+                dishesInCart) {
+            if (dishID.equals(dish.getDishID())){
+                return dish;
+            }
+        }
+        return null;
+    }
+
+    private DishBean findDish(String dishID){
+        for (UserMenuListBean item :
+                viewData) {
+            if(item.getType() == UserMenuListBean.TYPE_DISH){
+                if(dishID.equals(item.getDish().get_id())){
+                    return item.getDish();
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * this is used to update the dishInCart
      * when change is made in the order cart activity
@@ -214,6 +251,81 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
     }
 
     @Override
+    public void dishPopupWindow(String dishID) {
+        DishBean dish = findDish(dishID);
+        if(null == dish){
+            return;
+        }
+        popUpDishInCart = findDishInCart(dishID);
+        if(null == popUpDishInCart){
+            popUpDishInCart = new DishInCart();
+            popUpDishInCart.setDishID(dishID);
+            popUpDishInCart.setTitle(dish.getTitle());
+            popUpDishInCart.setPrice(dish.getPrice());
+            popUpDishInCart.setQuantity(1);
+            popUpDishInCart.setSpecialNote("");
+        }
+
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View root = inflater.inflate(R.layout.popup_dish_detail, null);
+
+        int width = ConstraintLayout.LayoutParams.MATCH_PARENT;
+        int height = width;
+        popupWindow = new PopupWindow(root, width, height, true);
+
+        TextView tvTitle, tvRating, tvRatingCount, tvPrice, tvDescription;
+
+        tvTitle = root.findViewById(R.id.tv_dish_detail_title);
+        tvRating = root.findViewById(R.id.tv_dish_detail_rating);
+        tvRatingCount = root.findViewById(R.id.tv_dish_detail_rating_count);
+        tvPrice = root.findViewById(R.id.tv_dish_detail_price);
+        popUpTotalPrice = root.findViewById(R.id.tv_dish_detail_total_price);
+        tvDescription = root.findViewById(R.id.tv_dish_detail_description);
+        popUpQ = root.findViewById(R.id.tv_dish_detail_quantity);
+        popUpBackground = root.findViewById(R.id.view_popup_background);
+
+        popUpDishPlus = root.findViewById(R.id.imgbtn_dish_detail_q_add);
+        popUpDishMinus = root.findViewById(R.id.imgbtn_dish_detail_q_minus);
+        popUpDishAdd2Cart = root.findViewById(R.id.button_dish_detail_add_cart);
+
+        popUpNote = root.findViewById(R.id.et_dish_detail_note);
+
+        tvTitle.setText(popUpDishInCart.getTitle());
+        tvRating.setText(String.valueOf(dish.getDigitRating()));
+        tvRatingCount.setText(String.valueOf(dish.getRatings()));
+        tvPrice.setText("$"+ dish.getPrice());
+        popUpTotalPrice.setText("$" + calculateTotalPrice(dish.getPrice(), popUpDishInCart.getQuantity()));
+        popUpQ.setText(String.valueOf(popUpDishInCart.getQuantity()));
+        tvDescription.setText(dish.getDescription());
+
+        popUpNote.setText(popUpDishInCart.getSpecialNote());
+
+        popUpDishQuantity = popUpDishInCart.getQuantity();
+        popUpDishPlus.setOnClickListener(this);
+        popUpDishMinus.setOnClickListener(this);
+        popUpDishAdd2Cart.setOnClickListener(this);
+        popUpBackground.setOnClickListener(this);
+        popupWindow.showAtLocation(root, Gravity.CENTER, 0, 0);
+    }
+
+    private float calculateTotalPrice(float singlePrice, int quantity){
+        BigDecimal bigDecimal = new BigDecimal(singlePrice);
+        BigDecimal result = bigDecimal.multiply(new BigDecimal(quantity));
+        result.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return result.floatValue();
+    }
+
+    private int getDishInCartPosition(String dishID){
+        int length = dishesInCart.size();
+        for(int i = 0; i < length; i++){
+            if (dishID.equals(dishesInCart.get(i).getDishID())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
     public void onClick(View v) {
         if(v.getId() == R.id.btn_menu_view_cart){
             String order = UnitTools.getGson().toJson(processOrder());
@@ -222,6 +334,32 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
             intent.putExtra("order",order);
             intent.putExtra("dishes", dishes);
             getActivity().startActivityForResult(intent, UnitTools.REQUEST_USER_ORDER_CART);
+        } else if(popUpDishPlus != null && v.getId() == popUpDishPlus.getId()){
+            popUpDishQuantity++;
+            popUpQ.setText(String.valueOf(popUpDishQuantity));
+            popUpTotalPrice.setText("$" + calculateTotalPrice(popUpDishInCart.getPrice(), popUpDishQuantity));
+        } else if(popUpDishMinus != null && v.getId() == popUpDishMinus.getId()){
+            if(popUpDishQuantity > 1){
+                popUpDishQuantity--;
+                popUpQ.setText(String.valueOf(popUpDishQuantity));
+                popUpTotalPrice.setText("$" + calculateTotalPrice(popUpDishInCart.getPrice(), popUpDishQuantity));
+            }
+        } else if(popUpDishAdd2Cart != null && v.getId() == popUpDishAdd2Cart.getId()){
+            popUpDishInCart.setQuantity(popUpDishQuantity);
+            popUpDishInCart.setSpecialNote(popUpNote.getText().toString().trim());
+            int position = getDishInCartPosition(popUpDishInCart.getDishID());
+            if(position == -1){
+                dishesInCart.add(popUpDishInCart);
+            } else {
+                dishesInCart.remove(position);
+                dishesInCart.add(popUpDishInCart);
+            }
+            Log.i("cart", dishesInCart.toString());
+            popupWindow.dismiss();
+        } else if(null != popUpBackground && v.getId() == popUpBackground.getId()){
+            if(null != popupWindow){
+                popupWindow.dismiss();
+            }
         }
     }
 
