@@ -54,23 +54,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="72dp"
         android:layout_marginRight="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_description"/>
 
+    <include
+        android:id="@+id/et_user_register_context"
+        layout="@layout/rounded_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_email" />
+
     <TextView
         android:id="@+id/textview_error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Cannot submit this application"
         android:textColor="@color/red"
-        android:layout_marginTop="30dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_email"
-        android:visibility="invisible"/>
+        app:layout_constraintTop_toBottomOf="@+id/et_user_register_context" />
 
     <TextView
         android:id="@+id/textview_submitted_messsage"

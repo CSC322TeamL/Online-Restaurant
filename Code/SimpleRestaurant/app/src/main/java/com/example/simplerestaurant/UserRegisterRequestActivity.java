@@ -2,6 +2,7 @@ package com.example.simplerestaurant;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,7 @@ import okhttp3.Response;
 
 public class UserRegisterRequestActivity extends BaseActivity implements ViewStub.OnClickListener, TextWatcher {
 
-    private EditText editEmail;
+    private EditText editEmail, editContext;
     private TextView textSuccess, textError;
     private Button buttonSubmit;
     private View toolbar, background;
@@ -39,6 +40,7 @@ public class UserRegisterRequestActivity extends BaseActivity implements ViewStu
 
         background = (View) findViewById(R.id.view_user_register);
         editEmail = (EditText) findViewById(R.id.edittext_email);
+        editContext = (EditText) findViewById(R.id.et_user_register_context);
         textSuccess = (TextView) findViewById(R.id.textview_submitted_messsage);
         textError = (TextView) findViewById(R.id.textview_error_message);
         buttonSubmit = (Button) findViewById(R.id.button_submit);
@@ -46,17 +48,22 @@ public class UserRegisterRequestActivity extends BaseActivity implements ViewStu
         imgbtnBackward = (ImageButton) toolbar.findViewById(R.id.imagebtn_backward);
 
         editEmail.setHint("Email Address");
+        editContext.setHint("Reason");
+
+        editContext.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        editContext.setLines(3);
         hideInputMethod(background);
 
         buttonSubmit.setOnClickListener(this);
         imgbtnBackward.setOnClickListener(this);
     }
 
-    private void sen2Server(String email){
-        String url = getString(R.string.base_url) + "/register_request";
+    private void sen2Server(String email, String context){
+        String url = getString(R.string.base_url) + "/NewCustomerRequest";
         OkHttpClient client= UnitTools.getOkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        builder.add("useremail", email);
+        builder.add("email", email);
+        builder.add("context", context);
         // build the request
         Request request = new Request.Builder().url(url).post(builder.build()).build();
         Call call = client.newCall(request);
@@ -94,6 +101,7 @@ public class UserRegisterRequestActivity extends BaseActivity implements ViewStu
         } else {
             // successfully submitted
             editEmail.setVisibility(View.INVISIBLE);
+            editContext.setVisibility(View.INVISIBLE);
             textSuccess.setVisibility(View.VISIBLE);
             buttonSubmit.setClickable(false);
         }
@@ -118,8 +126,8 @@ public class UserRegisterRequestActivity extends BaseActivity implements ViewStu
                 textError.setVisibility(View.VISIBLE);
                 return;
             }
-            // otherwise, send the request to server
-            sen2Server(userEmail);
+            String context = editContext.getText().toString().trim();
+            sen2Server(userEmail, context);
         } else if(id == R.id.imagebtn_backward){
             finish();
         }
