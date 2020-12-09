@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.simplerestaurant.Fragments.DeliveryAccountFragment;
 import com.example.simplerestaurant.Fragments.DeliveryFinishedFragment;
 import com.example.simplerestaurant.Fragments.DeliverySendingFragment;
 import com.example.simplerestaurant.Fragments.DeliveryWaitingFragment;
@@ -49,6 +50,7 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
     private DeliverySendingFragment sendingFragment;
     private DeliveryWaitingFragment waitingFragment;
     private DeliveryFinishedFragment finishedFragment;
+    private DeliveryAccountFragment accountFragment;
 
     private Fragment activeFragment;
     private FragmentManager fragmentManager;
@@ -116,6 +118,14 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
                 activeFragment = finishedFragment;
                 break;
             case R.id.nav_delivery_main_me:
+                if(null == accountFragment){
+                    accountFragment = (DeliveryAccountFragment) findFragmentByTag(ACC_TAG);
+                }
+                fragmentManager.beginTransaction()
+                        .hide(activeFragment)
+                        .show(accountFragment)
+                        .commit();
+                activeFragment= accountFragment;
                 break;
         }
     }
@@ -158,6 +168,18 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
                                     .commit();
                         }
                         return finishedFragment;
+                    }
+                    break;
+                case ACC_TAG:
+                    if(null == accountFragment){
+                        accountFragment = new DeliveryAccountFragment(userID, userType);
+                        if(!accountFragment.isAdded()){
+                            fragmentManager.beginTransaction()
+                                    .add(R.id.view_delivery_main_for_replace, accountFragment)
+                                    .hide(accountFragment)
+                                    .commit();
+                        }
+                        return accountFragment;
                     }
                     break;
             }
