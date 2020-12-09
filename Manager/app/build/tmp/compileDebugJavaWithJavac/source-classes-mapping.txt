@@ -1,0 +1,120 @@
+com/example/manager/viewholderApplication.java
+ com.example.manager.viewholderApplication
+com/example/manager/getuserid.java
+ com.example.manager.getuserid
+com/example/manager/viewholder_handlddispute.java
+ com.example.manager.viewholder_handlddispute
+com/example/manager/createChefAccount.java
+ com.example.manager.createChefAccount
+ com.example.manager.createChefAccount$1
+ com.example.manager.createChefAccount$1$1
+ com.example.manager.createChefAccount$1$1$1
+com/example/manager/model_handledispute.java
+ com.example.manager.model_handledispute
+com/example/manager/model_performance.java
+ com.example.manager.model_performance
+com/example/manager/staff_performance.java
+ com.example.manager.staff_performance
+ com.example.manager.staff_performance$1
+ com.example.manager.staff_performance$1$1
+com/example/manager/AdapterComplaint.java
+ com.example.manager.AdapterComplaint
+ com.example.manager.AdapterComplaint$1
+ com.example.manager.AdapterComplaint$1$1
+ com.example.manager.AdapterComplaint$2
+ com.example.manager.AdapterComplaint$2$1
+ com.example.manager.AdapterComplaint$3
+ com.example.manager.AdapterComplaint$3$1
+com/example/manager/AdapterCompliment.java
+ com.example.manager.AdapterCompliment
+ com.example.manager.AdapterCompliment$1
+ com.example.manager.AdapterCompliment$1$1
+ com.example.manager.AdapterCompliment$2
+ com.example.manager.AdapterCompliment$2$1
+ com.example.manager.AdapterCompliment$3
+ com.example.manager.AdapterCompliment$3$1
+com/example/manager/Viewholder_performance.java
+ com.example.manager.Viewholder_performance
+com/example/manager/de_register.java
+ com.example.manager.de_register
+ com.example.manager.de_register$1
+ com.example.manager.de_register$1$1
+com/example/manager/Adapter_performance.java
+ com.example.manager.Adapter_performance
+ com.example.manager.Adapter_performance$1
+ com.example.manager.Adapter_performance$1$1
+com/example/manager/createDeliveryAccount.java
+ com.example.manager.createDeliveryAccount
+ com.example.manager.createDeliveryAccount$1
+ com.example.manager.createDeliveryAccount$1$1
+ com.example.manager.createDeliveryAccount$1$1$1
+com/example/manager/model.java
+ com.example.manager.model
+com/example/manager/complaint_detail.java
+ com.example.manager.complaint_detail
+ com.example.manager.complaint_detail$1
+ com.example.manager.complaint_detail$1$1
+com/example/manager/compliment_detail.java
+ com.example.manager.compliment_detail
+ com.example.manager.compliment_detail$1
+ com.example.manager.compliment_detail$1$1
+com/example/manager/modelApplication.java
+ com.example.manager.modelApplication
+com/example/manager/BuildConfig.java
+ com.example.manager.BuildConfig
+com/example/manager/complaint_viewholder.java
+ com.example.manager.complaint_viewholder
+com/example/manager/handle_disputecomplaint.java
+ com.example.manager.handle_disputecomplaint
+ com.example.manager.handle_disputecomplaint$1
+ com.example.manager.handle_disputecomplaint$1$1
+com/example/manager/Viewholderderegister.java
+ com.example.manager.Viewholderderegister
+com/example/manager/application.java
+ com.example.manager.application
+ com.example.manager.application$1
+ com.example.manager.application$1$1
+com/example/manager/AdapterApplication.java
+ com.example.manager.AdapterApplication
+ com.example.manager.AdapterApplication$1
+ com.example.manager.AdapterApplication$1$1
+ com.example.manager.AdapterApplication$2
+ com.example.manager.AdapterApplication$2$1
+ com.example.manager.AdapterApplication$2$2
+com/example/manager/complaints_and_compliments.java
+ com.example.manager.complaints_and_compliments
+ com.example.manager.complaints_and_compliments$1
+ com.example.manager.complaints_and_compliments$2
+com/example/manager/Adapter_deregister.java
+ com.example.manager.Adapter_deregister
+ com.example.manager.Adapter_deregister$1
+ com.example.manager.Adapter_deregister$1$1
+com/example/manager/model_deregister.java
+ com.example.manager.model_deregister
+com/example/manager/Adapter_handledispute.java
+ com.example.manager.Adapter_handledispute
+ com.example.manager.Adapter_handledispute$1
+ com.example.manager.Adapter_handledispute$1$1
+ com.example.manager.Adapter_handledispute$2
+ com.example.manager.Adapter_handledispute$2$1
+com/example/manager/create_account.java
+ com.example.manager.create_account
+ com.example.manager.create_account$1
+ com.example.manager.create_account$2
+com/example/manager/MainActivity.java
+ com.example.manager.MainActivity
+ com.example.manager.MainActivity$1
+ com.example.manager.MainActivity$2
+ com.example.manager.MainActivity$3
+ com.example.manager.MainActivity$4
+ com.example.manager.MainActivity$5
+ com.example.manager.MainActivity$6
+ com.example.manager.MainActivity$7
+com/example/manager/taboo_page.java
+ com.example.manager.taboo_page
+ com.example.manager.taboo_page$1
+ com.example.manager.taboo_page$2
+ com.example.manager.taboo_page$3
+ com.example.manager.taboo_page$3$1
+ com.example.manager.taboo_page$4
+ com.example.manager.taboo_page$5
