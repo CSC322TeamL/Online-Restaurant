@@ -1033,12 +1033,12 @@ def new_staff():
     userID = staff['userID']
     role = staff['staffType']
     conn = MongoDB(db, 'UserLogin').get_conn()
-    if conn.find({'userID': userID}) is not None:
+    if conn.find_one({'userID': userID}) is not None:
         return jsonify({'code': 1, 'content': 'userID already exits'})
     if role != 'chef' and role != 'delivery':
         return jsonify({'code': 1, 'content': 'role should be chef or delivery'})
     new_user = {'userID': userID,
-                'role': 'delivery',
+                'role': role,
                 'userStatus': 1,
                 'userPassword': '000000'}
     conn.insert_one(new_user)
