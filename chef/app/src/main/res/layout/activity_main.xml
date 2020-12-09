@@ -151,13 +151,6 @@
             app:layout_constraintTop_toBottomOf="@+id/image"
             tools:ignore="MissingConstraints">
 
-
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.example.chef.frag4_viewcompliment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:layout="@layout/fragment_frag4_viewcompliment" />
         </FrameLayout>
 
         <Button
