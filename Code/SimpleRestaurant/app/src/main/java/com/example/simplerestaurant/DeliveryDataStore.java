@@ -13,6 +13,7 @@ public class DeliveryDataStore {
     final public static int TYPE_SENDING = 1;
     final public static int TYPE_WAITING = 2;
     final public static int TYPE_FINISHED = 3;
+    final public static int TYPE_BOTH = 4;
 
     public static DeliveryDataStore getInstance(){
         if(null == store){
@@ -55,5 +56,15 @@ public class DeliveryDataStore {
     }
     public ArrayList<OrderBean> getOrderWaiting() {
         return orderWaiting;
+    }
+
+    public OrderBean getOrderFromFinished(String orderID){
+        for (OrderBean order :
+                orderFinished) {
+            if(orderID.equals(order.get_id())){
+                return order;
+            }
+        }
+        return null;
     }
 }

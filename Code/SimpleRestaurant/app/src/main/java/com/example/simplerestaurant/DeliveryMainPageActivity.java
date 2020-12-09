@@ -180,6 +180,14 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
             if(null != finishedFragment && currentSelection == DeliveryDataStore.TYPE_FINISHED){
                 finishedFragment.notifyDataChange();
             }
+            if(currentSelection == DeliveryDataStore.TYPE_BOTH){
+                if(null != sendingFragment){
+                    sendingFragment.notifyDataChange();
+                }
+                if(null != finishedFragment){
+                    finishedFragment.notifyDataChange();
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -201,6 +209,26 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
         }
     }
 
+    private void submitDeliveredResponse(String res){
+        if(res.equals("0")){
+            toastMessage("Order Delivered");
+            currentSelection = DeliveryDataStore.TYPE_BOTH;
+            getOrdersFromServer();
+        }
+    }
+
+    private void submitPickUpResponse(String res){
+        if(res.equals("0")){
+            toastMessage("Order Picked Up");
+            currentSelection = DeliveryDataStore.TYPE_SENDING;
+            getOrdersFromServer();
+            getPreparedOrdersFromServer();
+        }
+    }
+
+    /**
+     * get the order that is ready to be delivered from server
+     */
     private void getPreparedOrdersFromServer(){
         String url = getString(R.string.base_url) + "/uncompleted_order";
         FormBody.Builder bodyBuilder = new FormBody.Builder();
@@ -232,6 +260,9 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
         });
     }
 
+    /**
+     * get the order that is delivering and has finished from server
+     */
     private void getOrdersFromServer(){
         String url = getString(R.string.base_url) + "/get_order";
         FormBody.Builder bodyBuilder = new FormBody.Builder();
@@ -264,33 +295,110 @@ public class DeliveryMainPageActivity extends DeliveryBaseActivity implements De
     }
 
 
+    private void submitDelivered2Server(String userID, String orderID){
+        String url = getString(R.string.base_url) + "/order_delivered";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        bodyBuilder.add("orderID", orderID);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Failed to connect server");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        submitDeliveredResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
+    private void submitPickUp2Server(String userID, String userType, String orderID){
+        String url = getString(R.string.base_url) + "/pick_order";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        bodyBuilder.add("orderID", orderID);
+        bodyBuilder.add("role", userType);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Failed to connect server");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        submitPickUpResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void onDeliveredClick(String orderID) {
-
+        submitDelivered2Server(userID, orderID);
     }
 
     @Override
     public void onPickUpClick(String orderID) {
-
+        submitPickUp2Server(userID, userType, orderID);
     }
 
     @Override
     public void onComplaintClick(String orderID) {
-
+        OrderBean order = store.getOrderFromFinished(orderID);
+        if(null == order){
+            return;
+        }
+        Intent intent = new Intent(this, ComplaintComplimentActivity.class);
+        intent.putExtra("isComplaint", "true");
+        intent.putExtra("subjectID", order.getCustomerID());
+        intent.putExtra("subjectTo", "Customer");
+        intent.putExtra("userID", userID);
+        intent.putExtra("userType", userType);
+        intent.putExtra("orderID", orderID);
+        startActivity(intent);
     }
 
     @Override
     public void onSendingFragmentRefresh() {
+        currentSelection = DeliveryDataStore.TYPE_SENDING;
         getOrdersFromServer();
     }
 
     @Override
     public void onWaitingFragmentRefresh() {
+        currentSelection = DeliveryDataStore.TYPE_WAITING;
         getPreparedOrdersFromServer();
     }
 
     @Override
     public void onFinishedFragmentRefresh() {
+        currentSelection = DeliveryDataStore.TYPE_FINISHED;
         getOrdersFromServer();
     }
 }
