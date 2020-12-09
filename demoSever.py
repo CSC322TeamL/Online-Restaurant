@@ -1043,6 +1043,7 @@ def new_staff():
                 'userPassword': '000000'}
     conn.insert_one(new_user)
     conn1 = MongoDB(db, 'StaffBasicInfo').get_conn()
+    staff['hourlyRate'] = float(staff['hourlyRate'])
     staff['registeredDate'] = datetime.datetime.now()
     staff['deregisteredDate'] = None
     conn1.insert_one(staff)
