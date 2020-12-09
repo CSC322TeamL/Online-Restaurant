@@ -70,25 +70,6 @@ def new_user():
                                  "orders": []}
         conn2 = MongoDB(db, 'UserInforDetail').get_conn()
         conn2.insert_one(new_user_infor_detail)
-    else:
-        new_staff = {'userID': userId,
-                     'staffType': new['role'],
-                     'hourlyRate': 15.25,
-                     'registeredDate': datetime.datetime.now(),
-                     'deregisteredDate': None}
-        conn3 = MongoDB(db, 'StaffBasicInfo').get_conn()
-        conn3.insert_one(new_staff)
-        new_staff_performance = {"userID": userId,
-                                 "complaintReceived": [],
-                                 "complaintFiled": [],
-                                 "complaintDisputed": [],
-                                 "accumulatePerformance": 1,
-                                 "promoted": 0,
-                                 "demoted": 0,
-                                 "complimentReceived": [],
-                                'de-register': 'false'}
-        conn4 = MongoDB(db, 'StaffPerformance').get_conn()
-        conn4.insert_one(new_staff_performance)
     return jsonify({'code': 0,
                     'content': 'success'})
 
@@ -1044,6 +1025,53 @@ def performance():
         data['promoted'] = staff['promoted']
         result.append(data)
     return jsonify(result)
+
+
+@app.route('/new_staff', methods=['POST'])
+def new_staff():
+    staff = request.get_json(force=True)
+    userID = staff['userID']
+    role = staff['staffType']
+    conn = MongoDB(db, 'UserLogin').get_conn()
+    if conn.find({'userID': userID}) is not None:
+        return jsonify({'code': 1, 'content': 'userID already exits'})
+    if role != 'chef' and role != 'delivery':
+        return jsonify({'code': 1, 'content': 'role should be chef or delivery'})
+    new_user = {'userID': userID,
+                'role': 'delivery',
+                'userStatus': 1,
+                'userPassword': '000000'}
+    conn.insert_one(new_user)
+    conn1 = MongoDB(db, 'StaffBasicInfo').get_conn()
+    staff['hourlyRate'] = float(staff['hourlyRate'])
+    staff['registeredDate'] = datetime.datetime.now()
+    staff['deregisteredDate'] = None
+    conn1.insert_one(staff)
+    if role == 'chef':
+        conn2 = MongoDB(db, 'ChefInfo').get_conn()
+        new_chef = {'userID': userID,
+                    'menuCreated': [],
+                    'dishCreated': [],
+                    'orderAccepted': []}
+        conn2.insert_one(new_chef)
+    else:
+        conn3 = MongoDB(db, 'DeliveryPersonInfo').get_conn()
+        new_delivery = {'userID': userID,
+                        'orderPicked': [],
+                        'orderDelivered': []}
+        conn3.insert_one(new_delivery)
+    new_staff_performance = {"userID": userID,
+                             "complaintReceived": [],
+                             "complaintFiled": [],
+                             "complaintDisputed": [],
+                             "accumulatePerformance": 1,
+                             "promoted": 0,
+                             "demoted": 0,
+                             "complimentReceived": [],
+                             'de-register': 'false'}
+    conn4 = MongoDB(db, 'StaffPerformance').get_conn()
+    conn4.insert_one(new_staff_performance)
+    return jsonify({'code': 0, 'content': 'success'})
 
 
 if __name__ == "__main__":
