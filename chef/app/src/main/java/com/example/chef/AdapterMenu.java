@@ -79,6 +79,7 @@ public class AdapterMenu extends RecyclerView.Adapter<viewholderMenu>{
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(v.getContext(),"The action done, re-enter page to see change",Toast.LENGTH_LONG).show();
                 String url = "http://10.0.2.2:5000" + "/delete_dish";
                 OkHttpClient client = new OkHttpClient();
                 FormBody.Builder bodyBuilder = new FormBody.Builder();

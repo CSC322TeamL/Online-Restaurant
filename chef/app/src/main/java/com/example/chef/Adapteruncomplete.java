@@ -64,7 +64,7 @@ public class Adapteruncomplete extends RecyclerView.Adapter<uncompleteViewholder
         holder.btn_finishorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Item is Pick into Picked Order", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(),"The action done, re-enter page to see change",Toast.LENGTH_LONG).show();
                 String url = "http://10.0.2.2:5000" + "/pick_order";
                 OkHttpClient client = new OkHttpClient();
                 FormBody.Builder bodyBuilder = new FormBody.Builder();

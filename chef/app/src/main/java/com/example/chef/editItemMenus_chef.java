@@ -25,7 +25,7 @@ import okhttp3.Response;
 public class editItemMenus_chef extends AppCompatActivity {
 
     EditText editname, editdescribe, editprice, editkey;
-    TextView ff123;
+
     Button _submit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -98,7 +98,7 @@ public class frag1_uncomplete extends Fragment {
         mrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         String userid = getuserid.userid;
         models = new ArrayList<>();
-
+        getuncompleteorder(userid);
 
         // Inflate the layout for this fragment
         return view;

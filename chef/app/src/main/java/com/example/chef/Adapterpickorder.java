@@ -56,13 +56,14 @@ public class Adapterpickorder extends RecyclerView.Adapter<viewholder_pickorder>
         holder.tdishs.setText(lmodel.get(i).getDishs());
         holder.torderid.setText(lmodel.get(i).getOrderid());
         holder.tordertotal.setText(lmodel.get(i).getOrdertotal());
+        holder.tordernote.setText(lmodel.get(i).getOrdernote());
         String orderid = (lmodel.get(i).getOrderid());
         String ordernumber = (lmodel.get(i).getOrdernumber());
 
         holder.btn_finishorder2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Order Marked finished, click any button to refresh page.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(),"The action done, re-enter page to see change",Toast.LENGTH_LONG).show();
                 String url = "http://10.0.2.2:5000" + "/order_prepared";
                 OkHttpClient client = new OkHttpClient();
                 FormBody.Builder bodyBuilder = new FormBody.Builder();
