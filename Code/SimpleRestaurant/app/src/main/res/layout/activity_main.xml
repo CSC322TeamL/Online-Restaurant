@@ -60,8 +60,7 @@
         android:text="Username and Password are not matched!"
         android:textColor="@color/red"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_psw"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/edittext_psw"/>
 
     <Button
         android:id="@+id/button_sumbit"
@@ -76,6 +75,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edittext_psw" />
+
+    <TextView
+        android:id="@+id/textview_reset_psw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:layout_marginStart="46dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="8dp"
+        android:text="Forgot Password"
+        android:textColor="@color/primaryRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_sumbit" />
 
     <LinearLayout
         android:layout_width="match_parent"

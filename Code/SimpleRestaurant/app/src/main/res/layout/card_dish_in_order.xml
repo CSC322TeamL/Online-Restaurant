@@ -34,7 +34,7 @@
                 android:maxLines="1"
                 android:text="CheeseBurger"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:gravity="center_vertical"/>
             <LinearLayout
                 android:id="@+id/view_dish_price_original"
                 android:layout_width="match_parent"
@@ -81,8 +81,7 @@
         </LinearLayout>
         <Button
             android:id="@+id/btn_dish_in_order_rate"
-            android:layout_width="0dp"
-            android:layout_weight="2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button_background"
             android:text="Rate"

@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private EditText editUserName, editPsw;
     private View background;
     private Button buttonSubmit;
-    private TextView textSurfer, textSignUp, textLoginError;
+    private TextView textSurfer, textSignUp, textLoginError, textResetPSW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         textSurfer = (TextView) findViewById(R.id.textview_surfer);
         textSignUp = (TextView) findViewById(R.id.textview_signup);
         textLoginError = (TextView) findViewById(R.id.textview_loginerror);
+        textResetPSW = (TextView) findViewById(R.id.textview_reset_psw);
 
         editUserName.setHint("Username");
         editPsw.setHint("Password");
@@ -53,6 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         buttonSubmit.setOnClickListener(this);
         textSurfer.setOnClickListener(this);
         textSignUp.setOnClickListener(this);
+        textResetPSW.setOnClickListener(this);
 
         editUserName.addTextChangedListener(this);
         editPsw.addTextChangedListener(this);
@@ -164,6 +166,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             startActivity(intent);
         } else if(id == R.id.textview_signup){
             Intent intent = new Intent(this, UserRegisterRequestActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.textview_reset_psw){
+            Intent intent = new Intent(this, ResetPSWActivity.class);
             startActivity(intent);
         }
     }

@@ -39,13 +39,14 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ID: "/>
+                    android:text="Order ID: "/>
                 <TextView
                     android:id="@+id/tv_user_order_detail_id"
                     android:layout_width="0dp"
                     android:layout_weight="3"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:textIsSelectable="true"
                     android:text="5fcbce30b5ae6da66b938aea"/>
             </LinearLayout>
             <LinearLayout
