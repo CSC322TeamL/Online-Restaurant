@@ -705,9 +705,9 @@ def handle_dispute_complaint():
     determination = request.form['determination']
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
     conn1 = MongoDB(db, 'StaffPerformance').get_conn()
-    dispute_complaint = conn.find_one({'_id': disputeID})
+    dispute_complaint = conn.find_one({'_id': ObjectId(disputeID)})
     userID = dispute_complaint['userID']
-    conn.update_one(dispute_complaint, {'status': determination})
+    conn.update_one(dispute_complaint, {'$set': {'status': determination}})
     if determination == 'accept':
         user = conn1.find_one({'userID': userID})
         conn1.update_one(user, {'$pull': {'complaintReceived': dispute_complaint['complaintID']}})
@@ -840,6 +840,7 @@ def update_dish():
     dish['_id'] = ObjectId(dish['_id'])
     dish['title'] = request.form['title']
     dish['price'] = request.form['price']
+    dish['price'] = float(dish['price'])
     dish['description'] = request.form['description']
     keywords = request.form['keywords']
     conn = MongoDB(db, 'Dish').get_conn()
