@@ -707,7 +707,7 @@ def handle_dispute_complaint():
     conn1 = MongoDB(db, 'StaffPerformance').get_conn()
     dispute_complaint = conn.find_one({'_id': ObjectId(disputeID)})
     userID = dispute_complaint['userID']
-    conn.update_one(dispute_complaint, {'status': determination})
+    conn.update_one(dispute_complaint, {'$set': {'status': determination}})
     if determination == 'accept':
         user = conn1.find_one({'userID': userID})
         conn1.update_one(user, {'$pull': {'complaintReceived': dispute_complaint['complaintID']}})
