@@ -705,7 +705,7 @@ def handle_dispute_complaint():
     determination = request.form['determination']
     conn = MongoDB(db, 'ComplaintDispute').get_conn()
     conn1 = MongoDB(db, 'StaffPerformance').get_conn()
-    dispute_complaint = conn.find_one({'_id': disputeID})
+    dispute_complaint = conn.find_one({'_id': ObjectId(disputeID)})
     userID = dispute_complaint['userID']
     conn.update_one(dispute_complaint, {'status': determination})
     if determination == 'accept':
