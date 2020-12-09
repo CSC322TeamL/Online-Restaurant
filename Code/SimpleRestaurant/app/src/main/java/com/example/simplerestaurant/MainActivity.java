@@ -3,6 +3,7 @@ package com.example.simplerestaurant;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         editUserName.setHint("Username");
         editPsw.setHint("Password");
+        editPsw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         editUserName.setText("deli0001");
         editPsw.setText("deli0001");

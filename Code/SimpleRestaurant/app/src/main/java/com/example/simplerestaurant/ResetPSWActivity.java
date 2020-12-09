@@ -2,6 +2,7 @@ package com.example.simplerestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ public class ResetPSWActivity extends BaseActivity implements View.OnClickListen
     private EditText etUserID, etNewPSW, etConfirmPSW;
     private String userID, newPSW, confirmPSW, userType;
     private Button btnSubmit;
+    private View background;
 
     private int isActivation = 0;
 
@@ -47,6 +49,11 @@ public class ResetPSWActivity extends BaseActivity implements View.OnClickListen
         etNewPSW = (EditText) findViewById(R.id.edittext_new_psw);
         etConfirmPSW = (EditText) findViewById(R.id.edittext_confirm_psw);
         btnSubmit = (Button) findViewById(R.id.button_reset_psw_submit);
+        background = (View) findViewById(R.id.view_reset_psw_background);
+
+        hideInputMethod(background);
+        etNewPSW.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etConfirmPSW.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         if(isActivation == 0){
             etUserID.setText(userID);
