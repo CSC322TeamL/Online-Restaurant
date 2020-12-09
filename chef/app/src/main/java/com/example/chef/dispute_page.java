@@ -40,7 +40,7 @@ public class dispute_page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String context = editcontext.getText().toString();
-
+                Toast.makeText(v.getContext(),"The action done, re-enter page to see change",Toast.LENGTH_LONG).show();
                 String url = "http://10.0.2.2:5000" + "/dispute_complaint";
                 OkHttpClient client = new OkHttpClient();
                 FormBody.Builder bodyBuilder = new FormBody.Builder();
