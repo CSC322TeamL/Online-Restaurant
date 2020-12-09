@@ -10,6 +10,10 @@ public class DeliveryDataStore {
     private static ArrayList<OrderBean> orderWaiting;
     private static ArrayList<OrderBean> orderFinished;
 
+    final public static int TYPE_SENDING = 1;
+    final public static int TYPE_WAITING = 2;
+    final public static int TYPE_FINISHED = 3;
+
     public static DeliveryDataStore getInstance(){
         if(null == store){
             store = new DeliveryDataStore();

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_user_main_menu"
+        android:id="@+id/nav_delivery_main_sending"
         android:enabled="true"
         android:icon="@drawable/ic_directions_bike"
         android:title="Sending"/>
     <item
-        android:id="@+id/nav_user_main_discussion"
+        android:id="@+id/nav_delivery_main_waiting"
         android:enabled="true"
         android:icon="@drawable/ic_kitchen"
         android:title="Waiting"/>
     <item
-        android:id="@+id/nav_user_main_order"
+        android:id="@+id/nav_delivery_main_finished"
         android:enabled="true"
         android:icon="@drawable/ic_check_box"
         android:title="Finished"/>
     <item
-        android:id="@+id/nav_user_main_account"
+        android:id="@+id/nav_delivery_main_me"
         android:enabled="true"
         android:icon="@drawable/ic_person_outline"
         android:title="Me"/>

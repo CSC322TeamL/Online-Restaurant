@@ -221,6 +221,7 @@ public class UserOrderCartActivity extends BaseActivity implements View.OnClickL
             jsonObject.remove("_id");
             jsonObject.remove("cookBy");
             jsonObject.remove("deliverBy");
+            jsonObject.remove("contact");
             // remove the title and price
             JSONArray dishes = jsonObject.getJSONArray("dishDetail");
             JSONArray newDishes = new JSONArray();

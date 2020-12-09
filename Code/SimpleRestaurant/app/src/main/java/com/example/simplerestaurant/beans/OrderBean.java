@@ -15,6 +15,7 @@ public class OrderBean {
     private String isDelivery = "";
     private String cookBy = "";
     private String deliverBy = "";
+    private ContactBean contact = new ContactBean();
 
     public String get_id() {
         return _id;
@@ -104,6 +105,14 @@ public class OrderBean {
         this.deliverBy = deliverBy;
     }
 
+    public ContactBean getContact() {
+        return contact;
+    }
+
+    public void setContact(ContactBean contact) {
+        this.contact = contact;
+    }
+
     @Override
     public String toString() {
         return "OrderBean{" +
@@ -118,6 +127,7 @@ public class OrderBean {
                 ", isDelivery='" + isDelivery + '\'' +
                 ", cookBy='" + cookBy + '\'' +
                 ", deliverBy='" + deliverBy + '\'' +
+                ", contact=" + contact +
                 '}';
     }
 }

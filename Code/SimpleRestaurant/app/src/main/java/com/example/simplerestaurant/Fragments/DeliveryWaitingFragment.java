@@ -15,13 +15,13 @@ import com.example.simplerestaurant.Interfaces.DeliveryActionInterface;
 import com.example.simplerestaurant.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class DeliverySendingFragment extends Fragment implements View.OnClickListener {
+public class DeliveryWaitingFragment extends Fragment implements View.OnClickListener{
     private DeliveryActionInterface actionListener;
     private RecyclerView orderList;
     private DeliveryOrderListAdapter adapter;
     private FloatingActionButton btnRefresh;
 
-    public DeliverySendingFragment( DeliveryActionInterface actionListener){
+    public DeliveryWaitingFragment( DeliveryActionInterface actionListener){
         super(R.layout.fragment_delivery_general);
         this.actionListener = actionListener;
     }
@@ -33,19 +33,19 @@ public class DeliverySendingFragment extends Fragment implements View.OnClickLis
         btnRefresh = (FloatingActionButton) view.findViewById(R.id.floatingbtn_delivery_refresh);
         btnRefresh.setOnClickListener(this);
         orderList = (RecyclerView) view.findViewById(R.id.recycler_delivery_order_list);
-        adapter = new DeliveryOrderListAdapter(DeliveryDataStore.TYPE_SENDING, DeliveryDataStore.getInstance().getOrderSending());
+        adapter = new DeliveryOrderListAdapter(DeliveryDataStore.TYPE_WAITING, DeliveryDataStore.getInstance().getOrderWaiting());
         adapter.setActionListener(actionListener);
         orderList.setAdapter(adapter);
         orderList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         if(null != actionListener){
-            actionListener.onSendingFragmentRefresh();
+            actionListener.onWaitingFragmentRefresh();
         }
     }
 
     public void notifyDataChange(){
         if(null != adapter){
-            adapter.setOrderList(DeliveryDataStore.getInstance().getOrderSending());
+            adapter.setOrderList(DeliveryDataStore.getInstance().getOrderWaiting());
             adapter.notifyDataSetChanged();
         }
     }
@@ -53,7 +53,7 @@ public class DeliverySendingFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if(null != actionListener){
-            actionListener.onSendingFragmentRefresh();
+            actionListener.onWaitingFragmentRefresh();
         }
     }
 }
