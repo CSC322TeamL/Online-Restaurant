@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backround"
+
+    tools:context=".MainActivity">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/backround_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="casual"
+            android:text=" Manager Account"
+            android:textColor="#FFFF"
+            android:textSize="45dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="36dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btn_application"
+        android:layout_width="151dp"
+        android:layout_height="126dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:text="Application"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <Button
+        android:id="@+id/btn_complaints_Compliments"
+        android:layout_width="161dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:text="Complaint \n Compliment"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/btn_application"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <Button
+        android:id="@+id/btn_createAccount"
+        android:layout_width="95dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:textSize="18sp"
+        android:text="Create Account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_application" />
+
+    <Button
+        android:id="@+id/Taboolist"
+        android:layout_width="158dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:textSize="20sp"
+        android:text="Taboo List"
+        app:layout_constraintStart_toEndOf="@+id/btn_createAccount"
+        app:layout_constraintTop_toBottomOf="@+id/btn_complaints_Compliments" />
+
+    <Button
+        android:id="@+id/Performance"
+        android:layout_width="169dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:textSize="20sp"
+        android:text="Staff Performance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_createAccount" />
+
+    <Button
+        android:id="@+id/de_register"
+        android:layout_width="160dp"
+        android:layout_height="176dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="16dp"
+        android:shadowColor="#C96B6B"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:text="De-register"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/Performance"
+        app:layout_constraintTop_toBottomOf="@+id/Taboolist" />
+
+    <Button
+        android:id="@+id/log_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:text="Log Out"
+        app:layout_constraintStart_toEndOf="@+id/btn_handlddispute"
+        app:layout_constraintTop_toBottomOf="@+id/de_register" />
+
+    <Button
+        android:id="@+id/btn_handlddispute"
+        android:layout_width="152dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="casual"
+        android:textSize="20sp"
+        android:text="Handld Dispute"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Performance" />
+
+
+</android.support.constraint.ConstraintLayout>
