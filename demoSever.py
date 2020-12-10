@@ -704,7 +704,7 @@ def search():
     conn2 = MongoDB(db, 'Menu').get_conn()
     conn3 = MongoDB(db, 'Dish').get_conn()
     dishes = []
-    if user['userRole'] != 'VIP':
+    if user is None or user['userRole'] != 'VIP':
         for menu in conn2.find({'isSpecial': 'false'}):
             dishes.extend(menu['dishes'])
     else:
