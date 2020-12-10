@@ -2,6 +2,8 @@ package com.example.simplerestaurant.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,10 +51,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class UserMenuFragment extends Fragment implements MenuAddCartInterface, View.OnClickListener {
+public class UserMenuFragment extends Fragment implements MenuAddCartInterface
+        , View.OnClickListener
+        , TextWatcher {
     private String userID, userType;
     private RecyclerView menuRecycler;
     private Button btnViewCart;
+    private EditText etKeyword;
+    private View vSearch;
     private UserMenuFragmentInterface menuListener;
     private ArrayList<MenuBean> menuList;
     private UserMenuListAdapter menuAdapter;
@@ -82,6 +88,11 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
 
         menuRecycler = (RecyclerView) view.findViewById(R.id.recycler_main_menu);
         btnViewCart = (Button) view.findViewById(R.id.btn_menu_view_cart);
+        etKeyword = (EditText) view.findViewById(R.id.et_main_menu_search_keyword);
+        vSearch = (View) view.findViewById(R.id.view_main_menu_search_click);
+
+        vSearch.setOnClickListener(this);
+        etKeyword.addTextChangedListener(this);
 
         if(!userType.equals("Customer") && !userType.equals("VIP")){
             btnViewCart.setVisibility(View.GONE);
@@ -121,6 +132,14 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
     private void setUpListView(String res){
         ArrayList<MenuBean> menus = convertJson2MenuList(res);
         viewData = new ArrayList<>(menus2ViewList(menus));
+        if(null != menuAdapter){
+            menuAdapter.setViewData(viewData);
+            menuAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void setMenuList(ArrayList<MenuBean> menuList){
+        viewData = new ArrayList<>(menus2ViewList(menuList));
         if(null != menuAdapter){
             menuAdapter.setViewData(viewData);
             menuAdapter.notifyDataSetChanged();
@@ -360,8 +379,35 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface, 
             if(null != popupWindow){
                 popupWindow.dismiss();
             }
+        } else if(v.getId() == R.id.view_main_menu_search_click){
+            String keyword = etKeyword.getText().toString().trim();
+            if(keyword.isEmpty() || keyword.equals("")){
+                return;
+            }
+            if(null != menuListener){
+                menuListener.searchMenu(userID, userType, keyword);
+            }
         }
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String keyword = s.toString();
+        if(null == keyword || keyword.isEmpty() || keyword.equals("")){
+            if(null != menuListener){
+                menuListener.getMenuFromServer(userID);
+            }
+        }
+    }
 }

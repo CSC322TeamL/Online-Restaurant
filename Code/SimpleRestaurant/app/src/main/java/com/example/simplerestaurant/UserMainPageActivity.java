@@ -19,11 +19,14 @@ import com.example.simplerestaurant.Interfaces.UserAccountFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserDiscussionFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserMenuFragmentInterface;
 import com.example.simplerestaurant.Interfaces.UserOrderFragmentInterface;
+import com.example.simplerestaurant.beans.DishBean;
 import com.example.simplerestaurant.beans.DishInCart;
+import com.example.simplerestaurant.beans.MenuBean;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -177,6 +180,26 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
         userDiscussionFragment.discussionResponse(res);
     }
 
+    private void searchMenuResponse(String res){
+        try {
+            JSONObject jsonObject = new JSONObject(res);
+            Type dishList = new TypeToken<ArrayList<DishBean>>(){}.getType();
+            ArrayList<DishBean> dishes = UnitTools.getGson()
+                    .fromJson(jsonObject.getString("result").toString(), dishList);
+            MenuBean resultMenu = new MenuBean();
+            resultMenu.setTitle("Search");
+            resultMenu.setDishes(dishes);
+            ArrayList<MenuBean> menus = new ArrayList<>(1);
+            menus.add(resultMenu);
+            if(null != userMenuFragment){
+                userMenuFragment.setMenuList(menus);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            toastMessage("Failed to search");
+        }
+    }
+
     /**
      * get the existing fragment by tag
      * or create the new one if the fragment is not exist
@@ -278,6 +301,39 @@ public class UserMainPageActivity extends BaseActivity implements UserMenuFragme
                     @Override
                     public void run() {
                         menuResponse(res);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void searchMenu(String userID, String userType, String keyword) {
+        String url = getString(R.string.base_url) + "/search";
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+        bodyBuilder.add("userID", userID);
+        bodyBuilder.add("role", userType);
+        bodyBuilder.add("keyword", keyword);
+        Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        toastMessage("Failed to connect server");
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                final String res = response.body().string().trim();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchMenuResponse(res);
                     }
                 });
             }
