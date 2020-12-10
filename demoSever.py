@@ -861,30 +861,33 @@ def handle_ComplaintAndCompliment():
         if complaint['isComplaint'] == 'true':
             if user['role'] == 'chef' or user['role'] == 'delivery':
                 user_performance = conn2.find_one({'userID': userID})
-                conn2.update_one(user_performance, {'$push': {'complaintReceived': ObjectId(complaintID)}})
-                num_complaint = len(user_performance['complaintReceived'])
-                num_compliment = len(user_performance['complimentReceived'])
-                num_demoted = user_performance['demoted']
-                num_promoted = user_performance['promoted']
-                if (num_complaint - num_compliment - num_demoted*3+num_promoted*3) // 3 > 0:
-                    conn2.update_one({'userID': userID}, {'$set': {'demoted': user_performance['demoted'] + 1}})
-                    user_info = conn4.find_one({'userID': userID})
-                    conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] - 1}})
+                if ObjectId(complaintID) not in user_performance['complaintReceived']:
+                    conn2.update_one(user_performance, {'$push': {'complaintReceived': ObjectId(complaintID)}})
+                    num_complaint = len(user_performance['complaintReceived']) + 1
+                    num_compliment = len(user_performance['complimentReceived'])
+                    num_demoted = user_performance['demoted']
+                    num_promoted = user_performance['promoted']
+                    if (num_complaint - num_compliment - num_demoted*3+num_promoted*3) // 3 > 0:
+                        conn2.update_one({'userID': userID}, {'$set': {'demoted': user_performance['demoted'] + 1}})
+                        user_info = conn4.find_one({'userID': userID})
+                        conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] - 1}})
             else:
                 user_detail = conn3.find_one({'userID': userID})
-                conn3.update_one(user_detail, {'$push': {'complaintReceived': ObjectId(complaintID)}})
+                if ObjectId(complaintID) not in user_detail['complaintReceived']:
+                    conn3.update_one(user_detail, {'$push': {'complaintReceived': ObjectId(complaintID)}})
         else:
             if user['role'] == 'chef' or user['role'] == 'delivery':
                 user_performance = conn2.find_one({'userID': userID})
-                conn2.update_one(user_performance, {'$push': {'complimentReceived': ObjectId(complaintID)}})
-                num_complaint = len(user_performance['complaintReceived'])
-                num_compliment = len(user_performance['complimentReceived'])
-                num_demoted = user_performance['demoted'] 
-                num_promoted = user_performance['promoted']
-                if (num_compliment - num_complaint + num_demoted*3-num_promoted*3) // 3 > 0:
-                    conn2.update_one({'userID': userID}, {'$set': {'promoted': user_performance['promoted'] + 1}})
-                    user_info = conn4.find_one({'userID': userID})
-                    conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] + 1}})
+                if ObjectId(complaintID) not in user_performance['complimentReceived']:
+                    conn2.update_one(user_performance, {'$push': {'complimentReceived': ObjectId(complaintID)}})
+                    num_complaint = len(user_performance['complaintReceived'])
+                    num_compliment = len(user_performance['complimentReceived']) + 1
+                    num_demoted = user_performance['demoted'] 
+                    num_promoted = user_performance['promoted']
+                    if (num_compliment - num_complaint + num_demoted*3-num_promoted*3) // 3 > 0:
+                        conn2.update_one({'userID': userID}, {'$set': {'promoted': user_performance['promoted'] + 1}})
+                        user_info = conn4.find_one({'userID': userID})
+                        conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] + 1}})
     if determination == 'warning':
         conn4 = MongoDB(db, 'UserInfo').get_conn()
         user = conn4.find_one({'userID': complaint['fromID']})
