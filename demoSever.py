@@ -867,7 +867,7 @@ def handle_ComplaintAndCompliment():
                 num_demoted = user_performance['demoted']
                 num_promoted = user_performance['promoted']
                 if (num_complaint - num_compliment - num_demoted*3+num_promoted*3) // 3 > user_performance['demoted']:
-                    conn2.update_one(user_performance, {'$set': {'demoted': user_performance['demoted'] + 1}})
+                    conn2.update_one({'userID': userID},, {'$set': {'demoted': user_performance['demoted'] + 1}})
                     user_info = conn4.find_one({'userID': userID})
                     conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] - 1}})
             else:
@@ -882,7 +882,7 @@ def handle_ComplaintAndCompliment():
                 num_demoted = user_performance['demoted'] 
                 num_promoted = user_performance['promoted']
                 if (num_compliment - num_complaint + num_demoted*3-num_promoted*3) // 3 > user_performance['promoted']:
-                    conn2.update_one(user_performance, {'$set': {'promoted': user_performance['promoted'] + 1}})
+                    conn2.update_one({'userID': userID},, {'$set': {'promoted': user_performance['promoted'] + 1}})
                     user_info = conn4.find_one({'userID': userID})
                     conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] + 1}})
     if determination == 'warning':
