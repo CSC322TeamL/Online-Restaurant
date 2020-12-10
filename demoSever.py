@@ -862,9 +862,9 @@ def handle_ComplaintAndCompliment():
             if user['role'] == 'chef' or user['role'] == 'delivery':
                 user_performance = conn2.find_one({'userID': userID})
                 conn2.update_one(user_performance, {'$push': {'complaintReceived': ObjectId(complaintID)}})
-                num_of_complaint = len(user_performance['complaintReceived'])
-                num_of_compliment = len(user_performance['complimentReceived'])
-                if (num_of_complaint - num_of_compliment) // 3 > user_performance['demoted']:
+                num_complaint = len(user_performance['complaintReceived'])
+                num_compliment = len(user_performance['complimentReceived'])
+                if (num_complaint - num_compliment + user_performance['promoted']*3) // 3 > user_performance['demoted']:
                     conn2.update_one(user_performance, {'$set': {'demoted': user_performance['demoted'] + 1}})
                     user_info = conn4.find_one({'userID': userID})
                     conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] - 1}})
@@ -875,9 +875,9 @@ def handle_ComplaintAndCompliment():
             if user['role'] == 'chef' or user['role'] == 'delivery':
                 user_performance = conn2.find_one({'userID': userID})
                 conn2.update_one(user_performance, {'$push': {'complimentReceived': ObjectId(complaintID)}})
-                num_of_complaint = len(user_performance['complaintReceived'])
-                num_of_compliment = len(user_performance['complimentReceived'])
-                if (num_of_compliment - num_of_complaint) // 3 > user_performance['promoted']:
+                num_complaint = len(user_performance['complaintReceived'])
+                num_compliment = len(user_performance['complimentReceived'])
+                if (num_compliment - num_complaint + user_performance['demoted']*3) // 3 > user_performance['promoted']:
                     conn2.update_one(user_performance, {'$set': {'promoted': user_performance['promoted'] + 1}})
                     user_info = conn4.find_one({'userID': userID})
                     conn4.update_one(user_info, {'$set': {'hourlyRate': user_info['hourlyRate'] + 1}})
