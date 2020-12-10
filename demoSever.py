@@ -713,7 +713,7 @@ def search():
     output = []
     for dishid in dishes:
         dish = conn3.find_one({'_id': dishid})
-        if keyword in dish['keywords'] or keyword in dish['title']:
+        if keyword.lower() in dish['keywords'] or keyword.upper() in dish['title']:
             dish['_id'] = str(dish['_id'])
             output.append(dish)
     return jsonify({'result': output})
@@ -824,6 +824,7 @@ def update_dish():
     dish['price'] = float(dish['price'])
     dish['description'] = request.form['description']
     keywords = request.form['keywords']
+    keywords = keywords.lower()
     conn = MongoDB(db, 'Dish').get_conn()
     old_dish = conn.find_one({'_id': dish['_id']})
     if keywords == "-1":
