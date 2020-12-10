@@ -67,7 +67,7 @@ public class staff_performance extends AppCompatActivity {
                                 String userid = "User ID: "+object1.getString("userID");
                                 String complaints = "Received complaints:  *"+object1.getString("complaints");
                                 String compliments = "Received compliments:  *"+object1.getString("compliments");
-                                String promoted = "Received Peomotes:  *"+object1.getString("promoted");
+                                String promoted = "Received Promotes:  *"+object1.getString("promoted");
                                 String demoted = "Received Demotes:  *"+object1.getString("demoted");
                                 String backid = object1.getString("userID");
                                 models.add(new model_performance(userid,complaints,compliments,demoted,promoted,backid));
