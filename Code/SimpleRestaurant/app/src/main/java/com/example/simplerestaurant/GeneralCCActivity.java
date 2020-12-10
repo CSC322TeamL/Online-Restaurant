@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplerestaurant.Adapters.GeneralCCAdapter;
+import com.example.simplerestaurant.Interfaces.ComplaintDisputeInterface;
 import com.example.simplerestaurant.beans.CCBean;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,7 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class GeneralCCActivity extends BaseActivity implements View.OnClickListener {
+public class GeneralCCActivity extends BaseActivity implements View.OnClickListener, ComplaintDisputeInterface {
     final public static int FILED_COMPLAINT = 1;
     final public static int FILED_COMPLIMENT = 2;
     final public static int RECEIVED_COMPLAINT = 3;
@@ -79,6 +80,7 @@ public class GeneralCCActivity extends BaseActivity implements View.OnClickListe
                 adapter = new GeneralCCAdapter(false, viewData);
                 break;
         }
+        adapter.setOnDisputeClickListener(this);
         itemList.setAdapter(adapter);
         itemList.setLayoutManager(new LinearLayoutManager(this));
         getData(selection);
@@ -103,6 +105,7 @@ public class GeneralCCActivity extends BaseActivity implements View.OnClickListe
         OkHttpClient client = UnitTools.getOkHttpClient();
         FormBody.Builder bodyBuilder = new FormBody.Builder();
         bodyBuilder.add("userID", userID);
+        bodyBuilder.add("role",userType);
         Request request = new Request.Builder().url(url).post(bodyBuilder.build()).build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
@@ -139,7 +142,7 @@ public class GeneralCCActivity extends BaseActivity implements View.OnClickListe
                 url += "/get_filedCompliment";
                 break;
             case RECEIVED_COMPLAINT:
-                url += "/compliment";
+                url += "/complaint";
                 break;
             default:
                 url+= "/get_filedComplaint";
@@ -153,5 +156,15 @@ public class GeneralCCActivity extends BaseActivity implements View.OnClickListe
         if(v.getId() == R.id.imagebtn_backward){
             this.finish();
         }
+    }
+
+    @Override
+    public void onDisputeClick(String complaintID, String complaintText) {
+        Intent intent = new Intent(this, DisputeComplaintActivity.class);
+        intent.putExtra("userID", userID);
+        intent.putExtra("userType", userType);
+        intent.putExtra("complaintID", complaintID);
+        intent.putExtra("complaintContext", complaintText);
+        startActivity(intent);
     }
 }

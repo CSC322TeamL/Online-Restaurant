@@ -102,7 +102,7 @@
                     android:padding="8dp"
                     android:background="@drawable/round_stroke_background"
                     android:hint="Special Note"
-
+                    android:gravity="top"
                     android:textSize="12sp"/>
             </LinearLayout>
 

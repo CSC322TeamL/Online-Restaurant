@@ -28,11 +28,12 @@
         <activity android:name=".DiscussionRepliesActivity" android:parentActivityName=".UserMainPageActivity"/>
         <activity android:name=".ComplaintComplimentActivity" android:parentActivityName=".UserOrderDetailActivity"/>
         <activity android:name=".UserRefillBalanceActivity" android:parentActivityName=".UserMainPageActivity"/>
-        <activity android:name=".GeneralCCActivity" android:parentActivityName=".UserMainPageActivity"/>
+        <activity android:name=".GeneralCCActivity"/>
         <activity android:name=".ResetPSWActivity"/>
         <activity android:name=".BaseActivity"/>
         <activity android:name=".DeliveryBaseActivity"/>
         <activity android:name=".DeliveryMainPageActivity"/>
+        <activity android:name=".DisputeComplaintActivity" android:parentActivityName=".GeneralCCActivity"/>
      </application>
 
 </manifest>

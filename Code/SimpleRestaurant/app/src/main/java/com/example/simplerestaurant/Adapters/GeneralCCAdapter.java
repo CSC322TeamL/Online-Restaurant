@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplerestaurant.Interfaces.ComplaintDisputeInterface;
 import com.example.simplerestaurant.R;
 import com.example.simplerestaurant.beans.CCBean;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class GeneralCCAdapter extends RecyclerView.Adapter<GeneralCCAdapter.CCViewHolder>{
     private boolean showDispute = false;
     private ArrayList<CCBean> viewData;
+    private ComplaintDisputeInterface listener;
 
     public GeneralCCAdapter(boolean showDispute, ArrayList<CCBean> viewData) {
         this.showDispute = showDispute;
@@ -26,6 +28,10 @@ public class GeneralCCAdapter extends RecyclerView.Adapter<GeneralCCAdapter.CCVi
         this.showDispute = showDispute;
     }
 
+    public void setOnDisputeClickListener(ComplaintDisputeInterface listener){
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public CCViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,13 +40,21 @@ public class GeneralCCAdapter extends RecyclerView.Adapter<GeneralCCAdapter.CCVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CCViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CCViewHolder holder, final int position) {
         holder.getTvTitle().setText(viewData.get(position).getSubject());
         holder.getTvContext().setText(viewData.get(position).getContext());
         holder.getTvDate().setText(viewData.get(position).getCreateDate());
         holder.getTvStatus().setText(viewData.get(position).getStatus());
         if(showDispute){
             holder.getvDispute().setVisibility(View.VISIBLE);
+            holder.getvDispute().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(null != listener){
+                        listener.onDisputeClick(viewData.get(position).get_id(), viewData.get(position).getContext());
+                    }
+                }
+            });
         }
     }
 
