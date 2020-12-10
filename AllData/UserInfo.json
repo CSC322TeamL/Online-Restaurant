@@ -1,35 +1,8 @@
 [{
-  "_id": {
-    "$oid": "5fc17f9f797c117dc05d0933"
-  },
-  "userID": "0001",
-  "displayName": "John Smile",
-  "userRole": "Customer",
-  "basicInfo": {
-    "fistName": "John",
-    "lastName": "Smile",
-    "gender": "Male"
-  },
-  "contact": {
-    "email": "1234@gmail.com",
-    "phone": "1234567890",
-    "address": {
-      "street": "1111",
-      "city": "New York",
-      "state": "NY",
-      "zipCode": "11111"
-    }
-  },
-  "balance": 10,
-  "spent": 6.25,
-  "warnings": 0
-},{
-  "_id": {
-    "$oid": "5fc19d83797c117dc05d0934"
-  },
+  "_id": "0002",
   "userID": "0002",
   "displayName": "Kiven Smile",
-  "userRole": "Customer",
+  "userRole": "Demoted",
   "basicInfo": {
     "fistName": "Kiven",
     "lastName": "Smile",
@@ -45,13 +18,12 @@
       "zipCode": "11111"
     }
   },
-  "balance": 20,
-  "spent": 6.5,
-  "warnings": 0
+  "balance": 7,
+  "spent": 19.5,
+  "warnings": 0,
+  "de-register": "false"
 },{
-  "_id": {
-    "$oid": "5fc19e59797c117dc05d0935"
-  },
+  "_id": "0003",
   "userID": "0003",
   "displayName": "Happy kate",
   "userRole": "Customer",
@@ -72,11 +44,10 @@
   },
   "balance": 10.75,
   "spent": 7.25,
-  "warnings": 0
+  "warnings": 1,
+  "de-register": "false"
 },{
-  "_id": {
-    "$oid": "5fc19f00797c117dc05d0936"
-  },
+  "_id": "0004",
   "userID": "0004",
   "displayName": "Jane Smile",
   "userRole": "Customer",
@@ -97,11 +68,10 @@
   },
   "balance": 10,
   "spent": 6.25,
-  "warnings": 0
+  "warnings": 3,
+  "de-register": "true"
 },{
-  "_id": {
-    "$oid": "5fc19f6f797c117dc05d0937"
-  },
+  "_id": "0005",
   "userID": "0005",
   "displayName": "John S",
   "userRole": "Customer",
@@ -122,5 +92,54 @@
   },
   "balance": 70,
   "spent": 12.25,
-  "warnings": 0
+  "warnings": 0,
+  "de-register": "false"
+},{
+  "_id": "5fcecc7b8368c40fa660fc08",
+  "balance": 50,
+  "basicInfo": {
+    "fistName": "Yi",
+    "gender": "",
+    "lastName": "Sima"
+  },
+  "contact": {
+    "address": {
+      "city": "brooklyn",
+      "state": "NY",
+      "street": "00 jin ave",
+      "zipCode": "12345"
+    },
+    "email": "simayi@sanguo.org",
+    "phone": "123456789"
+  },
+  "displayName": "Dudu",
+  "spent": 0,
+  "userID": "kaven12@gmail.com",
+  "userRole": "Customer",
+  "warnings": 0,
+  "de-register": "false"
+},{
+  "_id": "0001",
+  "balance": 3.75,
+  "basicInfo": {
+    "fistName": "John",
+    "gender": "Male",
+    "lastName": "Smile"
+  },
+  "contact": {
+    "address": {
+      "city": "New York",
+      "state": "NY",
+      "street": "1111",
+      "zipCode": "11111"
+    },
+    "email": "1234@gmail.com",
+    "phone": "1234567890"
+  },
+  "displayName": "JohnSi",
+  "spent": 190.5,
+  "userID": "0001",
+  "userRole": "Customer",
+  "warnings": 0,
+  "de-register": "false"
 }]
