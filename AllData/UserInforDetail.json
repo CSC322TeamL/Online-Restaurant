@@ -1,0 +1,177 @@
+[{
+  "_id": {
+    "$oid": "5fc4a34d4dafbb5ce0f67de9"
+  },
+  "userID": "0001",
+  "discussionReplied": [
+    {
+      "$oid": "5fce7719483d75dc040a9042"
+    },
+    {
+      "$oid": "5fce790abd810dd3298f8c90"
+    }
+  ],
+  "dishRated": [
+    {
+      "$oid": "5fc2f90d4dafbb5ce0f67ddc"
+    },
+    {
+      "$oid": "5fc212754dafbb5ce0f67dc6"
+    },
+    {
+      "$oid": "5fc212754dafbb5ce0f67dca"
+    },
+    {
+      "$oid": "5fc2142f4dafbb5ce0f67dce"
+    }
+  ],
+  "complaintFiled": [
+    {
+      "$oid": "5fc219c14dafbb5ce0f67ddb"
+    },
+    {
+      "$oid": "5fce960ebd810dd3298f8c93"
+    }
+  ],
+  "complaintedDisputed": [
+    {
+      "$oid": "5fc2fa404dafbb5ce0f67ddd"
+    }
+  ],
+  "discussionCreated": [
+    {
+      "$oid": "5fc3001e4dafbb5ce0f67ddf"
+    },
+    {
+      "$oid": "5fcdcb0de8c78ed6eb1cb095"
+    }
+  ],
+  "complimentFiled": [
+    {
+      "$oid": "5fce9422bd810dd3298f8c91"
+    },
+    {
+      "$oid": "5fce95ccbd810dd3298f8c92"
+    }
+  ],
+  "complaintReceived": [
+    {
+      "$oid": "5fd067b73e9196a2d6e7f3c6"
+    }
+  ],
+  "orders": [
+    {
+      "$oid": "5fc34c8b4dafbb5ce0f67de1"
+    },
+    {
+      "$oid": "5fcbcdf4b5ae6da66b938ae8"
+    },
+    {
+      "$oid": "5fcbce30b5ae6da66b938aea"
+    },
+    {
+      "$oid": "5fcbce4ab5ae6da66b938aec"
+    },
+    {
+      "$oid": "5fcbceac542de0158aff07c6"
+    },
+    {
+      "$oid": "5fcc26f4aa63e2fa298c4adc"
+    },
+    {
+      "$oid": "5fcc2799aa63e2fa298c4ade"
+    },
+    {
+      "$oid": "5fcc34a4aa63e2fa298c4ae0"
+    },
+    {
+      "$oid": "5fcd0d30de333c922801d33c"
+    },
+    {
+      "$oid": "5fcd43a28f5c20fdb0180ead"
+    },
+    {
+      "$oid": "5fcfe0d6c96f196d9570c4b1"
+    },
+    {
+      "$oid": "5fd057936ce2407b7433214c"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fc951e47789504d486250b5"
+  },
+  "userID": "0002",
+  "discussionReplied": [
+    {
+      "$oid": "5fc348654dafbb5ce0f67de0"
+    }
+  ],
+  "dishRated": [],
+  "complaintFiled": [],
+  "complaintedDisputed": [],
+  "discussionCreated": [
+    {
+      "$oid": "5fcc4f0e2843820fd7663c5d"
+    }
+  ],
+  "complimentFiled": [
+    {
+      "$oid": "5fc9927fd989e63acc256adf"
+    }
+  ],
+  "complaintReceived": [],
+  "orders": []
+},{
+  "_id": {
+    "$oid": "5fc9523b7789504d486250b6"
+  },
+  "userID": "0003",
+  "discussionReplied": [],
+  "dishRated": [],
+  "complaintFiled": [],
+  "complaintedDisputed": [],
+  "discussionCreated": [],
+  "complimentFiled": [],
+  "complaintReceived": [],
+  "orders": []
+},{
+  "_id": {
+    "$oid": "5fc952427789504d486250b7"
+  },
+  "userID": "0004",
+  "discussionReplied": [],
+  "dishRated": [],
+  "complaintFiled": [],
+  "complaintedDisputed": [],
+  "discussionCreated": [],
+  "complimentFiled": [],
+  "complaintReceived": [],
+  "orders": []
+},{
+  "_id": {
+    "$oid": "5fc991d6d989e63acc256ade"
+  },
+  "userID": "0005",
+  "discussionReplied": [],
+  "dishRated": [],
+  "complaintFiled": [],
+  "complaintedDisputed": [],
+  "discussionCreated": [],
+  "complimentFiled": [],
+  "complaintReceived": [],
+  "orders": []
+},{
+  "_id": {
+    "$oid": "5fcecc7b8368c40fa660fc09"
+  },
+  "userID": "kaven12@gmail.com",
+  "discussionReplied": [],
+  "dishRated": [],
+  "complaintFiled": [],
+  "complaintedDisputed": [],
+  "discussionCreated": [],
+  "complimentFiled": [],
+  "complaintReceived": [],
+  "orders": []
+}]

@@ -1,0 +1,151 @@
+[{
+  "_id": "0001",
+  "userID": "0001",
+  "userPassword": "u0001",
+  "userStatus": 1,
+  "role": "Customer"
+},{
+  "_id": "0002",
+  "userID": "0002",
+  "userPassword": "u0022",
+  "userStatus": 1,
+  "role": "VIP"
+},{
+  "_id": "0003",
+  "userID": "0003",
+  "userPassword": "u0333",
+  "userStatus": 1,
+  "role": "Customer"
+},{
+  "_id": "0004",
+  "userID": "0004",
+  "userPassword": "u4444",
+  "userStatus": -1,
+  "role": "Customer"
+},{
+  "_id": "0005",
+  "userID": "0005",
+  "userPassword": "u0005",
+  "userStatus": 1,
+  "role": "Customer"
+},{
+  "_id": {
+    "$oid": "5fc5dd019ec92a0a94a0ad03"
+  },
+  "userID": "chef0001",
+  "userPassword": "chef0001",
+  "userStatus": -1,
+  "role": "chef"
+},{
+  "_id": {
+    "$oid": "5fc5dd299ec92a0a94a0ad04"
+  },
+  "userID": "chef0002",
+  "userPassword": "chef0002",
+  "userStatus": -1,
+  "role": "chef"
+},{
+  "_id": {
+    "$oid": "5fc7ff9d4dafbb5ce0f67dec"
+  },
+  "userID": "deli0001",
+  "userPassword": "deli0001",
+  "userStatus": 1,
+  "role": "delivery"
+},{
+  "_id": {
+    "$oid": "5fc9345e537ef73ecc81de12"
+  },
+  "userID": "manager1",
+  "userPassword": "manager1",
+  "userStatus": 1,
+  "role": "manager"
+},{
+  "_id": {
+    "$oid": "5fcecc7b8368c40fa660fc07"
+  },
+  "userID": "kaven12@gmail.com",
+  "userPassword": "000000",
+  "userStatus": 1,
+  "role": "Customer"
+},{
+  "_id": {
+    "$oid": "5fcfcfe283f388d67bbe5bb8"
+  },
+  "userID": "testdekevery001",
+  "userPassword": "000000",
+  "userStatus": -1,
+  "role": "delivery"
+},{
+  "_id": {
+    "$oid": "5fd103875cac9ce310eb522c"
+  },
+  "userID": "1",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd1076e5cac9ce310eb5230"
+  },
+  "userID": "12",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd109a15cac9ce310eb5234"
+  },
+  "userID": "2",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd109ee5cac9ce310eb5238"
+  },
+  "userID": "3",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd10b815cac9ce310eb523c"
+  },
+  "userID": "133",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd10db75cac9ce310eb5240"
+  },
+  "userID": "1334",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd10e035cac9ce310eb5244"
+  },
+  "userID": "13456",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd10e085cac9ce310eb5248"
+  },
+  "userID": "134564",
+  "role": "chef",
+  "userStatus": 1,
+  "userPassword": "000000"
+},{
+  "_id": {
+    "$oid": "5fd10f975cac9ce310eb524c"
+  },
+  "userID": "test0001",
+  "role": "delivery",
+  "userStatus": 1,
+  "userPassword": "000000"
+}]
