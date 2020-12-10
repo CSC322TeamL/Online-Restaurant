@@ -396,12 +396,12 @@ def get_discussionHeads():
     conn2 = MongoDB(db, 'DiscussionHead').get_conn()
     conn3 = MongoDB(db, 'DiscussionReplied').get_conn()
     conn4 = MongoDB(db, 'UserInfo').get_conn()
-    user_info = conn4.find_one({'userID': userID})
-    display_name = user_info['displayName']
     user = conn1.find_one({'userID': userID})
     create = []
     reply = []
     if user is not None:
+        user_info = conn4.find_one({'userID': userID})
+        display_name = user_info['displayName']
         for createdDiscussion in user['discussionCreated']:
             discussion = conn2.find_one({'_id': createdDiscussion}, {"replies": 0})
             discussion['_id'] = str(discussion['_id'])
