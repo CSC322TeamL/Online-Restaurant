@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "5fc3001e4dafbb5ce0f67ddf"
+  },
+  "userID": "0001",
+  "discussionOn": "Food",
+  "subjectID": "dis0001",
+  "title": "Very taste",
+  "replies": [],
+  "detail": {
+    "createDate": {
+      "$date": "2020-11-01T00:00:00Z"
+    },
+    "context": "This is the best orange chicken I have!",
+    "status": "true",
+    "tabooCount": 0,
+    "tabooIDs": []
+  }
+},{
+  "_id": {
+    "$oid": "5fcdcb0de8c78ed6eb1cb095"
+  },
+  "detail": {
+    "context": "Fantastic control of the cook, made the food so enjoyable",
+    "tabooCount": 0,
+    "createDate": {
+      "$date": "2020-12-07T01:26:21.243Z"
+    },
+    "status": "true"
+  },
+  "discussionOn": "Cook",
+  "title": "Well Cook",
+  "userID": "0001",
+  "replies": [
+    {
+      "$oid": "5fce790abd810dd3298f8c90"
+    }
+  ]
+}]

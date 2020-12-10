@@ -1,0 +1,97 @@
+[{
+  "_id": {
+    "$oid": "5fc7f7b60445ef03acf80212"
+  },
+  "title": "Special Noodle",
+  "isSpecial": "true",
+  "chefID": "chef0002",
+  "dishes": [
+    {
+      "$oid": "5fc215694dafbb5ce0f67dd2"
+    },
+    {
+      "$oid": "5fc215694dafbb5ce0f67dd3"
+    },
+    {
+      "$oid": "5fc215694dafbb5ce0f67dd4"
+    },
+    {
+      "$oid": "5fc217514dafbb5ce0f67dda"
+    },
+    {
+      "$oid": "5fc217514dafbb5ce0f67dd5"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fc7f96b0445ef03acf80213"
+  },
+  "title": "Rice",
+  "isSpecial": "false",
+  "chefID": "chef0001",
+  "dishes": [
+    {
+      "$oid": "5fc2142f4dafbb5ce0f67dcc"
+    },
+    {
+      "$oid": "5fc2142f4dafbb5ce0f67dcd"
+    },
+    {
+      "$oid": "5fc2142f4dafbb5ce0f67dce"
+    },
+    {
+      "$oid": "5fc2142f4dafbb5ce0f67dcf"
+    },
+    {
+      "$oid": "5fc212754dafbb5ce0f67dca"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fc7fa690445ef03acf80214"
+  },
+  "title": "Special Rice",
+  "isSpecial": "true",
+  "chefID": "chef0001",
+  "dishes": [
+    {
+      "$oid": "5fc212754dafbb5ce0f67dc6"
+    },
+    {
+      "$oid": "5fc212754dafbb5ce0f67dc7"
+    },
+    {
+      "$oid": "5fc212754dafbb5ce0f67dc8"
+    },
+    {
+      "$oid": "5fc212754dafbb5ce0f67dc9"
+    },
+    {
+      "$oid": "5fc215694dafbb5ce0f67dd0"
+    },
+    {
+      "$oid": "5fc215694dafbb5ce0f67dd1"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fc7fbab0445ef03acf80215"
+  },
+  "title": "Noodles",
+  "isSpecial": "false",
+  "chefID": "chef0002",
+  "dishes": [
+    {
+      "$oid": "5fc217514dafbb5ce0f67dd6"
+    },
+    {
+      "$oid": "5fc217514dafbb5ce0f67dd7"
+    },
+    {
+      "$oid": "5fc217514dafbb5ce0f67dd8"
+    },
+    {
+      "$oid": "5fc217514dafbb5ce0f67dd9"
+    }
+  ]
+}]

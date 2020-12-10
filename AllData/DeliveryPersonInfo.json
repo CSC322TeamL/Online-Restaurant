@@ -1,0 +1,23 @@
+[{
+  "_id": {
+    "$oid": "5fc49d114dafbb5ce0f67de6"
+  },
+  "userID": "deli0001",
+  "orderPicked": [
+    {
+      "$oid": "5fcbce4ab5ae6da66b938aec"
+    }
+  ],
+  "orderDelivered": [
+    {
+      "$oid": "5fcd0d30de333c922801d33c"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fd10f975cac9ce310eb524e"
+  },
+  "userID": "test0001",
+  "orderPicked": [],
+  "orderDelivered": []
+}]

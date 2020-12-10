@@ -1,0 +1,392 @@
+[{
+  "_id": "0100",
+  "userID": "chef0001",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "ChefA",
+    "lastName": "Smile",
+    "gender": "Male"
+  },
+  "contactInfo": {
+    "email": "chefA@gmail.com",
+    "phone": "112233445",
+    "address": {
+      "street": "121 2 ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "11111"
+    }
+  },
+  "address": {
+    "street": "121 2 ave",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "11111"
+  },
+  "hourlyRate": 15.25,
+  "registeredDate": {
+    "$date": "2020-11-01T00:00:00Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": "0101",
+  "userID": "chef0002",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "ChefB",
+    "lastName": "Smile",
+    "gender": "Male"
+  },
+  "contactInfo": {
+    "email": "chefB@gmail.com",
+    "phone": "222133445",
+    "address": {
+      "street": "31 5 ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "11111"
+    }
+  },
+  "address": {
+    "street": "31 5 ave",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "11111"
+  },
+  "hourlyRate": 15.25,
+  "registeredDate": {
+    "$date": "2020-11-01T00:00:00Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fc49e194dafbb5ce0f67de7"
+  },
+  "userID": "deli0001",
+  "staffType": "delivery",
+  "personalInfo": {
+    "firstName": "DelveryA",
+    "lastName": "Smile",
+    "gender": "Male"
+  },
+  "contactInfo": {
+    "email": "DeliveryA@gmail.com",
+    "phone": "717233445",
+    "address": {
+      "street": "321 4 ave",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "11101"
+    }
+  },
+  "address": {
+    "street": "321 4 ave",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "11101"
+  },
+  "hourlyRate": 15.25,
+  "registeredDate": {
+    "$date": "2020-11-01T00:00:00Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fcfcfe283f388d67bbe5bb9"
+  },
+  "userID": "testdekevery001",
+  "staffType": "delivery",
+  "hourlyRate": 15.25,
+  "registeredDate": {
+    "$date": "2020-12-08T14:11:30.399Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd103875cac9ce310eb522d"
+  },
+  "userID": "1",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "1",
+    "lastName": "1",
+    "gender": "1"
+  },
+  "contactInfo": {
+    "email": "1",
+    "phone": "1",
+    "address": {
+      "street": "1",
+      "city": "1",
+      "state": "1",
+      "zipCode": "1"
+    }
+  },
+  "address": {
+    "street": "1",
+    "city": "1",
+    "state": "1",
+    "zipCode": "1"
+  },
+  "hourlyRate": 1,
+  "registeredDate": {
+    "$date": "2020-12-09T12:04:07.277Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd1076e5cac9ce310eb5231"
+  },
+  "userID": "12",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "12",
+    "lastName": "1",
+    "gender": "1"
+  },
+  "contactInfo": {
+    "email": "1",
+    "phone": "1",
+    "address": {
+      "street": "1",
+      "city": "1",
+      "state": "12",
+      "zipCode": "112"
+    }
+  },
+  "address": {
+    "street": "1",
+    "city": "1",
+    "state": "12",
+    "zipCode": "112"
+  },
+  "hourlyRate": 112,
+  "registeredDate": {
+    "$date": "2020-12-09T12:20:46.561Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd109a15cac9ce310eb5235"
+  },
+  "userID": "2",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "2",
+    "lastName": "2",
+    "gender": "2"
+  },
+  "contactInfo": {
+    "email": "2",
+    "phone": "2",
+    "address": {
+      "street": "2",
+      "city": "2",
+      "state": "2",
+      "zipCode": "2"
+    }
+  },
+  "address": {
+    "street": "2",
+    "city": "2",
+    "state": "2",
+    "zipCode": "2"
+  },
+  "hourlyRate": 2,
+  "registeredDate": {
+    "$date": "2020-12-09T12:30:09.738Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd109ee5cac9ce310eb5239"
+  },
+  "userID": "3",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "3",
+    "lastName": "3",
+    "gender": "3"
+  },
+  "contactInfo": {
+    "email": "3",
+    "phone": "3",
+    "address": {
+      "street": "3",
+      "city": "3",
+      "state": "3",
+      "zipCode": "3"
+    }
+  },
+  "address": {
+    "street": "3",
+    "city": "3",
+    "state": "3",
+    "zipCode": "3"
+  },
+  "hourlyRate": 3,
+  "registeredDate": {
+    "$date": "2020-12-09T12:31:26.307Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd10b815cac9ce310eb523d"
+  },
+  "userID": "133",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "1",
+    "lastName": "1",
+    "gender": "1"
+  },
+  "contactInfo": {
+    "email": "1",
+    "phone": "1",
+    "address": {
+      "street": "1",
+      "city": "1",
+      "state": "1",
+      "zipCode": "123"
+    }
+  },
+  "address": {
+    "street": "1",
+    "city": "1",
+    "state": "1",
+    "zipCode": "123"
+  },
+  "hourlyRate": 123,
+  "registeredDate": {
+    "$date": "2020-12-09T12:38:09.659Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd10db75cac9ce310eb5241"
+  },
+  "userID": "1334",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "1",
+    "lastName": "1",
+    "gender": "1"
+  },
+  "contactInfo": {
+    "email": "1",
+    "phone": "1",
+    "address": {
+      "street": "1",
+      "city": "1",
+      "state": "11",
+      "zipCode": "1"
+    }
+  },
+  "address": {
+    "street": "1",
+    "city": "1",
+    "state": "11",
+    "zipCode": "1"
+  },
+  "hourlyRate": 1,
+  "registeredDate": {
+    "$date": "2020-12-09T12:47:35.395Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd10e035cac9ce310eb5245"
+  },
+  "userID": "13456",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "1",
+    "lastName": "1",
+    "gender": "1"
+  },
+  "contactInfo": {
+    "email": "1",
+    "phone": "1",
+    "address": {
+      "street": "1",
+      "city": "1",
+      "state": "1",
+      "zipCode": "1"
+    }
+  },
+  "address": {
+    "street": "1",
+    "city": "1",
+    "state": "1",
+    "zipCode": "1"
+  },
+  "hourlyRate": 1,
+  "registeredDate": {
+    "$date": "2020-12-09T12:48:51.118Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd10e085cac9ce310eb5249"
+  },
+  "userID": "134564",
+  "staffType": "chef",
+  "personalInfo": {
+    "firstName": "1",
+    "lastName": "1",
+    "gender": "1"
+  },
+  "contactInfo": {
+    "email": "1",
+    "phone": "1",
+    "address": {
+      "street": "1",
+      "city": "1",
+      "state": "1",
+      "zipCode": "1"
+    }
+  },
+  "address": {
+    "street": "1",
+    "city": "1",
+    "state": "1",
+    "zipCode": "1"
+  },
+  "hourlyRate": 1,
+  "registeredDate": {
+    "$date": "2020-12-09T12:48:56.685Z"
+  },
+  "deregisteredDate": null
+},{
+  "_id": {
+    "$oid": "5fd10f975cac9ce310eb524d"
+  },
+  "userID": "test0001",
+  "staffType": "delivery",
+  "personalInfo": {
+    "firstName": "testdel",
+    "lastName": "testlast",
+    "gender": "mal"
+  },
+  "contactInfo": {
+    "email": "test@email",
+    "phone": "1234556",
+    "address": {
+      "street": "123 ava st",
+      "city": "ny",
+      "state": "ny",
+      "zipCode": "10013"
+    }
+  },
+  "address": {
+    "street": "123 ava st",
+    "city": "ny",
+    "state": "ny",
+    "zipCode": "10013"
+  },
+  "hourlyRate": 223,
+  "registeredDate": {
+    "$date": "2020-12-09T12:55:35.895Z"
+  },
+  "deregisteredDate": null
+}]

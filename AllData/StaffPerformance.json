@@ -1,0 +1,202 @@
+[{
+  "_id": {
+    "$oid": "5fc4a0524dafbb5ce0f67de8"
+  },
+  "userID": "chef0001",
+  "complaintReceived": [
+    {
+      "$oid": "5fce960ebd810dd3298f8c93"
+    }
+  ],
+  "complaintFiled": [],
+  "complaintDisputed": [
+    {
+      "$oid": "5fc2fa404dafbb5ce0f67ddd"
+    },
+    {
+      "$oid": "5fce8f0d20bfaf8bf2da47fe"
+    }
+  ],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [
+    {
+      "$oid": "5fcbdc5a0a4e222e74d5d699"
+    }
+  ],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fc933a4537ef73ecc81de0e"
+  },
+  "userID": "chef0002",
+  "complaintReceived": [
+    {
+      "$oid": "5fcbdc5a0a4e222e74d5d699"
+    },
+    {
+      "$oid": "5fcbdc5a0a4e222e74d5d699"
+    },
+    {
+      "$oid": "5fcbc3bf0a4e222e74d5d698"
+    },
+    {
+      "$oid": "5fcbdc5a0a4e222e74d5d699"
+    }
+  ],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 3,
+  "demoted": 6,
+  "complimentReceived": [
+    {
+      "$oid": "5fc9927fd989e63acc256adf"
+    }
+  ],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fc933db537ef73ecc81de11"
+  },
+  "userID": "deli0001",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "true"
+},{
+  "_id": {
+    "$oid": "5fcfcfe283f388d67bbe5bba"
+  },
+  "userID": "testdekevery001",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd103875cac9ce310eb522f"
+  },
+  "userID": "1",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd1076e5cac9ce310eb5233"
+  },
+  "userID": "12",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd109a15cac9ce310eb5237"
+  },
+  "userID": "2",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd109ee5cac9ce310eb523b"
+  },
+  "userID": "3",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd10b815cac9ce310eb523f"
+  },
+  "userID": "133",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd10db75cac9ce310eb5243"
+  },
+  "userID": "1334",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd10e035cac9ce310eb5247"
+  },
+  "userID": "13456",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd10e085cac9ce310eb524b"
+  },
+  "userID": "134564",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+},{
+  "_id": {
+    "$oid": "5fd10f975cac9ce310eb524f"
+  },
+  "userID": "test0001",
+  "complaintReceived": [],
+  "complaintFiled": [],
+  "complaintDisputed": [],
+  "accumulatePerformance": 1,
+  "promoted": 0,
+  "demoted": 0,
+  "complimentReceived": [],
+  "de-register": "false"
+}]

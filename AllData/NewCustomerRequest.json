@@ -1,0 +1,29 @@
+[{
+  "_id": "e001",
+  "requesterEmail": "kaven12@gmail.com",
+  "requestDate": {
+    "$date": "2020-11-01T00:00:00Z"
+  },
+  "isHandle": "true",
+  "context": "want to be a customer"
+},{
+  "_id": {
+    "$oid": "5fd06b713e9196a2d6e7f3c7"
+  },
+  "requesterEmail": "coco@yahoo.com",
+  "requestDate": {
+    "$date": "2020-12-09T01:15:13.712Z"
+  },
+  "context": "Hi my friend told me this place. Can I get an account?",
+  "isHandle": "false"
+},{
+  "_id": {
+    "$oid": "5fd06bcf3e9196a2d6e7f3c8"
+  },
+  "requesterEmail": "maria@db.com",
+  "requestDate": {
+    "$date": "2020-12-09T01:16:47.571Z"
+  },
+  "context": "just take a look",
+  "isHandle": "false"
+}]

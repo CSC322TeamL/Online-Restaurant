@@ -1,0 +1,326 @@
+[{
+  "_id": {
+    "$oid": "5fc34c8b4dafbb5ce0f67de1"
+  },
+  "customerID": "0001",
+  "orderTotal": 6.25,
+  "orderCharged": 6.25,
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc7"
+      },
+      "quantity": 1,
+      "specialNote": "null"
+    },
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc9"
+      },
+      "quantity": 1,
+      "specialNote": "null"
+    }
+  ],
+  "createDate": {
+    "$date": "2020-11-01T00:00:00Z"
+  },
+  "status": "cooking",
+  "isDelivery": "false",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fc992aad989e63acc256ae0"
+  },
+  "customerID": "0002",
+  "orderTotal": 6.23,
+  "orderCharged": 6.25,
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc7"
+      },
+      "quantity": 1,
+      "specialNote": "null"
+    }
+  ],
+  "createDate": {
+    "$date": "2020-11-01T00:00:00Z"
+  },
+  "status": "cooking",
+  "isDelivery": "true",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcbcdf4b5ae6da66b938ae8"
+  },
+  "customerID": "0001",
+  "orderTotal": 6.65,
+  "orderCharged": 6.25,
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc7"
+      },
+      "quantity": 1,
+      "specialNote": "test"
+    }
+  ],
+  "createDate": {
+    "$date": "2020-12-05T13:14:12.447Z"
+  },
+  "status": "prepared",
+  "isDelivery": "true",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcbce30b5ae6da66b938aea"
+  },
+  "customerID": "0001",
+  "orderTotal": 6.25,
+  "orderCharged": 6.25,
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc7"
+      },
+      "quantity": 1,
+      "specialNote": "None"
+    }
+  ],
+  "createDate": {
+    "$date": "2020-12-05T13:15:12.202Z"
+  },
+  "status": "prepared",
+  "isDelivery": "true",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcbce4ab5ae6da66b938aec"
+  },
+  "customerID": "0001",
+  "orderTotal": 6.25,
+  "orderCharged": 6.25,
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc7"
+      },
+      "quantity": 1,
+      "specialNote": "None"
+    }
+  ],
+  "createDate": {
+    "$date": "2020-12-05T13:15:38.917Z"
+  },
+  "status": "delivering",
+  "isDelivery": "true",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcbceac542de0158aff07c6"
+  },
+  "customerID": "0001",
+  "orderTotal": 6.25,
+  "orderCharged": 6.25,
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dc7"
+      },
+      "quantity": 1,
+      "specialNote": "None"
+    }
+  ],
+  "createDate": {
+    "$date": "2020-12-05T13:17:16.852Z"
+  },
+  "status": "waiting",
+  "isDelivery": "true",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcc26f4aa63e2fa298c4adc"
+  },
+  "createDate": {
+    "$date": "2020-12-05T19:33:56.958Z"
+  },
+  "customerID": "0001",
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dcb"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    },
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dcd"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    }
+  ],
+  "isDelivery": "false",
+  "orderCharged": 13.5,
+  "orderTotal": 13.5,
+  "status": "finished",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcc2799aa63e2fa298c4ade"
+  },
+  "createDate": {
+    "$date": "2020-12-05T19:36:41.880Z"
+  },
+  "customerID": "0001",
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dce"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    },
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dcf"
+      },
+      "quantity": 0,
+      "specialNote": ""
+    }
+  ],
+  "isDelivery": "false",
+  "orderCharged": 6.75,
+  "orderTotal": 6.75,
+  "status": "finished",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcc34a4aa63e2fa298c4ae0"
+  },
+  "createDate": {
+    "$date": "2020-12-05T20:32:20.369Z"
+  },
+  "customerID": "0002",
+  "discount": 0,
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dcb"
+      },
+      "quantity": 2,
+      "specialNote": ""
+    }
+  ],
+  "isDelivery": "true",
+  "orderCharged": 13.5,
+  "orderTotal": 13.5,
+  "status": "cooking",
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcd0d30de333c922801d33c"
+  },
+  "createDate": {
+    "$date": "2020-12-06T11:56:16.281Z"
+  },
+  "customerID": "0001",
+  "discount": 0,
+  "isDelivery": "true",
+  "orderCharged": 6.25,
+  "orderTotal": 6.25,
+  "status": "finished",
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dca"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    }
+  ],
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcd43a28f5c20fdb0180ead"
+  },
+  "createDate": {
+    "$date": "2020-12-06T15:48:34.811Z"
+  },
+  "customerID": "0001",
+  "discount": 0,
+  "isDelivery": "true",
+  "orderCharged": 13,
+  "orderTotal": 13,
+  "status": "cooking",
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dcc"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    },
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dca"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    }
+  ],
+  "cookBy": "chef0001"
+},{
+  "_id": {
+    "$oid": "5fcfe0d6c96f196d9570c4b1"
+  },
+  "createDate": {
+    "$date": "2020-12-08T15:23:50.675Z"
+  },
+  "customerID": "0001",
+  "discount": 0,
+  "isDelivery": "true",
+  "orderCharged": 6.25,
+  "orderTotal": 6.25,
+  "status": "waiting",
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc212754dafbb5ce0f67dca"
+      },
+      "quantity": 1,
+      "specialNote": ""
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fd057936ce2407b7433214c"
+  },
+  "createDate": {
+    "$date": "2020-12-08T23:50:27.320Z"
+  },
+  "customerID": "0001",
+  "discount": 0,
+  "isDelivery": "true",
+  "orderCharged": 12,
+  "orderTotal": 12,
+  "status": "waiting",
+  "dishDetail": [
+    {
+      "dishID": {
+        "$oid": "5fc2142f4dafbb5ce0f67dcc"
+      },
+      "quantity": 2,
+      "specialNote": "More spicy"
+    }
+  ]
+}]

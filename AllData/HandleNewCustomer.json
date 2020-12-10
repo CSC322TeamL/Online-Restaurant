@@ -1,0 +1,78 @@
+[{
+  "_id": {
+    "$oid": "5fc2fb9c4dafbb5ce0f67dde"
+  },
+  "requesterEmail": "kaven12@gmail.com",
+  "determination": "accept",
+  "userID": "kaven12@gmail.com"
+},{
+  "_id": {
+    "$oid": "5fceca308368c40fa660fc01"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecb878368c40fa660fc02"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecb918368c40fa660fc03"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecbfc8368c40fa660fc04"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecc258368c40fa660fc05"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecc5b8368c40fa660fc06"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecc7c8368c40fa660fc0a"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecc9f8368c40fa660fc0b"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcecca18368c40fa660fc0c"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+},{
+  "_id": {
+    "$oid": "5fcfe2effbcb99e76e1a39fc"
+  },
+  "determination": "determination",
+  "requesterEmail": "kaven12@gmail.com",
+  "userID": "-1"
+}]

@@ -1,0 +1,149 @@
+[{
+  "_id": {
+    "$oid": "5fc4771d4dafbb5ce0f67de2"
+  },
+  "userID": "chef0001",
+  "menuCreated": [
+    {
+      "$oid": "5fc7f96b0445ef03acf80213"
+    },
+    {
+      "$oid": "5fc7fa690445ef03acf80214"
+    }
+  ],
+  "dishCreated": [
+    "ORANGE CHICKEN WITH WRITE RICE",
+    "CHICKEN WITH BROCCOLI",
+    "KUNG PAO CHICKEN",
+    "SWEET AND SOUR CHICKEN",
+    "GENERAL TSO’S CHICKEN"
+  ],
+  "orderAccepted": [
+    {
+      "$oid": "5fc34c8b4dafbb5ce0f67de1"
+    },
+    {
+      "$oid": "5fcbce4ab5ae6da66b938aec"
+    },
+    {
+      "$oid": "5fcbcdf4b5ae6da66b938ae8"
+    },
+    {
+      "$oid": "5fcbce30b5ae6da66b938aea"
+    },
+    {
+      "$oid": "5fcc34a4aa63e2fa298c4ae0"
+    },
+    {
+      "$oid": "5fcc2799aa63e2fa298c4ade"
+    },
+    {
+      "$oid": "5fcc26f4aa63e2fa298c4adc"
+    },
+    {
+      "$oid": "5fcbceac542de0158aff07c6"
+    },
+    {
+      "$oid": "5fc992aad989e63acc256ae0"
+    },
+    {
+      "$oid": "5fcd0d30de333c922801d33c"
+    },
+    {
+      "$oid": "5fcd43a28f5c20fdb0180ead"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5fc4776b4dafbb5ce0f67de3"
+  },
+  "userID": "chef0002",
+  "menuCreated": [
+    {
+      "$oid": "5fc7f7b60445ef03acf80212"
+    },
+    {
+      "$oid": "5fc7fbab0445ef03acf80215"
+    }
+  ],
+  "dishCreated": [
+    "ROAST DUCK COMBO",
+    "TERIYAKI CHICKEN COMBO",
+    "BARBECUED PORT COMBO",
+    "ROAST GOOSE COMBO",
+    "BRAISED PORK COOMBO"
+  ],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd10227cf8163957e0f707a"
+  },
+  "userID": "1",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd103875cac9ce310eb522e"
+  },
+  "userID": "1",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd1076e5cac9ce310eb5232"
+  },
+  "userID": "12",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd109a15cac9ce310eb5236"
+  },
+  "userID": "2",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd109ee5cac9ce310eb523a"
+  },
+  "userID": "3",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd10b815cac9ce310eb523e"
+  },
+  "userID": "133",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd10db75cac9ce310eb5242"
+  },
+  "userID": "1334",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd10e035cac9ce310eb5246"
+  },
+  "userID": "13456",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+},{
+  "_id": {
+    "$oid": "5fd10e085cac9ce310eb524a"
+  },
+  "userID": "134564",
+  "menuCreated": [],
+  "dishCreated": [],
+  "orderAccepted": []
+}]

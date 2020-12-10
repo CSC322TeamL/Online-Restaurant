@@ -1,0 +1,234 @@
+[{
+  "_id": {
+    "$oid": "5fc5dbf84dafbb5ce0f67deb"
+  },
+  "orderID": {
+    "$oid": "5fc34c8b4dafbb5ce0f67de1"
+  },
+  "paymentCharge": {
+    "$timestamp": {
+      "t": 0,
+      "i": 0
+    }
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-06T14:27:38.834Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T13:29:33.867Z"
+  },
+  "deliveryPicked": {
+    "$timestamp": {
+      "t": 0,
+      "i": 0
+    }
+  },
+  "delivered": {
+    "$timestamp": {
+      "t": 0,
+      "i": 0
+    }
+  }
+},{
+  "_id": {
+    "$oid": "5fcbccfcb5ae6da66b938ae7"
+  },
+  "orderID": {
+    "$oid": "5fcbccfcb5ae6da66b938ae6"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T13:10:04.107Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcbcdf4b5ae6da66b938ae9"
+  },
+  "orderID": {
+    "$oid": "5fcbcdf4b5ae6da66b938ae8"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T13:14:12.534Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-08T20:51:55.013Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcbce30b5ae6da66b938aeb"
+  },
+  "orderID": {
+    "$oid": "5fcbce30b5ae6da66b938aea"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T13:15:12.290Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T12:29:23.086Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcbce4bb5ae6da66b938aed"
+  },
+  "orderID": {
+    "$oid": "5fcbce4ab5ae6da66b938aec"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T13:15:39.037Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-06T13:55:47.333Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-05T16:38:27.282Z"
+  },
+  "deliveryPicked": {
+    "$date": "2020-12-06T14:14:40.995Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcbceac542de0158aff07c7"
+  },
+  "orderID": {
+    "$oid": "5fcbceac542de0158aff07c6"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T13:17:16.952Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-06T13:30:03.148Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T13:44:13.692Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcbcffcd6295867ce30f272"
+  },
+  "orderID": "",
+  "paymentCharge": {
+    "$date": "2020-12-05T13:22:52.396Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcc26f5aa63e2fa298c4add"
+  },
+  "orderID": {
+    "$oid": "5fcc26f4aa63e2fa298c4adc"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T19:33:57.028Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-05T22:47:08.248Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T12:29:44.895Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcc2799aa63e2fa298c4adf"
+  },
+  "orderID": {
+    "$oid": "5fcc2799aa63e2fa298c4ade"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T19:36:41.950Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-05T22:37:49.960Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T13:03:51.201Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcc34a4aa63e2fa298c4ae1"
+  },
+  "orderID": {
+    "$oid": "5fcc34a4aa63e2fa298c4ae0"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-05T20:32:20.435Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-06T13:53:58.777Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T12:29:37.465Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fccff69de333c922801d339"
+  },
+  "orderID": {
+    "$oid": "5fccff69de333c922801d338"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-06T10:57:29.247Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-06T11:23:48.958Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcd0024de333c922801d33b"
+  },
+  "orderID": {
+    "$oid": "5fcd0024de333c922801d33a"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-06T11:00:36.718Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcd0d30de333c922801d33d"
+  },
+  "orderID": {
+    "$oid": "5fcd0d30de333c922801d33c"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-06T11:56:16.354Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-06T12:05:28.418Z"
+  },
+  "kitchenFinished": {
+    "$date": "2020-12-06T13:21:12.731Z"
+  },
+  "deliveryPicked": {
+    "$date": "2020-12-08T20:41:10.471Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcd43a28f5c20fdb0180eae"
+  },
+  "orderID": {
+    "$oid": "5fcd43a28f5c20fdb0180ead"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-06T15:48:34.887Z"
+  },
+  "kitchenPicked": {
+    "$date": "2020-12-07T00:38:01.232Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fcfe0d6c96f196d9570c4b2"
+  },
+  "orderID": {
+    "$oid": "5fcfe0d6c96f196d9570c4b1"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-08T15:23:50.756Z"
+  }
+},{
+  "_id": {
+    "$oid": "5fd057936ce2407b7433214d"
+  },
+  "orderID": {
+    "$oid": "5fd057936ce2407b7433214c"
+  },
+  "paymentCharge": {
+    "$date": "2020-12-08T23:50:27.388Z"
+  }
+}]

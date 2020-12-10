@@ -1,0 +1,457 @@
+[{
+  "_id": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "ORANGE CHICKEN WITH WHITE RICE",
+  "image": "orange_chicken_with_white_rice",
+  "price": 6.25,
+  "description": "Orange Chicken is made with crispy chicken wok-tossed in a sweet and spicy orange sauce.",
+  "keywords": [
+    "chicken",
+    "spicy"
+  ],
+  "ratings": [
+    {
+      "$oid": "5fcd9e318bb7e871bd5883a8"
+    },
+    {
+      "$oid": "5fcda444d6f1960c9cc025ab"
+    },
+    {
+      "$oid": "5fcea6a6dfa2a258ddd48ba0"
+    },
+    {
+      "$oid": "5fcecefaebee2a1882569df5"
+    },
+    {
+      "$oid": "5fcecf12ebee2a1882569df6"
+    },
+    {
+      "$oid": "5fcee765476ce16db7b60d2b"
+    },
+    {
+      "$oid": "5fcf013bee46ba763267d373"
+    },
+    {
+      "$oid": "5fcf01e9ee46ba763267d374"
+    },
+    {
+      "$oid": "5fcf01f8ee46ba763267d375"
+    },
+    {
+      "$oid": "5fcf0231f2a0937db8def2f0"
+    },
+    {
+      "$oid": "5fcf026cf2a0937db8def2f1"
+    },
+    {
+      "$oid": "5fcf02dff2a0937db8def2f2"
+    },
+    {
+      "$oid": "5fcf0de1f2a0937db8def2f3"
+    },
+    {
+      "$oid": "5fcf0e3dc1e652d87fc7017e"
+    },
+    {
+      "$oid": "5fcf0e683b4b154a583b5a3b"
+    },
+    {
+      "$oid": "5fd101345aa7938e669733ba"
+    },
+    {
+      "$oid": "5fd101b85aa7938e669733bb"
+    },
+    {
+      "$oid": "5fd10226cf8163957e0f7077"
+    },
+    {
+      "$oid": "5fd1b3256479e0464b83b7f7"
+    },
+    {
+      "$oid": "5fd1b4a057c1052fedc70f69"
+    },
+    {
+      "$oid": "5fd1b5ef3d46b0f53e7be93b"
+    },
+    {
+      "$oid": "5fd1c06a11f9527f603aeb68"
+    },
+    {
+      "$oid": "5fd1c10c11f9527f603aeb69"
+    },
+    {
+      "$oid": "5fd1c11611f9527f603aeb6a"
+    },
+    {
+      "$oid": "5fd1c12211f9527f603aeb6b"
+    },
+    {
+      "$oid": "5fd1c13811f9527f603aeb6c"
+    },
+    {
+      "$oid": "5fd1c14611f9527f603aeb6d"
+    },
+    {
+      "$oid": "5fd1c16411f9527f603aeb6e"
+    },
+    {
+      "$oid": "5fd24f09f995f1ae0b6c0516"
+    }
+  ],
+  "createBy": "chef0001",
+  "digitRating": 4.025862068965518
+},{
+  "_id": {
+    "$oid": "5fc212754dafbb5ce0f67dc7"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "CHICKEN WITH BROCCOLI",
+  "image": "chicken_with_broccoli",
+  "price": 6.25,
+  "description": "Chicken With Broccoli is made with thin, crispy white meat chicken with broccoli in soy sauce and topped off with sesame seeds.",
+  "keywords": [
+    "chicken",
+    "broccoli"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc212754dafbb5ce0f67dc8"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "KUNG PAO CHICKEN",
+  "image": "kung_pao_chicken",
+  "price": 6.25,
+  "description": "Kung Pao Chicken is made from diced chicken, red pepper, and peanuts.",
+  "keywords": [
+    "chicken",
+    "spicy"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc212754dafbb5ce0f67dc9"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "SWEET AND SOUR CHICKEN",
+  "image": "sweet_and_sour_chicken",
+  "price": 6.25,
+  "description": "sweet and sour chicken is made from crispy, white-meat chicken, red bell peppers, onions and pineapples in a sweet and sour sauce.",
+  "keywords": [
+    "chicken",
+    "sweet",
+    "sour"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc212754dafbb5ce0f67dca"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "GENERAL TSO’S CHICKEN",
+  "image": "general_tso_chicken",
+  "price": 6.25,
+  "description": "General Tso’s Chicken is made with crispy chicken tossed in a deliciously sweet and spicy sauce and served with write rice.",
+  "keywords": [
+    "chicken",
+    "sweet",
+    "spicy"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 5
+},{
+  "_id": {
+    "$oid": "5fc2142f4dafbb5ce0f67dcc"
+  },
+  "title": "TERIYAKI CHICKEN COMBO",
+  "price": 6,
+  "description": "Teriyaki Chicken Chop with rice and green vegetables.",
+  "keywords": [
+    "chicken",
+    "combo"
+  ],
+  "createBy": "chef0001",
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "digitRating": 0,
+  "ratings": [],
+  "image": "teriyaki_chicken_combo"
+},{
+  "_id": {
+    "$oid": "5fc2142f4dafbb5ce0f67dcd"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "BARBECUED PORT COMBO",
+  "image": "barbecued_port_combo",
+  "price": 6.75,
+  "description": "Barbecued pork with rice and green vegetables.",
+  "keywords": [
+    "port",
+    "barbecued",
+    "combo"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc2142f4dafbb5ce0f67dce"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "ROAST GOOSE COMBO",
+  "image": "roast_goose_combo",
+  "price": 6.75,
+  "description": "Roast goose with rice and green vegetables.",
+  "keywords": [
+    "roast",
+    "goose",
+    "combo"
+  ],
+  "ratings": [
+    {
+      "$oid": "5fd02df46ce2407b7433214b"
+    }
+  ],
+  "createBy": "chef0001",
+  "digitRating": 5
+},{
+  "_id": {
+    "$oid": "5fc2142f4dafbb5ce0f67dcf"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "BRAISED PORK COMBO",
+  "image": "braised_pork_combo",
+  "price": 6.75,
+  "description": "Braised pork with egg, rice and green vegetables.",
+  "keywords": [
+    "braised",
+    "pork"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc215694dafbb5ce0f67dd0"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "EGG FRIED RICE",
+  "image": "egg_fried_rice",
+  "price": 6.5,
+  "description": "Prepared steamed white rice with soy sauce, eggs, sausage, carrots and green onions.",
+  "keywords": [
+    "rice",
+    "egg"
+  ],
+  "ratings": {
+    "r1": []
+  },
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc215694dafbb5ce0f67dd1"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "SEAFOOD FRIED RICE",
+  "image": "seafood_fried_rice",
+  "price": 6.75,
+  "description": "Seafood fried rice prepared steamed white rice with soy sauce, eggs, shrimp, squid, carrots and green onions.",
+  "keywords": [
+    "rice",
+    "seafood"
+  ],
+  "ratings": [],
+  "createBy": "chef0001",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc215694dafbb5ce0f67dd2"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "PORK CHOW MEIN",
+  "image": "pork_chow_mein",
+  "price": 6.5,
+  "description": "Stir-fried wheat noodles with onions, carrot, pork and green vegetable.",
+  "keywords": [
+    "pork",
+    "mein",
+    "noodles"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc215694dafbb5ce0f67dd3"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "SEAFOOD FRIED RICE NOODLE",
+  "image": "seafood_fried_rice_noodle",
+  "price": 6.75,
+  "description": "Stir-fried rice noodles with onions, carrot, shrimp, squid and green vegetable.",
+  "keywords": [
+    "seafood",
+    "noodle"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc215694dafbb5ce0f67dd4"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "SEAFOOD CHOW MEIN",
+  "image": "seafood_chow_mein",
+  "price": 6.75,
+  "description": "Stir-fried wheat noodles with onions, carrot, shrimp, squid and bean sprouts.",
+  "keywords": [
+    "mein",
+    "seafood"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc217514dafbb5ce0f67dd5"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "WONTON NOODLES",
+  "image": "wonton_noodles",
+  "price": 5.75,
+  "description": "Prepared with pork wonton, green vegetable and egg noodles.",
+  "keywords": [
+    "wonton",
+    "noodle"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc217514dafbb5ce0f67dd6"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "SHRIMP TOFU NOODLES",
+  "image": "shrimp_tofu_noodles",
+  "price": 6.5,
+  "description": "Shrimp tofu noodles prepared with shrimp, tofu, green vegetable and egg noodles.",
+  "keywords": [
+    "shrimp",
+    "tofu"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc217514dafbb5ce0f67dd7"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "PORK CHOP NOODLES",
+  "image": "pork_chop_noodles",
+  "price": 6.25,
+  "description": "Pork Chop Noodle prepared with pork chop, green vegetable and egg noodles.",
+  "keywords": [
+    "pork",
+    "chop"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc217514dafbb5ce0f67dd8"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "BEEF NOODLES",
+  "image": "beef_noodles",
+  "price": 6.75,
+  "description": "Beef noodles prepared with beef, green vegetable and egg noodles.",
+  "keywords": [
+    "beef"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc217514dafbb5ce0f67dd9"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "SAUERKRAUT PORK NOODLES",
+  "image": "sauerkraut_pork_noodles",
+  "price": 6.25,
+  "description": "Sauerkraut Pork Noodles prepared with pork, carrot, sauerkraut, green vegetable and egg noodles.",
+  "keywords": [
+    "sauerkraut",
+    "pork"
+  ],
+  "ratings": [],
+  "createBy": "chef0002",
+  "digitRating": 0
+},{
+  "_id": {
+    "$oid": "5fc217514dafbb5ce0f67dda"
+  },
+  "createDate": {
+    "$date": "2020-11-28T05:00:00Z"
+  },
+  "title": "PORK FRIED DUMPLINGS",
+  "image": "pork_fried_dumplings",
+  "price": 6.25,
+  "description": "12 pieces Pork Fried dumplings",
+  "keywords": [
+    "dumplings",
+    "pork"
+  ],
+  "ratings": []
+}]

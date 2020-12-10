@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "5fc348654dafbb5ce0f67de0"
+  },
+  "targetDiscussion": {
+    "$oid": "5fc3001e4dafbb5ce0f67ddf"
+  },
+  "userID": "0002",
+  "detail": {
+    "createDate": {
+      "$date": "2020-11-01T00:00:00Z"
+    },
+    "context": "This is useful comment",
+    "status": "true",
+    "tabooCount": 0,
+    "tabooIDs": [
+      ""
+    ]
+  }
+},{
+  "_id": {
+    "$oid": "5fce7719483d75dc040a9042"
+  },
+  "detail": {
+    "context": "Agree",
+    "tabooCount": 0,
+    "createDate": {
+      "$date": "2020-12-07T13:40:25.548Z"
+    },
+    "status": "true"
+  },
+  "targetDiscussion": {
+    "$oid": "5fc3001e4dafbb5ce0f67ddf"
+  },
+  "userID": "0001"
+},{
+  "_id": {
+    "$oid": "5fce790abd810dd3298f8c90"
+  },
+  "detail": {
+    "context": "sure thing",
+    "tabooCount": 0,
+    "createDate": {
+      "$date": "2020-12-07T13:48:42.549Z"
+    },
+    "status": "true"
+  },
+  "targetDiscussion": {
+    "$oid": "5fcdcb0de8c78ed6eb1cb095"
+  },
+  "userID": "0001"
+}]
