@@ -1,0 +1,421 @@
+[{
+  "_id": {
+    "$oid": "5fcd9cd4332c0623dbe80381"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:09:08.832Z"
+  },
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "5fcd9d724e2718ebf5876f70"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:11:46.006Z"
+  },
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "5fcd9e318bb7e871bd5883a8"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:14:57.887Z"
+  },
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "5fcd9e4acfce48cb3092f5be"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dca"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:15:22.033Z"
+  },
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "5fcd9f828bb7e871bd5883a9"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:20:34.050Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcd9fb08bb7e871bd5883aa"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:21:20.887Z"
+  },
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "5fcda444d6f1960c9cc025ab"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-06T22:40:52.330Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcea6a6dfa2a258ddd48ba0"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T17:03:18.813Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcecefaebee2a1882569df5"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T19:55:22.654Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcecf12ebee2a1882569df6"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T19:55:46.632Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcee765476ce16db7b60d2b"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T21:39:33.848Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf013bee46ba763267d373"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T23:29:47.943Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf01e9ee46ba763267d374"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T23:32:41.140Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf01f8ee46ba763267d375"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T23:32:56.027Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf0231f2a0937db8def2f0"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T23:33:53.857Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf026cf2a0937db8def2f1"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T23:34:52.946Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf02dff2a0937db8def2f2"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-07T23:36:47.212Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf0de1f2a0937db8def2f3"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-08T00:23:45.534Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf0e3dc1e652d87fc7017e"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-08T00:25:17.499Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fcf0e683b4b154a583b5a3b"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-08T00:26:00.331Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd02df46ce2407b7433214b"
+  },
+  "subjectID": {
+    "$oid": "5fc2142f4dafbb5ce0f67dce"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-08T20:52:52.680Z"
+  },
+  "rating": 5
+},{
+  "_id": {
+    "$oid": "5fd101345aa7938e669733ba"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-09T11:54:12.584Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd101b85aa7938e669733bb"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-09T11:56:24.830Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd10226cf8163957e0f7077"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-09T11:58:14.977Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1b3256479e0464b83b7f7"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T00:33:25.398Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1b4a057c1052fedc70f69"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T00:39:44.463Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1b5ef3d46b0f53e7be93b"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T00:45:19.242Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c06a11f9527f603aeb68"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:30:02.900Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c10c11f9527f603aeb69"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:32:44.940Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c11611f9527f603aeb6a"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:32:54.152Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c12211f9527f603aeb6b"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:33:06.295Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c13811f9527f603aeb6c"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:33:28.386Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c14611f9527f603aeb6d"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:33:42.120Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd1c16411f9527f603aeb6e"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T01:34:12.994Z"
+  },
+  "rating": 4
+},{
+  "_id": {
+    "$oid": "5fd24f09f995f1ae0b6c0516"
+  },
+  "subjectID": {
+    "$oid": "5fc212754dafbb5ce0f67dc6"
+  },
+  "customerID": "0001",
+  "ratingDate": {
+    "$date": "2020-12-10T11:38:33.302Z"
+  },
+  "rating": 4
+}]
