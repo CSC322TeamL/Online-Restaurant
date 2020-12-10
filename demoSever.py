@@ -715,6 +715,7 @@ def search():
         dish = conn3.find_one({'_id': dishid})
         if keyword.lower() in dish['keywords'] or keyword.upper() in dish['title']:
             dish['_id'] = str(dish['_id'])
+            dish['ratings'] = len(dish['ratings'])
             output.append(dish)
     return jsonify({'result': output})
 
