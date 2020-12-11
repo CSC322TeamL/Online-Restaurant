@@ -133,7 +133,7 @@ public class frag2_completeord extends Fragment {
                                     String dishs = obj2.getString("dishID") + " *" + obj2.getString("quantity") + "\n";
                                     String note = obj2.getString("specialNote");
                                     dish2 = dish2+dishs;
-                                    note2 = note2+note;
+                                    note2 = note2+note+", ";
                                 }
                                 models.add(new model(custid,dish2,note2,ordertotal,orderid, ordenumber));
 
