@@ -6,11 +6,11 @@ This is CSC 32200 final project. Topic is online restaurant.
 
 Backend we use python language, and having Flask framework run on python's virtual environment.
 
-All the python code is on the `[demoSever.py](http://demosever.py)` file.
+All the python code is on the `demoSever.py` file.
 
 Before running this file, your machine should have the `pymongo`, `bson`, `flask`, and `flask_restful` packages installed.
 
-To run the back, just simply locate to the directory which `[demoSever.py](http://demosever.py)` is at in the terminal, and use `python demoSever.py` to have the server running.
+To run the back, just simply locate to the directory which `demoSever.py` is at in the terminal, and use `python demoSever.py` to have the server running.
 
 ### Frontend:
 
