@@ -42,6 +42,7 @@ public class DiscussionRepliesActivity extends BaseActivity implements View.OnCl
 
     private TextView tvDiscussionOn, tvHeadTitle, tvHeadContext, tvHeadUser, tvHeadTime;
     private EditText etReply;
+    private View vReplyGroup;
     private ImageButton imgbtnSubmit;
     private RecyclerView repliesRecycler;
     private DiscussionRepliesAdapter adapter;
@@ -63,12 +64,17 @@ public class DiscussionRepliesActivity extends BaseActivity implements View.OnCl
         tvHeadTime = (TextView)findViewById(R.id.tv_disc_reply_head_time);
         tvHeadContext = (TextView)findViewById(R.id.tv_disc_reply_head_context);
         tvHeadUser = (TextView)findViewById(R.id.tv_disc_reply_head_username);
+        vReplyGroup = (View) findViewById(R.id.view_disc_reply_group);
 
         tvDiscussionOn.setText(currentDiscussion.getDiscussionOn());
         tvHeadTitle.setText(currentDiscussion.getTitle());
         tvHeadContext.setText(currentDiscussion.getDetail().getContext());
         tvHeadUser.setText(currentDiscussion.getDisplayName());
         tvHeadTime.setText(currentDiscussion.getDetail().getCreateDate());
+
+        if(userID.equals("-1")){
+            vReplyGroup.setVisibility(View.GONE);
+        }
 
         etReply = (EditText) findViewById(R.id.et_disc_reply_reply_context);
         imgbtnSubmit = (ImageButton) findViewById(R.id.imgbtn_disc_reply_submit);

@@ -54,14 +54,12 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_main_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="36dp"/>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fltbtn_menu_view_cart"
         android:layout_width="wrap_content"

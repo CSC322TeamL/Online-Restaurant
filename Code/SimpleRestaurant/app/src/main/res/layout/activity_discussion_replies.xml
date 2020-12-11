@@ -95,6 +95,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/view_disc_reply_group"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"

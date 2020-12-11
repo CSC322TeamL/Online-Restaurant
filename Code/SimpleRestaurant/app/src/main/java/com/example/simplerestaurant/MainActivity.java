@@ -50,8 +50,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         editPsw.setHint("Password");
         editPsw.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-        editUserName.setText("0001");
-        editPsw.setText("u0001");
+        //editUserName.setText("0001");
+        //editPsw.setText("u0001");
 
         buttonSubmit.setOnClickListener(this);
         textSurfer.setOnClickListener(this);

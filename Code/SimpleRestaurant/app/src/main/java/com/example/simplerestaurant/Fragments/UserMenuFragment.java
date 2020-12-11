@@ -35,25 +35,14 @@ import com.example.simplerestaurant.beans.MenuBean;
 import com.example.simplerestaurant.beans.OrderBean;
 import com.example.simplerestaurant.beans.UserMenuListBean;
 import com.google.gson.reflect.TypeToken;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class UserMenuFragment extends Fragment implements MenuAddCartInterface
         , View.OnClickListener
-        , TextWatcher {
+        , TextWatcher{
     private String userID, userType;
     private RecyclerView menuRecycler;
     private Button btnViewCart;
@@ -144,6 +133,7 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface
             menuAdapter.setViewData(viewData);
             menuAdapter.notifyDataSetChanged();
         }
+        etKeyword.setText("");
     }
     
     /**
@@ -410,4 +400,5 @@ public class UserMenuFragment extends Fragment implements MenuAddCartInterface
             }
         }
     }
+
 }
