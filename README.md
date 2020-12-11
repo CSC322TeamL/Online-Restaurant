@@ -2,6 +2,16 @@
 
 This is CSC 32200 final project. Topic is online restaurant. 
 
+### Team Memebers:
+
+Weiye Kuang: backend
+
+Leji Li: frontend - `SimpleRestaurant`
+
+Xian Chen: frontend - `chef` and `manager`
+
+Bingjing Dong: database
+
 ### Backend:
 
 Backend we use python language, and having Flask framework run on python's virtual environment.
@@ -41,3 +51,7 @@ the link for the MongoDB Compass is
 mongodb+srv://Luke:123@cluster0.hi0jb.mongodb.net/test?authSource=admin&replicaSet=atlas-dco2hl-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
 
 Also, `AllData` directory has the data backups.
+
+### Point-to-point Report:
+
+`On-line Restaurant Order And Delivery System.md` answers what we have done in the project.
