@@ -271,7 +271,7 @@ def place_order():
         update_spent = user['spent'] + order['orderCharged']
         if update_spent >= 500 and user['userRole'] == 'Customer':
             conn1.update_one(user, {'$set', {'userRole': 'VIP'}})
-        conn1.update_one(user, {'$set': {'balance': user['balance']-order['orderCharged'],
+        conn1.update_one({'userID': userID}, {'$set': {'balance': user['balance']-order['orderCharged'],
                                          'spent': update_spent}})
         conn3 = MongoDB(db, 'Orders').get_conn()
         id = conn3.insert_one(order).inserted_id
@@ -283,7 +283,7 @@ def place_order():
                         'paymentCharge': datetime.datetime.now()
                         }
         conn5.insert_one(order_detail)
-        if len(user_detail['orders']) >= 50 and user['userRole'] == 'Customer':
+        if len(user_detail['orders']) + 1 >= 50 and user['userRole'] == 'Customer':
             conn1.update_one(user, {'$set', {'userRole': 'VIP'}})
         return {'code': 0, 'content': 'success'}
     else:
@@ -462,7 +462,7 @@ def create_new_discussion():
         if user['userRole'] == 'VIP' and warning >= 2:
             warning -= 2
             conn3.update_one(user, {'$set': {'userRole': 'Demoted'}})
-        conn3.update_one(user, {'$set': {'warnings': warning}})
+        conn3.update_one({'userID': userID}, {'$set': {'warnings': warning}})
     if count >= 3:
         head['detail']['status'] = 'false'
     else:
@@ -531,7 +531,7 @@ def reply_discussion():
         if user['userRole'] == 'VIP' and warning >= 2:
             warning -= 2
             conn3.update_one(user, {'$set': {'userRole': 'Demoted'}})
-        conn3.update_one(user, {'$set': {'warnings': warning}})
+        conn3.update_one({'userID': userID}, {'$set': {'warnings': warning}})
     if count >= 3:
         reply['detail']['status'] = 'false'
     else:
