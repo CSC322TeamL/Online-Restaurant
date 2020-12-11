@@ -56,6 +56,7 @@ public class Adapteruncomplete extends RecyclerView.Adapter<uncompleteViewholder
         holder.tdishs.setText(lmodel.get(i).getDishs());
         holder.torderid.setText(lmodel.get(i).getOrderid());
         holder.tordertotal.setText(lmodel.get(i).getOrdertotal());
+        holder.tordernote.setText(lmodel.get(i).getOrdernote());
         String orderid = (lmodel.get(i).getOrderid());
         String ordernumber = (lmodel.get(i).getOrdernumber());
 
