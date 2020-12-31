@@ -8,7 +8,8 @@ from flask_restful import Api
 app = Flask(__name__)
 api = Api(app)
 
-connectionURL = "mongodb+srv://Luke:123@cluster0.hi0jb.mongodb.net/Restaurants?retryWrites=true&w=majority"
+# put your link of the database here
+# connectionURL = 
 my_client = pymongo.MongoClient(connectionURL)
 db = my_client.get_database('Restaurants')
 

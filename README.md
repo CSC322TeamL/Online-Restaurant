@@ -46,9 +46,6 @@ We use MongoDB as our database support.
 
 We move our locate database to MongoDB Atlas so that we can work on the same dataset.
 
-the link for the MongoDB Compass is
-
-mongodb+srv://Luke:123@cluster0.hi0jb.mongodb.net/test?authSource=admin&replicaSet=atlas-dco2hl-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
 
 Also, `AllData` directory has the data backups.
 
