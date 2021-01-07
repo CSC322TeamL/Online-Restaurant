@@ -4,23 +4,24 @@ Customer and delivery person can use this application to access to the restauran
 
 ## Login Page
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037325.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037325.png" width="280" height="auto">
 
 Login Page
 
 ## Customer Registration
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037336.png" width="192" height="auto">  
-
-Customer Registration
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037377.png" width="192" height="auto">
-
-Fill out the registration form
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037380.png" width="192" height="auto">
-
-Form Submitted
+<table>
+<tr>
+  <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037336.png" width="280" height="auto"></td>  
+  <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037377.png" width="280" height="auto"></td>
+  <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037380.png" width="280" height="auto"></td>
+</tr>
+<tr>
+  <td>Customer Registration</td>
+  <td>Fill out the registration form</td>
+  <td>Form Submitted</td>
+</tr>
+</table>
 
 When an anonymous user submits the registration application to server, the manager will review this application and send back the user id and default password to the user via email. The review process is done on the `Manager` app.
 
@@ -40,17 +41,18 @@ The default display is the Menu page.
 
 ### Menu and Make Order
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037443.png" width="192" height="auto">
-
-Dish detail
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037482.png" width="192" height="auto">
-
-Cart View
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037487.png" width="192" height="auto">
-
-Order Submitted
+<table>
+  <tr>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037443.png" width="280" height="auto"></td>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037482.png" width="280" height="auto"></td>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037487.png" width="280" height="auto"></td>
+  </tr>
+  <tr>
+    <td>Dish detail</td>
+    <td>Cart View</td>
+    <td>Order Submitted</td>
+  </tr>
+</table>
 
 To add a dish to the cart, a customer can either click the `+` button on the main menu, or click on the item on the menu to view more detailed information about this dish then add to cart.
 
@@ -58,33 +60,34 @@ On the cart view, this customer can also update the quantity of the dishes and s
 
 ### Discussion
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037496.png" width="192" height="auto">
-
-Discussion Main List
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037510.png" width="192" height="auto">
-
-Discussion Detail Page
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037515.png" width="192" height="auto">
-
-New Discussion
-
+<table>
+  <tr>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037496.png" width="280" height="auto"></td>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037510.png" width="280" height="auto"></td>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037515.png" width="280" height="auto"></td>
+  </tr>
+  <tr>
+    <td>Discussion Main List</td>
+    <td>Discussion Detail Page</td>
+    <td>New Discussion</td>
+  </tr>
+</table>
 The system has the discussion feature. This feature allows a customer create a new discussion about food, cook or delivery, or reply to an existing discussion. 
 
 ### Order and Rating
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037527.png" width="192" height="auto">
-
-Customer Order List
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037537.png" width="192" height="auto">
-
-Order Detail
-
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037570.png" width="192" height="auto">
-
-Rating
+<table>
+  <tr>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037527.png" width="280" height="auto"></td>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037537.png" width="280" height="auto"></td>
+    <td><img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037570.png" width="280" height="auto"></td>
+  </tr>
+  <tr>
+    <td>Customer Order List</td>
+    <td>Order Detail</td>
+    <td>Rating</td>
+  </tr>
+</table>
 
 In Order page, a customer can view all the order placed, including finished order, the order waiting to be cooked and the order being delivered.
 
@@ -92,7 +95,7 @@ In the order detail page, the customer can review all the information about this
 
 ### Account
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037543.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037543.png" width="280" height="auto">
 
 User Account
 
@@ -104,7 +107,7 @@ When a user login as a delivery person, delivery person main page will be load.
 
 ### Order Delivering
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037669.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037669.png" width="280" height="auto">
 
 Order Deliving
 
@@ -116,7 +119,7 @@ Once the order is delivered, the delivery person can click the "Delivered" butto
 
 ### Order Ready to Deliver
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037672.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037672.png" width="280" height="auto">
 
 Ready to deliver
 
@@ -126,7 +129,7 @@ Delivery person can pick up the order that is going to deliver, and that order w
 
 ### Order Finished
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037675.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037675.png" width="280" height="auto">
 
 Order Finished
 
@@ -134,7 +137,7 @@ This page lists all the delivered orders.
 
 ### Delivery Person Account
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037678.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037678.png" width="280" height="auto">
 
 Delivery person account
 
