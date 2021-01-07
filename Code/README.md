@@ -29,7 +29,7 @@ When an anonymous user submits the registration application to server, the manag
 
 ### Customer Main Page
 
-<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037439.png" width="192" height="auto">
+<img src="SimpleRestaurant%20623418be1d6a43c188cdbde3e492d7b8/Screenshot_1610037439.png" width="280" height="auto">
 
 User Main Page
 
